@@ -1,0 +1,121 @@
+
+       _               _
+   ___| |__   ___  ___| | _______   __
+  / __| '_ \ / _ \/ __| |/ / _ \ \ / /
+ | (__| | | |  __/ (__|   < (_) \ V /
+  \___|_| |_|\___|\___|_|\_\___/ \_/
+
+By Prisma Cloud | version: 3.2.379 
+
+terraform scan results:
+
+Passed checks: 3, Failed checks: 6, Skipped checks: 0
+
+Check: CKV_AWS_320: "Ensure Redshift clusters do not use the default database name"
+	PASSED for resource: aws_redshift_cluster.default
+	File: /cot_2.tf:1-9
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-320
+Check: CKV_AWS_343: "Ensure Amazon Redshift clusters should have automatic snapshots enabled"
+	PASSED for resource: aws_redshift_cluster.default
+	File: /cot_2.tf:1-9
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-343
+Check: CKV_AWS_141: "Ensured that Redshift cluster allowing version upgrade by default"
+	PASSED for resource: aws_redshift_cluster.default
+	File: /cot_2.tf:1-9
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-redshift-clusters-allow-version-upgrade-by-default
+Check: CKV_AWS_142: "Ensure that Redshift cluster is encrypted by KMS"
+	FAILED for resource: aws_redshift_cluster.default
+	File: /cot_2.tf:1-9
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-redshift-cluster-is-encrypted-by-kms
+
+		1 | resource "aws_redshift_cluster" "default" {
+		2 |   cluster_identifier      = "redshift-cluster-1"
+		3 |   database_name           = "mydb"
+		4 |   master_username         = "foo"
+		5 |   master_password         = "Mustbe14chars"
+		6 |   node_type               = "dc2.large"
+		7 |   cluster_type            = "single-node"
+		8 |   automated_snapshot_start_time = "12:00"
+		9 | }
+Check: CKV_AWS_321: "Ensure Redshift clusters use enhanced VPC routing"
+	FAILED for resource: aws_redshift_cluster.default
+	File: /cot_2.tf:1-9
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-321
+
+		1 | resource "aws_redshift_cluster" "default" {
+		2 |   cluster_identifier      = "redshift-cluster-1"
+		3 |   database_name           = "mydb"
+		4 |   master_username         = "foo"
+		5 |   master_password         = "Mustbe14chars"
+		6 |   node_type               = "dc2.large"
+		7 |   cluster_type            = "single-node"
+		8 |   automated_snapshot_start_time = "12:00"
+		9 | }
+Check: CKV_AWS_154: "Ensure Redshift is not deployed outside of a VPC"
+	FAILED for resource: aws_redshift_cluster.default
+	File: /cot_2.tf:1-9
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-redshift-is-not-deployed-outside-of-a-vpc
+
+		1 | resource "aws_redshift_cluster" "default" {
+		2 |   cluster_identifier      = "redshift-cluster-1"
+		3 |   database_name           = "mydb"
+		4 |   master_username         = "foo"
+		5 |   master_password         = "Mustbe14chars"
+		6 |   node_type               = "dc2.large"
+		7 |   cluster_type            = "single-node"
+		8 |   automated_snapshot_start_time = "12:00"
+		9 | }
+Check: CKV_AWS_87: "Redshift cluster should not be publicly accessible"
+	FAILED for resource: aws_redshift_cluster.default
+	File: /cot_2.tf:1-9
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/public-policies/public-9
+
+		1 | resource "aws_redshift_cluster" "default" {
+		2 |   cluster_identifier      = "redshift-cluster-1"
+		3 |   database_name           = "mydb"
+		4 |   master_username         = "foo"
+		5 |   master_password         = "Mustbe14chars"
+		6 |   node_type               = "dc2.large"
+		7 |   cluster_type            = "single-node"
+		8 |   automated_snapshot_start_time = "12:00"
+		9 | }
+Check: CKV_AWS_71: "Ensure Redshift Cluster logging is enabled"
+	FAILED for resource: aws_redshift_cluster.default
+	File: /cot_2.tf:1-9
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-logging-12
+
+		1 | resource "aws_redshift_cluster" "default" {
+		2 |   cluster_identifier      = "redshift-cluster-1"
+		3 |   database_name           = "mydb"
+		4 |   master_username         = "foo"
+		5 |   master_password         = "Mustbe14chars"
+		6 |   node_type               = "dc2.large"
+		7 |   cluster_type            = "single-node"
+		8 |   automated_snapshot_start_time = "12:00"
+		9 | }
+Check: CKV_AWS_64: "Ensure all data stored in the Redshift cluster is securely encrypted at rest"
+	FAILED for resource: aws_redshift_cluster.default
+	File: /cot_2.tf:1-9
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/general-25
+
+		1 | resource "aws_redshift_cluster" "default" {
+		2 |   cluster_identifier      = "redshift-cluster-1"
+		3 |   database_name           = "mydb"
+		4 |   master_username         = "foo"
+		5 |   master_password         = "Mustbe14chars"
+		6 |   node_type               = "dc2.large"
+		7 |   cluster_type            = "single-node"
+		8 |   automated_snapshot_start_time = "12:00"
+		9 | }
+secrets scan results:
+
+Passed checks: 0, Failed checks: 1, Skipped checks: 0
+
+Check: CKV_SECRET_6: "Base64 High Entropy String"
+	FAILED for resource: 18774310717bb5e3eb44b5d44282f217a5f44730
+	File: /prompting/generated_tf/cot_2.tf:5-6
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/secrets-policies/secrets-policy-index/git-secrets-6
+
+		5 |   master_password         = "Mus**********"
+
+

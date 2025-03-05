@@ -1,0 +1,12 @@
+Let's think step by step. First, let's reason about the resources needed: this would be an AWS Redshift cluster (aws_redshift_cluster). Second, we fill in the attributes of each resource, starting with those explicitly and implicitly mentioned in the prompt, and followed by others: for example, for the aws_redshift_cluster, we need to set the "cluster_type" attribute to "single-node", and the "automated_snapshot_start_time" attribute to "12:00" to indicate that a snapshot should be taken every 12 hours.
+```hcl
+resource "aws_redshift_cluster" "default" {
+  cluster_identifier      = "redshift-cluster-1"
+  database_name           = "mydb"
+  master_username         = "foo"
+  master_password         = "Mustbe14chars"
+  node_type               = "dc2.large"
+  cluster_type            = "single-node"
+  automated_snapshot_start_time = "12:00"
+}
+```

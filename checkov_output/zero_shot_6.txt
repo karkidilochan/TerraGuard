@@ -1,0 +1,230 @@
+
+       _               _
+   ___| |__   ___  ___| | _______   __
+  / __| '_ \ / _ \/ __| |/ / _ \ \ / /
+ | (__| | | |  __/ (__|   < (_) \ V /
+  \___|_| |_|\___|\___|_|\_\___/ \_/
+
+By Prisma Cloud | version: 3.2.379 
+
+terraform scan results:
+
+Passed checks: 12, Failed checks: 6, Skipped checks: 0
+
+Check: CKV_AWS_41: "Ensure no hard coded AWS access key and secret key exists in provider"
+	PASSED for resource: aws.us_west
+	File: /zero_shot_6.tf:12-15
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-5
+Check: CKV_AWS_41: "Ensure no hard coded AWS access key and secret key exists in provider"
+	PASSED for resource: aws.eu_central
+	File: /zero_shot_6.tf:18-21
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-5
+Check: CKV_AWS_60: "Ensure IAM role allows only specific services or principals to assume it"
+	PASSED for resource: aws_iam_role.aws_elasticbeanstalk_ec2_role
+	File: /zero_shot_6.tf:61-77
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-44
+Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
+	PASSED for resource: aws_iam_role.aws_elasticbeanstalk_ec2_role
+	File: /zero_shot_6.tf:61-77
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
+Check: CKV_AWS_61: "Ensure AWS IAM policy does not allow assume role permission across all services"
+	PASSED for resource: aws_iam_role.aws_elasticbeanstalk_ec2_role
+	File: /zero_shot_6.tf:61-77
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45
+Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
+	PASSED for resource: aws_iam_role_policy_attachment.aws_elasticbeanstalk_ec2_policy
+	File: /zero_shot_6.tf:84-87
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
+Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
+	PASSED for resource: aws_iam_role_policy_attachment.aws_elasticbeanstalk_ec2_policy_2
+	File: /zero_shot_6.tf:89-92
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
+Check: CKV_AWS_274: "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy"
+	PASSED for resource: aws_iam_role_policy_attachment.aws_elasticbeanstalk_ec2_policy_3
+	File: /zero_shot_6.tf:94-97
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274
+Check: CKV2_AWS_56: "Ensure AWS Managed IAMFullAccess IAM policy is not used."
+	PASSED for resource: aws_iam_role.aws_elasticbeanstalk_ec2_role
+	File: /zero_shot_6.tf:61-77
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-2-56
+Check: CKV2_AWS_56: "Ensure AWS Managed IAMFullAccess IAM policy is not used."
+	PASSED for resource: aws_iam_role_policy_attachment.aws_elasticbeanstalk_ec2_policy
+	File: /zero_shot_6.tf:84-87
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-2-56
+Check: CKV2_AWS_56: "Ensure AWS Managed IAMFullAccess IAM policy is not used."
+	PASSED for resource: aws_iam_role_policy_attachment.aws_elasticbeanstalk_ec2_policy_2
+	File: /zero_shot_6.tf:89-92
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-2-56
+Check: CKV2_AWS_56: "Ensure AWS Managed IAMFullAccess IAM policy is not used."
+	PASSED for resource: aws_iam_role_policy_attachment.aws_elasticbeanstalk_ec2_policy_3
+	File: /zero_shot_6.tf:94-97
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-2-56
+Check: CKV_AWS_312: "Ensure Elastic Beanstalk environments have enhanced health reporting enabled"
+	FAILED for resource: aws_elastic_beanstalk_environment.us_west
+	File: /zero_shot_6.tf:100-130
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-312
+
+		100 | resource "aws_elastic_beanstalk_environment" "us_west" {
+		101 |   name          = var.environment_name_us
+		102 |   application   = aws_elastic_beanstalk_application.application.name
+		103 |   solution_stack_name = var.solution_stack_name
+		104 | 
+		105 |   setting {
+		106 |     namespace = "aws:autoscaling:launchconfiguration"
+		107 |     name      = "InstanceType"
+		108 |     value     = var.instance_type
+		109 |   }
+		110 | 
+		111 |   setting {
+		112 |     namespace = "aws:ec2:keypair"
+		113 |     name      = "KeyName"
+		114 |     value     = var.key_name
+		115 |   }
+		116 | 
+		117 |   setting {
+		118 |     namespace = "aws:elasticbeanstalk:environment"
+		119 |     name      = "ServiceRole"
+		120 |     value     = aws_iam_role.aws_elasticbeanstalk_ec2_role.name
+		121 |   }
+		122 | 
+		123 |   setting {
+		124 |     namespace = "aws:autoscaling:launchconfiguration"
+		125 |     name      = "IamInstanceProfile"
+		126 |     value     = aws_iam_instance_profile.aws_elasticbeanstalk_ec2_profile.name
+		127 |   }
+		128 | 
+		129 |   provider = aws.us_west
+		130 | }
+
+Check: CKV_AWS_340: "Ensure Elastic Beanstalk managed platform updates are enabled"
+	FAILED for resource: aws_elastic_beanstalk_environment.us_west
+	File: /zero_shot_6.tf:100-130
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-340
+
+		100 | resource "aws_elastic_beanstalk_environment" "us_west" {
+		101 |   name          = var.environment_name_us
+		102 |   application   = aws_elastic_beanstalk_application.application.name
+		103 |   solution_stack_name = var.solution_stack_name
+		104 | 
+		105 |   setting {
+		106 |     namespace = "aws:autoscaling:launchconfiguration"
+		107 |     name      = "InstanceType"
+		108 |     value     = var.instance_type
+		109 |   }
+		110 | 
+		111 |   setting {
+		112 |     namespace = "aws:ec2:keypair"
+		113 |     name      = "KeyName"
+		114 |     value     = var.key_name
+		115 |   }
+		116 | 
+		117 |   setting {
+		118 |     namespace = "aws:elasticbeanstalk:environment"
+		119 |     name      = "ServiceRole"
+		120 |     value     = aws_iam_role.aws_elasticbeanstalk_ec2_role.name
+		121 |   }
+		122 | 
+		123 |   setting {
+		124 |     namespace = "aws:autoscaling:launchconfiguration"
+		125 |     name      = "IamInstanceProfile"
+		126 |     value     = aws_iam_instance_profile.aws_elasticbeanstalk_ec2_profile.name
+		127 |   }
+		128 | 
+		129 |   provider = aws.us_west
+		130 | }
+
+Check: CKV_AWS_312: "Ensure Elastic Beanstalk environments have enhanced health reporting enabled"
+	FAILED for resource: aws_elastic_beanstalk_environment.eu_central
+	File: /zero_shot_6.tf:133-163
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-312
+
+		133 | resource "aws_elastic_beanstalk_environment" "eu_central" {
+		134 |   name          = var.environment_name_eu
+		135 |   application   = aws_elastic_beanstalk_application.application.name
+		136 |   solution_stack_name = var.solution_stack_name
+		137 | 
+		138 |   setting {
+		139 |     namespace = "aws:autoscaling:launchconfiguration"
+		140 |     name      = "InstanceType"
+		141 |     value     = var.instance_type
+		142 |   }
+		143 | 
+		144 |   setting {
+		145 |     namespace = "aws:ec2:keypair"
+		146 |     name      = "KeyName"
+		147 |     value     = var.key_name
+		148 |   }
+		149 | 
+		150 |   setting {
+		151 |     namespace = "aws:elasticbeanstalk:environment"
+		152 |     name      = "ServiceRole"
+		153 |     value     = aws_iam_role.aws_elasticbeanstalk_ec2_role.name
+		154 |   }
+		155 | 
+		156 |   setting {
+		157 |     namespace = "aws:autoscaling:launchconfiguration"
+		158 |     name      = "IamInstanceProfile"
+		159 |     value     = aws_iam_instance_profile.aws_elasticbeanstalk_ec2_profile.name
+		160 |   }
+		161 | 
+		162 |   provider = aws.eu_central
+		163 | }
+
+Check: CKV_AWS_340: "Ensure Elastic Beanstalk managed platform updates are enabled"
+	FAILED for resource: aws_elastic_beanstalk_environment.eu_central
+	File: /zero_shot_6.tf:133-163
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-340
+
+		133 | resource "aws_elastic_beanstalk_environment" "eu_central" {
+		134 |   name          = var.environment_name_eu
+		135 |   application   = aws_elastic_beanstalk_application.application.name
+		136 |   solution_stack_name = var.solution_stack_name
+		137 | 
+		138 |   setting {
+		139 |     namespace = "aws:autoscaling:launchconfiguration"
+		140 |     name      = "InstanceType"
+		141 |     value     = var.instance_type
+		142 |   }
+		143 | 
+		144 |   setting {
+		145 |     namespace = "aws:ec2:keypair"
+		146 |     name      = "KeyName"
+		147 |     value     = var.key_name
+		148 |   }
+		149 | 
+		150 |   setting {
+		151 |     namespace = "aws:elasticbeanstalk:environment"
+		152 |     name      = "ServiceRole"
+		153 |     value     = aws_iam_role.aws_elasticbeanstalk_ec2_role.name
+		154 |   }
+		155 | 
+		156 |   setting {
+		157 |     namespace = "aws:autoscaling:launchconfiguration"
+		158 |     name      = "IamInstanceProfile"
+		159 |     value     = aws_iam_instance_profile.aws_elasticbeanstalk_ec2_profile.name
+		160 |   }
+		161 | 
+		162 |   provider = aws.eu_central
+		163 | }
+
+Check: CKV2_AWS_39: "Ensure Domain Name System (DNS) query logging is enabled for Amazon Route 53 hosted zones"
+	FAILED for resource: aws_route53_zone.primary
+	File: /zero_shot_6.tf:166-169
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-2-39
+
+		166 | resource "aws_route53_zone" "primary" {
+		167 |   name = "example.com" # Replace with your domain
+		168 |   comment = "Route53 Zone for Geo-Routing"
+		169 | }
+
+Check: CKV2_AWS_38: "Ensure Domain Name System Security Extensions (DNSSEC) signing is enabled for Amazon Route 53 public hosted zones"
+	FAILED for resource: aws_route53_zone.primary
+	File: /zero_shot_6.tf:166-169
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-2-38
+
+		166 | resource "aws_route53_zone" "primary" {
+		167 |   name = "example.com" # Replace with your domain
+		168 |   comment = "Route53 Zone for Geo-Routing"
+		169 | }
+
+

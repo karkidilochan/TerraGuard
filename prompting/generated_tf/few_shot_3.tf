@@ -1,0 +1,9 @@
+resource "aws_iam_group" "example" {
+  name = "example"
+  path = "/"
+}
+
+resource "aws_iam_group_policy_attachment" "example-attach" {
+  group      = aws_iam_group.example.name
+  policy_arn = "arn:aws:iam::aws:policy/ReadOnlyAccess"
+}

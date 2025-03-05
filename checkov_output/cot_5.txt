@@ -1,0 +1,231 @@
+
+       _               _
+   ___| |__   ___  ___| | _______   __
+  / __| '_ \ / _ \/ __| |/ / _ \ \ / /
+ | (__| | | |  __/ (__|   < (_) \ V /
+  \___|_| |_|\___|\___|_|\_\___/ \_/
+
+By Prisma Cloud | version: 3.2.379 
+
+terraform scan results:
+
+Passed checks: 9, Failed checks: 9, Skipped checks: 0
+
+Check: CKV_AWS_130: "Ensure VPC subnets do not assign public IP by default"
+	PASSED for resource: aws_subnet.private
+	File: /cot_5.tf:36-44
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-vpc-subnets-do-not-assign-public-ip-by-default
+Check: CKV_AWS_277: "Ensure no security groups allow ingress from 0.0.0.0:0 to port -1"
+	PASSED for resource: aws_security_group.ec2_fleet
+	File: /cot_5.tf:76-94
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-security-group-does-not-allow-all-traffic-on-all-ports
+Check: CKV_AWS_46: "Ensure no hard-coded secrets exist in EC2 user data"
+	PASSED for resource: aws_launch_template.ec2_fleet
+	File: /cot_5.tf:97-106
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-1
+Check: CKV_AWS_88: "EC2 instance should not have public IP."
+	PASSED for resource: aws_launch_template.ec2_fleet
+	File: /cot_5.tf:97-106
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/public-policies/public-12
+Check: CKV_AWS_341: "Ensure Launch template should not have a metadata response hop limit greater than 1"
+	PASSED for resource: aws_launch_template.ec2_fleet
+	File: /cot_5.tf:97-106
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-341
+Check: CKV_AWS_41: "Ensure no hard coded AWS access key and secret key exists in provider"
+	PASSED for resource: aws.default
+	File: /cot_5.tf:11-13
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-5
+Check: CKV2_AWS_5: "Ensure that Security Groups are attached to another resource"
+	PASSED for resource: aws_security_group.ec2_fleet
+	File: /cot_5.tf:76-94
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-that-security-groups-are-attached-to-ec2-instances-or-elastic-network-interfaces-enis
+Check: CKV2_AWS_35: "AWS NAT Gateways should be utilized for the default route"
+	PASSED for resource: aws_route_table.public
+	File: /cot_5.tf:56-67
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-nat-gateways-are-utilized-for-the-default-route
+Check: CKV2_AWS_44: "Ensure AWS route table with VPC peering does not contain routes overly permissive to all traffic"
+	PASSED for resource: aws_route_table.public
+	File: /cot_5.tf:56-67
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-route-table-with-vpc-peering-does-not-contain-routes-overly-permissive-to-all-traffic
+Check: CKV_AWS_130: "Ensure VPC subnets do not assign public IP by default"
+	FAILED for resource: aws_subnet.public
+	File: /cot_5.tf:24-33
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-vpc-subnets-do-not-assign-public-ip-by-default
+
+		24 | resource "aws_subnet" "public" {
+		25 |   vpc_id            = aws_vpc.main.id
+		26 |   cidr_block        = "10.0.1.0/24"
+		27 |   availability_zone = "us-east-1a"
+		28 |   map_public_ip_on_launch = true
+		29 | 
+		30 |   tags = {
+		31 |     Name = "public-subnet"
+		32 |   }
+		33 | }
+
+Check: CKV_AWS_25: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 3389"
+	FAILED for resource: aws_security_group.ec2_fleet
+	File: /cot_5.tf:76-94
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-2
+
+		76 | resource "aws_security_group" "ec2_fleet" {
+		77 |   name        = "ec2-fleet-sg"
+		78 |   description = "Allow inbound traffic"
+		79 |   vpc_id      = aws_vpc.main.id
+		80 | 
+		81 |   ingress {
+		82 |     from_port   = 0
+		83 |     to_port     = 65535
+		84 |     protocol    = "tcp"
+		85 |     cidr_blocks = ["0.0.0.0/0"]
+		86 |   }
+		87 | 
+		88 |   egress {
+		89 |     from_port   = 0
+		90 |     to_port     = 0
+		91 |     protocol    = "-1"
+		92 |     cidr_blocks = ["0.0.0.0/0"]
+		93 |   }
+		94 | }
+
+Check: CKV_AWS_24: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 22"
+	FAILED for resource: aws_security_group.ec2_fleet
+	File: /cot_5.tf:76-94
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-1-port-security
+
+		76 | resource "aws_security_group" "ec2_fleet" {
+		77 |   name        = "ec2-fleet-sg"
+		78 |   description = "Allow inbound traffic"
+		79 |   vpc_id      = aws_vpc.main.id
+		80 | 
+		81 |   ingress {
+		82 |     from_port   = 0
+		83 |     to_port     = 65535
+		84 |     protocol    = "tcp"
+		85 |     cidr_blocks = ["0.0.0.0/0"]
+		86 |   }
+		87 | 
+		88 |   egress {
+		89 |     from_port   = 0
+		90 |     to_port     = 0
+		91 |     protocol    = "-1"
+		92 |     cidr_blocks = ["0.0.0.0/0"]
+		93 |   }
+		94 | }
+
+Check: CKV_AWS_260: "Ensure no security groups allow ingress from 0.0.0.0:0 to port 80"
+	FAILED for resource: aws_security_group.ec2_fleet
+	File: /cot_5.tf:76-94
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-security-groups-do-not-allow-ingress-from-00000-to-port-80
+
+		76 | resource "aws_security_group" "ec2_fleet" {
+		77 |   name        = "ec2-fleet-sg"
+		78 |   description = "Allow inbound traffic"
+		79 |   vpc_id      = aws_vpc.main.id
+		80 | 
+		81 |   ingress {
+		82 |     from_port   = 0
+		83 |     to_port     = 65535
+		84 |     protocol    = "tcp"
+		85 |     cidr_blocks = ["0.0.0.0/0"]
+		86 |   }
+		87 | 
+		88 |   egress {
+		89 |     from_port   = 0
+		90 |     to_port     = 0
+		91 |     protocol    = "-1"
+		92 |     cidr_blocks = ["0.0.0.0/0"]
+		93 |   }
+		94 | }
+
+Check: CKV_AWS_382: "Ensure no security groups allow egress from 0.0.0.0:0 to port -1"
+	FAILED for resource: aws_security_group.ec2_fleet
+	File: /cot_5.tf:76-94
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-382
+
+		76 | resource "aws_security_group" "ec2_fleet" {
+		77 |   name        = "ec2-fleet-sg"
+		78 |   description = "Allow inbound traffic"
+		79 |   vpc_id      = aws_vpc.main.id
+		80 | 
+		81 |   ingress {
+		82 |     from_port   = 0
+		83 |     to_port     = 65535
+		84 |     protocol    = "tcp"
+		85 |     cidr_blocks = ["0.0.0.0/0"]
+		86 |   }
+		87 | 
+		88 |   egress {
+		89 |     from_port   = 0
+		90 |     to_port     = 0
+		91 |     protocol    = "-1"
+		92 |     cidr_blocks = ["0.0.0.0/0"]
+		93 |   }
+		94 | }
+
+Check: CKV_AWS_23: "Ensure every security group and rule has a description"
+	FAILED for resource: aws_security_group.ec2_fleet
+	File: /cot_5.tf:76-94
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-31
+
+		76 | resource "aws_security_group" "ec2_fleet" {
+		77 |   name        = "ec2-fleet-sg"
+		78 |   description = "Allow inbound traffic"
+		79 |   vpc_id      = aws_vpc.main.id
+		80 | 
+		81 |   ingress {
+		82 |     from_port   = 0
+		83 |     to_port     = 65535
+		84 |     protocol    = "tcp"
+		85 |     cidr_blocks = ["0.0.0.0/0"]
+		86 |   }
+		87 | 
+		88 |   egress {
+		89 |     from_port   = 0
+		90 |     to_port     = 0
+		91 |     protocol    = "-1"
+		92 |     cidr_blocks = ["0.0.0.0/0"]
+		93 |   }
+		94 | }
+
+Check: CKV_AWS_79: "Ensure Instance Metadata Service Version 1 is not enabled"
+	FAILED for resource: aws_launch_template.ec2_fleet
+	File: /cot_5.tf:97-106
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-general-31
+
+		97  | resource "aws_launch_template" "ec2_fleet" {
+		98  |   name_prefix   = "ec2-fleet-launch-template"
+		99  |   image_id      = "ami-0c55b24aca5cb1100" # Replace with a valid AWS Linux 2 AMI ID in us-east-1
+		100 |   instance_type = "t2.micro"
+		101 |   network_interfaces {
+		102 |     security_groups = [aws_security_group.ec2_fleet.id]
+		103 |     subnet_id = aws_subnet.public.id
+		104 |   }
+		105 |   user_data = base64encode("#!/bin/bash\necho 'Hello, World!' > /tmp/hello.txt")
+		106 | }
+
+Check: CKV2_AWS_11: "Ensure VPC flow logging is enabled in all VPCs"
+	FAILED for resource: aws_vpc.main
+	File: /cot_5.tf:16-21
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-9-enable-vpc-flow-logging
+
+		16 | resource "aws_vpc" "main" {
+		17 |   cidr_block = "10.0.0.0/16"
+		18 |   tags = {
+		19 |     Name = "main-vpc"
+		20 |   }
+		21 | }
+
+Check: CKV2_AWS_12: "Ensure the default security group of every VPC restricts all traffic"
+	FAILED for resource: aws_vpc.main
+	File: /cot_5.tf:16-21
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-4
+
+		16 | resource "aws_vpc" "main" {
+		17 |   cidr_block = "10.0.0.0/16"
+		18 |   tags = {
+		19 |     Name = "main-vpc"
+		20 |   }
+		21 | }
+
+

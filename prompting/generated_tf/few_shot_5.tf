@@ -1,0 +1,153 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = "us-east-1"
+}
+
+# Create a VPC
+resource "aws_vpc" "main" {
+  cidr_block = "10.0.0.0/16"
+
+  tags = {
+    Name = "main-vpc"
+  }
+}
+
+# Create a public subnet
+resource "aws_subnet" "public" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.1.0/24"
+  availability_zone = "us-east-1a"
+
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = "public-subnet"
+  }
+}
+
+# Create a private subnet
+resource "aws_subnet" "private" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.2.0/24"
+  availability_zone = "us-east-1b"
+
+  tags = {
+    Name = "private-subnet"
+  }
+}
+
+# Create an Internet Gateway
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "main-igw"
+  }
+}
+
+# Create a Route Table for the public subnet
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+
+  tags = {
+    Name = "public-route-table"
+  }
+}
+
+# Associate the public subnet with the Route Table
+resource "aws_route_table_association" "public" {
+  subnet_id      = aws_subnet.public.id
+  route_table_id = aws_route_table.public.id
+}
+
+# Create a Security Group for the EC2 instances
+resource "aws_security_group" "sg" {
+  name        = "ec2-sg"
+  description = "Allow inbound traffic"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+# Get the latest AWS Linux 2 AMI
+data "aws_ami" "amazon_linux" {
+  most_recent = true
+  owners      = ["amazon"]
+
+  filter {
+    name   = "name"
+    values = ["amzn2-ami-hvm-*-x86_64-gp2"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
+# Create a Launch Template
+resource "aws_launch_template" "example" {
+  name_prefix   = "example"
+  image_id      = data.aws_ami.amazon_linux.id
+  instance_type = "t2.micro"
+  network_interface {
+    subnet_id         = aws_subnet.public.id
+    security_groups = [aws_security_group.sg.id]
+  }
+  tag_specifications {
+    resource_type = "instance"
+
+    tags = {
+      Name = "Example Instance"
+    }
+  }
+}
+
+# Create an EC2 Fleet
+resource "aws_ec2_fleet" "example" {
+  launch_template_config {
+    launch_template_specification {
+      launch_template_id = aws_launch_template.example.id
+      version            = "$Latest"
+    }
+  }
+
+  target_capacity_specification {
+    default_target_capacity_type = "spot"
+    total_target_capacity       = 9
+    on_demand_target_capacity   = 5
+  }
+
+  spot_options {
+    allocation_strategy = "lowest-price"
+  }
+
+  vpc_config {
+    subnet_id = aws_subnet.public.id
+  }
+}

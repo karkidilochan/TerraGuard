@@ -1,0 +1,134 @@
+# Provider Configuration
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = "us-east-1"
+}
+
+# VPC
+resource "aws_vpc" "main" {
+  cidr_block = "10.0.0.0/16"
+  tags = {
+    Name = "main-vpc"
+  }
+}
+
+# Public Subnet
+resource "aws_subnet" "public" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.1.0/24"
+  availability_zone = "us-east-1a"
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = "public-subnet"
+  }
+}
+
+# Private Subnet
+resource "aws_subnet" "private" {
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = "10.0.2.0/24"
+  availability_zone = "us-east-1a"
+
+  tags = {
+    Name = "private-subnet"
+  }
+}
+
+# Internet Gateway
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.main.id
+
+  tags = {
+    Name = "main-igw"
+  }
+}
+
+# Route Table for Public Subnet
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.main.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+
+  tags = {
+    Name = "public-route-table"
+  }
+}
+
+# Route Table Association for Public Subnet
+resource "aws_route_table_association" "public" {
+  subnet_id      = aws_subnet.public.id
+  route_table_id = aws_route_table.public.id
+}
+
+# Security Group for EC2 Fleet
+resource "aws_security_group" "ec2_fleet" {
+  name        = "ec2-fleet-sg"
+  description = "Allow inbound traffic"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    from_port   = 0
+    to_port     = 65535
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+# Launch Template
+resource "aws_launch_template" "ec2_fleet" {
+  name_prefix   = "ec2-fleet-launch-template"
+  image_id      = "ami-0c55b24aca5cb1100" # Replace with a valid AWS Linux 2 AMI ID in us-east-1
+  instance_type = "t2.micro"
+  network_interfaces {
+    security_groups = [aws_security_group.ec2_fleet.id]
+    subnet_id = aws_subnet.public.id
+  }
+  user_data = base64encode("#!/bin/bash\necho 'Hello, World!' > /tmp/hello.txt")
+}
+
+# EC2 Fleet
+resource "aws_ec2_fleet" "example" {
+  launch_template_config {
+    launch_template_specification {
+      launch_template_id = aws_launch_template.ec2_fleet.id
+      version = "$Latest"
+    }
+  }
+
+  target_capacity_specification {
+    default_target_capacity_type = "spot"
+    on_demand_target_capacity    = 5
+    spot_target_capacity          = 4
+    total_target_capacity         = 9
+  }
+
+  # Ensure the fleet launches in the public subnet
+  launch_template_config {
+    launch_template_specification {
+      launch_template_id = aws_launch_template.ec2_fleet.id
+      version = "$Latest"
+    }
+    override {
+      subnet_id = aws_subnet.public.id
+    }
+  }
+}

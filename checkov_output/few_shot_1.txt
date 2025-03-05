@@ -1,0 +1,170 @@
+
+       _               _
+   ___| |__   ___  ___| | _______   __
+  / __| '_ \ / _ \/ __| |/ / _ \ \ / /
+ | (__| | | |  __/ (__|   < (_) \ V /
+  \___|_| |_|\___|\___|_|\_\___/ \_/
+
+By Prisma Cloud | version: 3.2.379 
+
+terraform scan results:
+
+Passed checks: 5, Failed checks: 8, Skipped checks: 0
+
+Check: CKV_AWS_17: "Ensure all data stored in RDS is not publicly accessible"
+	PASSED for resource: aws_db_instance.default
+	File: /few_shot_1.tf:10-21
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/public-policies/public-2
+Check: CKV_AWS_133: "Ensure that RDS instances has backup policy"
+	PASSED for resource: aws_db_instance.default
+	File: /few_shot_1.tf:10-21
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-rds-instances-have-backup-policy
+Check: CKV_AWS_354: "Ensure RDS Performance Insights are encrypted using KMS CMKs"
+	PASSED for resource: aws_db_instance.default
+	File: /few_shot_1.tf:10-21
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-354
+Check: CKV_AWS_211: "Ensure RDS uses a modern CaCert"
+	PASSED for resource: aws_db_instance.default
+	File: /few_shot_1.tf:10-21
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-rds-uses-a-modern-cacert
+Check: CKV2_AWS_69: "Ensure AWS RDS database instance configured with encryption in transit"
+	PASSED for resource: aws_db_instance.default
+	File: /few_shot_1.tf:10-21
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-2-69
+Check: CKV_AWS_16: "Ensure all data stored in the RDS is securely encrypted at rest"
+	FAILED for resource: aws_db_instance.default
+	File: /few_shot_1.tf:10-21
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/general-4
+
+		10 | resource "aws_db_instance" "default" {
+		11 |   allocated_storage   = 20
+		12 |   engine              = "mysql"
+		13 |   engine_version      = "8.0"
+		14 |   instance_class      = "db.t3.micro"
+		15 |   name                = "mydb"
+		16 |   username            = "admin"
+		17 |   password            = random_password.db.result
+		18 |   skip_final_snapshot = true
+		19 |   storage_type        = "gp3"
+		20 |   identifier          = "mydb-${random_id.suffix.hex}"
+		21 | }
+Check: CKV_AWS_161: "Ensure RDS database has IAM authentication enabled"
+	FAILED for resource: aws_db_instance.default
+	File: /few_shot_1.tf:10-21
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/ensure-rds-database-has-iam-authentication-enabled
+
+		10 | resource "aws_db_instance" "default" {
+		11 |   allocated_storage   = 20
+		12 |   engine              = "mysql"
+		13 |   engine_version      = "8.0"
+		14 |   instance_class      = "db.t3.micro"
+		15 |   name                = "mydb"
+		16 |   username            = "admin"
+		17 |   password            = random_password.db.result
+		18 |   skip_final_snapshot = true
+		19 |   storage_type        = "gp3"
+		20 |   identifier          = "mydb-${random_id.suffix.hex}"
+		21 | }
+Check: CKV_AWS_226: "Ensure DB instance gets all minor upgrades automatically"
+	FAILED for resource: aws_db_instance.default
+	File: /few_shot_1.tf:10-21
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-db-instance-gets-all-minor-upgrades-automatically
+
+		10 | resource "aws_db_instance" "default" {
+		11 |   allocated_storage   = 20
+		12 |   engine              = "mysql"
+		13 |   engine_version      = "8.0"
+		14 |   instance_class      = "db.t3.micro"
+		15 |   name                = "mydb"
+		16 |   username            = "admin"
+		17 |   password            = random_password.db.result
+		18 |   skip_final_snapshot = true
+		19 |   storage_type        = "gp3"
+		20 |   identifier          = "mydb-${random_id.suffix.hex}"
+		21 | }
+Check: CKV_AWS_293: "Ensure that AWS database instances have deletion protection enabled"
+	FAILED for resource: aws_db_instance.default
+	File: /few_shot_1.tf:10-21
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-293
+
+		10 | resource "aws_db_instance" "default" {
+		11 |   allocated_storage   = 20
+		12 |   engine              = "mysql"
+		13 |   engine_version      = "8.0"
+		14 |   instance_class      = "db.t3.micro"
+		15 |   name                = "mydb"
+		16 |   username            = "admin"
+		17 |   password            = random_password.db.result
+		18 |   skip_final_snapshot = true
+		19 |   storage_type        = "gp3"
+		20 |   identifier          = "mydb-${random_id.suffix.hex}"
+		21 | }
+Check: CKV_AWS_118: "Ensure that enhanced monitoring is enabled for Amazon RDS instances"
+	FAILED for resource: aws_db_instance.default
+	File: /few_shot_1.tf:10-21
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/ensure-that-enhanced-monitoring-is-enabled-for-amazon-rds-instances
+
+		10 | resource "aws_db_instance" "default" {
+		11 |   allocated_storage   = 20
+		12 |   engine              = "mysql"
+		13 |   engine_version      = "8.0"
+		14 |   instance_class      = "db.t3.micro"
+		15 |   name                = "mydb"
+		16 |   username            = "admin"
+		17 |   password            = random_password.db.result
+		18 |   skip_final_snapshot = true
+		19 |   storage_type        = "gp3"
+		20 |   identifier          = "mydb-${random_id.suffix.hex}"
+		21 | }
+Check: CKV_AWS_129: "Ensure that respective logs of Amazon Relational Database Service (Amazon RDS) are enabled"
+	FAILED for resource: aws_db_instance.default
+	File: /few_shot_1.tf:10-21
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/ensure-that-respective-logs-of-amazon-relational-database-service-amazon-rds-are-enabled
+
+		10 | resource "aws_db_instance" "default" {
+		11 |   allocated_storage   = 20
+		12 |   engine              = "mysql"
+		13 |   engine_version      = "8.0"
+		14 |   instance_class      = "db.t3.micro"
+		15 |   name                = "mydb"
+		16 |   username            = "admin"
+		17 |   password            = random_password.db.result
+		18 |   skip_final_snapshot = true
+		19 |   storage_type        = "gp3"
+		20 |   identifier          = "mydb-${random_id.suffix.hex}"
+		21 | }
+Check: CKV_AWS_157: "Ensure that RDS instances have Multi-AZ enabled"
+	FAILED for resource: aws_db_instance.default
+	File: /few_shot_1.tf:10-21
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/general-73
+
+		10 | resource "aws_db_instance" "default" {
+		11 |   allocated_storage   = 20
+		12 |   engine              = "mysql"
+		13 |   engine_version      = "8.0"
+		14 |   instance_class      = "db.t3.micro"
+		15 |   name                = "mydb"
+		16 |   username            = "admin"
+		17 |   password            = random_password.db.result
+		18 |   skip_final_snapshot = true
+		19 |   storage_type        = "gp3"
+		20 |   identifier          = "mydb-${random_id.suffix.hex}"
+		21 | }
+Check: CKV2_AWS_60: "Ensure RDS instance with copy tags to snapshots is enabled"
+	FAILED for resource: aws_db_instance.default
+	File: /few_shot_1.tf:10-21
+	Guide: https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-2-60
+
+		10 | resource "aws_db_instance" "default" {
+		11 |   allocated_storage   = 20
+		12 |   engine              = "mysql"
+		13 |   engine_version      = "8.0"
+		14 |   instance_class      = "db.t3.micro"
+		15 |   name                = "mydb"
+		16 |   username            = "admin"
+		17 |   password            = random_password.db.result
+		18 |   skip_final_snapshot = true
+		19 |   storage_type        = "gp3"
+		20 |   identifier          = "mydb-${random_id.suffix.hex}"
+		21 | }
+
