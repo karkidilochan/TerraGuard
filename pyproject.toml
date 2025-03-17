@@ -21,6 +21,8 @@ dependencies = [
     "langchain[mistralai] (>=0.3.20,<0.4.0)",
     "langchain-mistralai (>=0.2.7,<0.3.0)",
     "langchain-core (>=0.3.45,<0.4.0)",
+    "faiss-cpu (>=1.10.0,<2.0.0)",
+    "python-frontmatter (>=1.1.0,<2.0.0)",
 ]
 
 [tool.poetry]
