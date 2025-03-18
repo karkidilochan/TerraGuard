@@ -3,4 +3,4 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-MISTRALAI_API_KEY = os.getenv("MISTRALAI_API_KEY")
+MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
