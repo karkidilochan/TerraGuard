@@ -23,6 +23,9 @@ dependencies = [
     "langchain-core (>=0.3.45,<0.4.0)",
     "faiss-cpu (>=1.10.0,<2.0.0)",
     "python-frontmatter (>=1.1.0,<2.0.0)",
+    "chromadb (>=0.6.3,<0.7.0)",
+    "tqdm (>=4.67.1,<5.0.0)",
+    "sentence-transformers (>=3.4.1,<4.0.0)",
 ]
 
 [tool.poetry]

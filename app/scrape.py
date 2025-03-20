@@ -78,6 +78,19 @@ def chunk_aws_resources():
             metadata = resource["metadata"]
             sections = resource["sections"]
             for section_name, content in sections.items():
+                # chunks.append(
+                #     {
+                #         "metadata": {
+                #             "title": title,
+                #             "description": description,
+                #             "resource_name": resource_name,
+                #             "metadata": metadata,
+                #             "section": section_name,
+                #             "type": "code" if "```terraform" in content else "text",
+                #         },
+                #         "page_content": content,
+                #     }
+                # )
                 chunks.append(
                     Document(
                         id=str(uuid.uuid4()),
@@ -93,12 +106,10 @@ def chunk_aws_resources():
                     )
                 )
 
-            splitter = RecursiveCharacterTextSplitter(
-                chunk_size=1000, chunk_overlap=200
-            )
-            split_docs = splitter.split_documents(chunks)
+        splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+        split_docs = splitter.split_documents(chunks)
 
-    return split_docs
+        return split_docs
 
 
 if __name__ == "__main__":
