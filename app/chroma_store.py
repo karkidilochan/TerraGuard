@@ -1,56 +1,15 @@
 import json
 import os
+import time
 from tqdm import tqdm
 from langchain_community.vectorstores import Chroma
+from langchain_mistralai import MistralAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_community.document_loaders import JSONLoader
 from langchain.schema import Document
-from langchain_community.embeddings import (
-    HuggingFaceBgeEmbeddings,
-    HuggingFaceEmbeddings,
-    SentenceTransformerEmbeddings,
-)
-
-# Choose one of these local embedding models
 
 
-def get_bge_embeddings():
-    """Get BGE embeddings (best quality but slower)."""
-    model_name = (
-        "BAAI/bge-large-en-v1.5"  # Options: bge-small-en, bge-base-en, bge-large-en
-    )
-
-    return HuggingFaceBgeEmbeddings(
-        model_name=model_name,
-        model_kwargs={"device": "cpu"},  # Use 'cuda' if you have a GPU
-        encode_kwargs={"normalize_embeddings": True},
-    )
-
-
-def get_e5_embeddings():
-    """Get E5 embeddings (fast and high quality)."""
-    model_name = "intfloat/e5-small-v2"  # Options: e5-small, e5-base, e5-large
-
-    return HuggingFaceEmbeddings(
-        model_name=model_name,
-        model_kwargs={"device": "cpu"},  # Use 'cuda' if you have a GPU
-    )
-
-
-def get_mpnet_embeddings():
-    """Get MPNet embeddings (balanced speed/quality)."""
-    model_name = "sentence-transformers/all-mpnet-base-v2"
-
-    return SentenceTransformerEmbeddings(model_name=model_name)
-
-
-def get_minilm_embeddings():
-    """Get MiniLM embeddings (fastest)."""
-    model_name = "sentence-transformers/all-MiniLM-L6-v2"
-
-    return SentenceTransformerEmbeddings(model_name=model_name)
-
-
-# Load and process the JSON data
+# 2. Load and process the JSON data
 def load_data_from_json(file_path):
     """Load data from a JSON file."""
     with open(file_path, "r") as f:
@@ -93,7 +52,7 @@ def process_json_data(data):
     return documents
 
 
-# Split documents into chunks for better retrieval
+# 3. Split documents into chunks for better retrieval
 def split_documents(documents):
     """Split documents into smaller chunks."""
     text_splitter = RecursiveCharacterTextSplitter(
@@ -106,13 +65,18 @@ def split_documents(documents):
     return text_splitter.split_documents(documents)
 
 
-# Create and persist the vector store with batching
-def create_vector_store_batched(documents, embeddings, batch_size=100):
-    """Create and persist a vector store with batching."""
-    # Initialize a vector store
+# 4. Create embeddings using Mistral AI
+def create_embeddings():
+    """Create embeddings using Mistral AI."""
+    return MistralAIEmbeddings(model="mistral-embed")  # or the appropriate model name
+
+
+# 5. Create and persist the vector store
+def create_vector_store(documents, embeddings, batch_size):
+    """Create and persist a vector store."""
+    # Create a new vector store
     vector_store = None
 
-    # Process in batches
     for i in tqdm(range(0, len(documents), batch_size), desc="Processing batches"):
         batch = documents[i : i + batch_size]
 
@@ -130,18 +94,23 @@ def create_vector_store_batched(documents, embeddings, batch_size=100):
         # Persist after each batch
         vector_store.persist()
 
+        # Sleep to prevent rate limiting
+        time.sleep(1)
+
     return vector_store
 
 
-# Main function to build the vector store
-def build_vector_store(json_file_path, embedding_type="minilm", batch_size=100):
-    """Build a vector store from a JSON file.
+# 6. Load the vector store for usage
+def load_vector_store(embeddings):
+    """Load an existing vector store."""
+    return Chroma(
+        persist_directory="./terraform_docs_vectorstore", embedding_function=embeddings
+    )
 
-    Args:
-        json_file_path: Path to the JSON file
-        embedding_type: Type of embedding to use ("bge", "e5", "mpnet", or "minilm")
-        batch_size: Number of documents to process in each batch
-    """
+
+# 7. Main function to build the vector store
+def build_vector_store(json_file_path, batch_size):
+    """Build a vector store from a JSON file."""
     print("Loading data from JSON...")
     data = load_data_from_json(json_file_path)
 
@@ -152,28 +121,28 @@ def build_vector_store(json_file_path, embedding_type="minilm", batch_size=100):
     chunks = split_documents(documents)
     print(f"Created {len(chunks)} chunks")
 
-    print(f"Creating {embedding_type} embeddings...")
-    if embedding_type == "bge":
-        embeddings = get_bge_embeddings()
-    elif embedding_type == "e5":
-        embeddings = get_e5_embeddings()
-    elif embedding_type == "mpnet":
-        embeddings = get_mpnet_embeddings()
-    else:  # default to minilm
-        embeddings = get_minilm_embeddings()
+    print("Creating embeddings...")
+    embeddings = create_embeddings()
 
-    print("Building vector store in batches...")
-    vector_store = create_vector_store_batched(chunks, embeddings, batch_size)
+    print("Building vector store...")
+    vector_store = create_vector_store(chunks, embeddings, batch_size)
 
     print("Vector store built successfully!")
     return vector_store
 
 
-# Example usage in a RAG pipeline
+# 8. Example usage in a RAG pipeline
 def query_rag_model(query, vector_store, top_k=5):
     """Query the RAG model."""
     # Retrieve relevant documents
     docs = vector_store.similarity_search(query, k=top_k)
+
+    # Here you would typically pass these documents to your LLM
+    # For example with Mistral AI:
+    # from langchain_mistralai import ChatMistralAI
+    # llm = ChatMistralAI(model="mistral-medium")
+    # result = llm.invoke(query + "\n\nContext: " + "\n\n".join([doc.page_content for doc in docs]))
+
     return docs
 
 
@@ -182,36 +151,21 @@ if __name__ == "__main__":
     # Path to your JSON file containing all 2086 items
     json_file_path = "aws_resources.json"
 
-    try:
-        # Choose embedding type: "bge", "e5", "mpnet", or "minilm"
-        embedding_type = "bge"  # Fastest option
+    # Build the vector store
+    vector_store = build_vector_store(json_file_path, batch_size=20)
 
-        # Build the vector store
+    # Example query
+    query = "How do I set up an AWS AccessAnalyzer?"
+    results = query_rag_model(query, vector_store)
+
+    print(f"\nExample query: {query}")
+    print(f"Found {len(results)} relevant documents")
+
+    # Display the first result
+    if results:
+        print("\nTop result:")
+        print(f"Title: {results[0].metadata.get('title', 'No title')}")
         print(
-            f"Starting vector store creation process with {embedding_type} embeddings..."
+            f"Description: {results[0].metadata.get('description', 'No description')}"
         )
-        vector_store = build_vector_store(
-            json_file_path, embedding_type=embedding_type, batch_size=200
-        )
-
-        # Example query
-        query = "How do I set up an AWS AccessAnalyzer?"
-        print(f"\nRunning example query: {query}")
-        results = query_rag_model(query, vector_store)
-
-        print(f"Found {len(results)} relevant documents")
-
-        # Display the first result
-        if results:
-            print("\nTop result:")
-            print(f"Title: {results[0].metadata.get('title', 'No title')}")
-            print(
-                f"Description: {results[0].metadata.get('description', 'No description')}"
-            )
-            print("Content excerpt: " + results[0].page_content[:200] + "...")
-
-    except Exception as e:
-        print(f"Error occurred: {e}")
-        import traceback
-
-        traceback.print_exc()
+        print("Content excerpt: " + results[0].page_content[:200] + "...")

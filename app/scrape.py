@@ -106,10 +106,7 @@ def chunk_aws_resources():
                     )
                 )
 
-        splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-        split_docs = splitter.split_documents(chunks)
-
-        return split_docs
+        return chunks
 
 
 if __name__ == "__main__":
