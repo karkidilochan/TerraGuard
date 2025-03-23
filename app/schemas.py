@@ -4,8 +4,8 @@ from langchain_core.documents import Document
 
 # search
 class Search(TypedDict):
-    query: str
-    section: str
+    query: Annotated[str, ..., "Search query to run"]
+    # resources: Annotated[List[str], ..., "List of AWS resource names to filter by"]
 
 
 # state

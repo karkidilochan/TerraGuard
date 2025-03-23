@@ -4,9 +4,7 @@ import re
 import json
 from langchain_core.documents import Document
 from typing import List
-import uuid
 from tqdm import tqdm
-
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 TF_GIT_URL = "https://api.github.com/repos/hashicorp/terraform-provider-aws/contents/website/docs/r"
@@ -80,19 +78,6 @@ def chunk_aws_resources() -> List[Document]:
             sub_category = resource["metadata"]["subcategory"]
             sections = resource["sections"]
             for section_name, content in sections.items():
-                # chunks.append(
-                #     {
-                #         "metadata": {
-                #             "title": title,
-                #             "description": description,
-                #             "resource_name": resource_name,
-                #             "metadata": metadata,
-                #             "section": section_name,
-                #             "type": "code" if "```terraform" in content else "text",
-                #         },
-                #         "page_content": content,
-                #     }
-                # )
                 chunks.append(
                     Document(
                         # id=str(uuid.uuid4()),

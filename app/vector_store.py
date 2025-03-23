@@ -1,18 +1,20 @@
-import time
+import os
 from typing import List
 from tqdm import tqdm
 from langchain_chroma import Chroma
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
-
-from scrape_aws_tf import chunk_aws_resources
+from langchain_huggingface import HuggingFaceEmbeddings
 
 
 class VectorStore:
 
-    def __init__(self, embedding_model, persist_directory, collection_name):
+    def __init__(self, persist_directory, collection_name, embedding_model="mpnet"):
         self.persistent_directory = persist_directory
-        self.embedding_model = embedding_model
+        self.embedding_model = HuggingFaceEmbeddings(
+            model_name="sentence-transformers/all-mpnet-base-v2"
+        )
+
         self.vector_db = Chroma(
             collection_name=collection_name,
             embedding_function=self.embedding_model,
@@ -42,63 +44,34 @@ class VectorStore:
     def get_db_instance(self):
         return self.vector_db
 
+    def check_populated(self):
+        should_populate = False
+        if not os.path.exists(self.persistent_directory):
+            print(
+                f"Vector store directory '{self.persistent_directory}' does not exist. Creating and populating it."
+            )
+            should_populate = True
+        else:
+            # Check if the collection is empty
+            existing_docs = vector_store.get_db_instance().get()
+            doc_count = len(existing_docs.get("documents", []))
+            if doc_count == 0:
+                print(
+                    f"Vector store '{self.persistent_directory}' exists but is empty. Populating it."
+                )
+                should_populate = True
+            else:
+                print(
+                    f"Vector store contains {doc_count} documents. Skipping population."
+                )
+
 
 if __name__ == "__main__":
     # TODO: compare performance of codebert and sentencetransformers
 
-    from langchain_huggingface import HuggingFaceEmbeddings
-
-    embeddings = HuggingFaceEmbeddings(
-        # model_name="sentence-transformers/all-MiniLM-L6-v2"
-        model_name="microsoft/codebert-base"
-        # model_name="sentence-transformers/all-mpnet-base-v2"
-    )
-
-    vector_store = VectorStore(embeddings, "./chroma_rag_db", "tf_aws_resources")
-    vector_store.store_documents(chunk_aws_resources())
+    vector_store = VectorStore("./chroma_rag_db", "tf_aws_resources")
+    # vector_store.store_documents(chunk_aws_resources())
     retrieved_docs = vector_store.get_db_instance().similarity_search(
         "How do I setup AWS Access Analyzer?"
     )
     print(retrieved_docs)
-
-    # vector_store.get_db_instance().similarity_search(
-    #     state["query"]["query"],
-    #     filter=lambda doc: doc.metadata.get("section") == state["query"]["section"],
-    # )
-
-    # vector_store.store_documents(chunk_aws_resources())
-    # retrieved_docs = vector_store.get_db_instance().similarity_search(
-    #     "How do I setup AWS Access Analyzer?"
-    # )
-    # print(retrieved_docs)
-
-    # import bs4
-    # from langchain_community.document_loaders import WebBaseLoader
-
-    # bs4_strainer = bs4.SoupStrainer(
-    #     class_=("post-title", "post-header", "post-content")
-    # )
-
-    # loader = WebBaseLoader(
-    #     web_paths=("https://lilianweng.github.io/posts/2023-06-23-agent/",),
-    #     bs_kwargs={"parse_only": bs4_strainer},
-    # )
-
-    # docs = loader.load()
-    # from langchain_text_splitters import RecursiveCharacterTextSplitter
-
-    # text_splitter = RecursiveCharacterTextSplitter(
-    #     chunk_size=1000,
-    #     chunk_overlap=200,
-    #     add_start_index=True,
-    # )
-
-    # all_splits = text_splitter.split_documents(docs)
-
-    # vector_store = VectorStore(embedding_model, "./dummy_db", "resources")
-
-    # document_ids = vector_store.store_documents(all_splits)
-    # question = "what is self reflection?"
-
-    # retrieved_docs = vector_store.get_db_instance().similarity_search(question)
-    # print(retrieved_docs)

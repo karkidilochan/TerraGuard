@@ -1,74 +1,97 @@
-from typing_extensions import TypedDict, List, Annotated, Literal
-from langchain_core.documents import Document
-from langchain_community.vectorstores import Chroma
-from embeddings import embedding_model
+from langchain.chat_models import init_chat_model
+from langgraph.graph import START, END, StateGraph
+from app.validate_tf import validate_terraform_code
+from app.prompt_template import get_system_prompt
+from app.vector_store import VectorStore
+from app.schemas import Search, State
+from dotenv import load_dotenv
 
 
-# search
-class Search(TypedDict):
-    query: Annotated[str, ..., "Search query to run"]
-    section: Annotated[
-        Literal["beginning", "middle", "end"],
-        ...,
-        "Section of the document to search in",
-    ]
+class RAGPipeline:
+    def __init__(
+        self,
+        vector_store: VectorStore,
+        llm_model: str = "mistral-large-latest",
+        llm_provider: str = "mistralai",
+    ):
+        # Vector store
+        self.vector_store = vector_store
+
+        # LLM setup
+        self.llm = init_chat_model(llm_model, model_provider=llm_provider)
+        self.structured_llm = self.llm.with_structured_output(Search)
+
+        # Build and compile the LangGraph
+        self.graph = self._build_graph()
+
+    def _build_graph(self):
+        graph_builder = StateGraph(State)
+        graph_builder.add_sequence([self.analyze_query, self.retrieve, self.generate])
+
+        graph_builder.add_edge(START, "analyze_query")
+        graph_builder.add_edge("generate", END)
+
+        return graph_builder.compile()
+
+    def analyze_query(self, state: State) -> State:
+        """Parse the question into a structured Search object."""
+        query = self.structured_llm.invoke(state["question"])
+        return {"search": query}
+
+    def retrieve(self, state: State) -> State:
+        """Retrieve documents based on the query and section."""
+        print(state["search"])
+        retrieved_docs = self.vector_store.get_db_instance().similarity_search(
+            query=state["search"]["query"],
+            # filter={
+            #     "resource_name": {"$in": state["search"]["resources"]},
+            # },
+        )
+        return {"context": retrieved_docs}
+
+    def generate(self, state: State) -> State:
+        """Generate an answer using the retrieved context."""
+        docs_content = "\n\n".join(doc.page_content for doc in state["context"])
+        prompt = get_system_prompt().format(
+            question=state["question"], context=docs_content
+        )
+        answer = self.llm.invoke(prompt)
+        return {"answer": answer.content}
+
+    def run(self, question: str) -> State:
+        """Run the RAG pipeline for a given question."""
+        initial_state = {
+            "question": question,
+        }
+        result = self.graph.invoke(initial_state)
+        return result
 
 
-# state
-class State(TypedDict):
-    question: str
-    context: List[Document]
-    query: Search
-    answer: str
-
-
-persist_directory = "./terraform_docs_vectorstore"
-
-vector_store = Chroma(
-    embedding_function=embedding_model,
-    persist_directory=persist_directory,
-)
-
-
-# steps
-def retrieve(state: State):
-
-    retrieved_docs = vector_store.similarity_search(
-        state["query"]["query"],
-        filter=lambda doc: doc.metadata.get("section") == state["query"]["section"],
-    )
-    print(retrieved_docs)
-    return {"context": retrieved_docs}
-
-
-# def generate(state: State):
-#     docs_content = "\n\n".join(doc.page_content for doc in state["context"])
-#     answer = llm.invoke(
-#         prompt.invoke({"question": state["question"], "context": docs_content})
-#     )
-#     return {"answer": answer.content}
-
-
-def analyze_query(state: State):
-    from langchain.chat_models import init_chat_model
-
-    llm = init_chat_model("mistral-large-latest", model_provider="mistralai")
-    structured_llm = llm.with_structured_output(Search)
-    query = structured_llm.invoke(state["question"])
-    return {"query": query}
-
-
-# control flow
-# from langgraph.graph import START, StateGraph
-
-# graph_builder = StateGraph(State).add_sequence([analyze_query, retrieve, generate])
-# graph_builder.add_edge(START, "analyze_query")
-# graph = graph_builder.compile()
-
+# Example usage
 if __name__ == "__main__":
+
+    load_dotenv()
+
+    vector_store = VectorStore("./chroma_rag_db", "tf_aws_resources")
+
+    pipeline = RAGPipeline(
+        vector_store,
+        llm_model="mistral-large-latest",
+        llm_provider="mistralai",
+    )
+
     question = "How do I set up an AWS AccessAnalyzer?"
 
-    retrieved_docs = vector_store.similarity_search(question)
-    print(retrieved_docs)
+    # Run the pipeline
+    result = pipeline.run(question)
 
-    # answer = llm.invoke(prompt.invoke({"question": question, "context": docs_content}))
+    # Print results
+    print("\nFinal Result:")
+    print(f"Question: {result['question']}")
+    print(f"Query: {result['search']}")
+    print("Context:")
+    for doc in result["context"]:
+        print(f"- {doc.page_content} (Metadata: {doc.metadata})")
+    print(f"Answer: {result['answer']}")
+
+    # validate_terraform_code(result["answer"])
