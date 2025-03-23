@@ -3,7 +3,9 @@ import frontmatter
 import re
 import json
 from langchain_core.documents import Document
+from typing import List
 import uuid
+from tqdm import tqdm
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
@@ -56,7 +58,7 @@ def get_resources():
     response = requests.get(TF_GIT_URL)
     doc_files = response.json()
     resources = []
-    for file in doc_files:
+    for file in tqdm(doc_files, desc="Processing markdown files"):
         if file["name"].endswith(".markdown"):
             raw_resource = get_resource(file)
             structured_resource = extract_metadata(raw_resource)
@@ -66,16 +68,16 @@ def get_resources():
     return resources
 
 
-def chunk_aws_resources():
+def chunk_aws_resources() -> List[Document]:
     chunks = []
 
     with open("aws_resources.json", "r") as json_file:
         resources = json.load(json_file)
-        for resource in resources:
+        for resource in tqdm(resources, desc="Processing resources:"):
             title = resource["title"]
             description = resource["description"]
             resource_name = resource["resource_name"]
-            metadata = resource["metadata"]
+            sub_category = resource["metadata"]["subcategory"]
             sections = resource["sections"]
             for section_name, content in sections.items():
                 # chunks.append(
@@ -93,12 +95,12 @@ def chunk_aws_resources():
                 # )
                 chunks.append(
                     Document(
-                        id=str(uuid.uuid4()),
+                        # id=str(uuid.uuid4()),
                         metadata={
                             "title": title,
                             "description": description,
                             "resource_name": resource_name,
-                            "metadata": metadata,
+                            "subcategory": sub_category,
                             "section": section_name,
                             "type": "code" if "```terraform" in content else "text",
                         },

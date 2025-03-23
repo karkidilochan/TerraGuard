@@ -9,7 +9,7 @@ from langchain_community.embeddings import OllamaEmbeddings
 from langchain_community.llms import Ollama
 import os
 
-from scrape import chunk_aws_resources
+from app.scrape_aws_tf import chunk_aws_resources
 
 
 all_chunks = chunk_aws_resources()
@@ -18,13 +18,13 @@ splitter = RecursiveCharacterTextSplitter(chunk_size=2000, chunk_overlap=200)
 split_docs = splitter.split_documents(all_chunks)
 
 
-
 embeddings = OllamaEmbeddings(model="llama2:7b")
 doc_result = embeddings.embed_documents([all_chunks])
 
 db = FAISS.from_documents(split_docs, embeddings)
 retriever = db.as_retriever(
-    search_type="similarity", search_kwargs={"k": 2},
+    search_type="similarity",
+    search_kwargs={"k": 2},
 )
 
 code_llm = Ollama(model="codellama")
@@ -46,12 +46,14 @@ prompt_RAG_template = PromptTemplate(
 )
 
 qa_chain = RetrievalQA.from_llm(
-    llm=code_llm, prompt=prompt_RAG_template, retriever=retriever, return_source_documents=True,
+    llm=code_llm,
+    prompt=prompt_RAG_template,
+    retriever=retriever,
+    return_source_documents=True,
 )
 
 user_question = input("Enter Query to generate Code: ")
-#user_question = "Create a python function that will load the data from vectord using similarity score threshold retriever."
+# user_question = "Create a python function that will load the data from vectord using similarity score threshold retriever."
 results = qa_chain({"query": user_question})
 
 print(results)
-

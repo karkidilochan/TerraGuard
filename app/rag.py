@@ -114,15 +114,16 @@ def main():
 
     # Process a query
     result = pipeline.process_query(
-        question="What is the capital of France?", section="geography"
+        question="How do I set up an AWS AccessAnalyzer?", section="geography"
     )
 
     # Print results
-    print(f"Question: {result['question']}")
-    print(f"Answer: {result['answer']}")
-    print("Context:")
-    for doc in result["context"]:
-        print(f"- {doc.page_content}")
+    # print(f"Question: {result['question']}")
+    # print(f"Answer: {result['answer']}")
+    # print("Context:")
+    # for doc in result["context"]:
+    #     print(f"- {doc.page_content}")
+    print(result["context"])
 
 
 if __name__ == "__main__":
