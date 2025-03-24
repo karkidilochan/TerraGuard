@@ -2,7 +2,7 @@ from langchain.chat_models import init_chat_model
 from langgraph.graph import START, END, StateGraph
 from app.validate_tf import validate_terraform_code
 from app.prompt_template import get_system_prompt
-from app.vector_store import VectorStore
+from app.vector_store import CHROMA_COLLECTION_NAME, CHROMA_DB_NAME, VectorStore
 from app.schemas import Search, State
 from dotenv import load_dotenv
 
@@ -72,7 +72,7 @@ if __name__ == "__main__":
 
     load_dotenv()
 
-    vector_store = VectorStore("./chroma_rag_db", "tf_aws_resources")
+    vector_store = VectorStore(CHROMA_DB_NAME, CHROMA_COLLECTION_NAME)
 
     pipeline = RAGPipeline(
         vector_store,

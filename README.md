@@ -32,8 +32,9 @@ MISTRAL_API_KEY=<your-api-key>
 Ensure the `chroma_rag_db` directory exists and contains your indexed data. If not, you'll need to create it.
 Running the vector_store.py file as main will create the required vector store with the Terraform documentation for you.
 
-```
+```bash
 poetry run python -m app.vector_store
+
 ```
 
 ## Step 4: Run the RAG Pipeline
