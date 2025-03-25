@@ -1,0 +1,138 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# 🔍 **Updated Methodology for CIS-Compliant Terraform Code Generation with Checkov Integration**
+
+This updated methodology incorporates **Checkov** into your RAG-based secure Terraform generation pipeline to enable **automated, deterministic validation** of compliance against CIS Benchmarks.
+
+---
+
+## 🧠 High-Level Objective
+
+> Automate the generation of secure, CIS-compliant Terraform IaC using a Retrieval-Augmented Generation (RAG) system, with post-generation validation via Checkov.
+
+---
+
+## 🧩 System Components
+
+1. **LLM-Based Code Generator (TerraGuard)**
+2. **Retrieval-Augmented Generation (RAG) Pipeline**
+3. **Indexed Terraform Resource Schemas (AWS)**
+4. **Indexed CIS AWS Benchmarks (JSON)**
+5. **Security Rule Mapping Engine**
+6. **Checkov Static Analysis Validator**
+7. **Traceability and Logging Module**
+
+---
+
+## 📐 Step-by-Step Methodology
+
+### ✅ Step 1: Knowledge Base Construction
+
+#### 1.1 Ingest AWS Terraform Resources
+- Parse and index AWS resource documentation.
+- Store as Langchain Documents with metadata (`resource_name`, `subcategory`, etc.).
+
+#### 1.2 Ingest and Structure CIS Benchmarks
+- Convert CIS AWS Benchmark PDFs to structured JSON.
+- Each control includes: `control_id`, `title`, `description`, `remediation`, `resource_type`, `automation_status`, etc.
+- Add `resource_type` and `relevant_attributes` fields.
+
+#### 1.3 Index in Vector Store
+- Store both schemas and CIS controls in Chroma vector DB (either same or separate collections).
+
+---
+
+### ✅ Step 2: User Query Parsing and Dual-Context Retrieval
+
+#### 2.1 Parse Query
+- Use LLM to convert user input into structured query.
+- Extract potential resource types, intents.
+
+#### 2.2 Retrieve Context
+- Retrieve from AWS resource index (Terraform docs).
+- Retrieve from CIS benchmark index (security rules).
+- Merge results into one unified context.
+
+---
+
+### ✅ Step 3: Security-Guided Code Generation
+
+#### 3.1 Prompt Construction
+- Inject question and retrieved context into prompt template.
+- Prompt instructs model to:
+  - Use appropriate AWS provider and resource blocks.
+  - Follow CIS security rules from the context.
+  - Output only Terraform HCL in code block format.
+
+#### 3.2 LLM Code Generation
+- Generate secure Terraform code using Mistral or other LLM.
+- Leverage grounding in both infrastructure + security domains.
+
+---
+
+### ✅ Step 4: Compliance Traceability
+
+#### 4.1 Log Used CIS Controls
+- Track CIS `control_id`s retrieved and used in context.
+- Log control references for traceability and documentation.
+
+#### 4.2 (Optional) Return Compliance Summary
+- Provide users with a summary of which CIS rules were followed.
+
+---
+
+### ✅ Step 5: Post-Generation Security Validation (Checkov)
+
+#### 5.1 Write Generated Code to Temp File
+- Save HCL output to `.tf` file for scanning.
+
+#### 5.2 Run Checkov Analysis
+- Execute Checkov CLI or API on generated file.
+- Scan for compliance issues against CIS and AWS best practices.
+
+#### 5.3 Map Checkov Results
+- Match Checkov rule IDs back to CIS control IDs (where possible).
+- Classify each rule: ✅ Passed / ⚠️ Warning / ❌ Failed
+
+#### 5.4 Final Validation Status
+- If all critical rules passed: accept the code.
+- If failed: flag non-compliance and provide suggestions.
+
+```plaintext
+                         ┌──────────────────────────────┐
+                         │        User Query            │
+                         └────────────┬─────────────────┘
+                                      │
+                            ┌─────────▼──────────┐
+                            │   Query Parsing     │
+                            └─────────┬──────────┘
+                                      │
+             ┌────────────────────────▼────────────────────────┐
+             │    Retrieve Terraform + CIS Control Context     │
+             └────────────────────────┬────────────────────────┘
+                                      │
+                        ┌─────────────▼─────────────┐
+                        │     Prompt Construction    │
+                        └─────────────┬─────────────┘
+                                      │
+                        ┌─────────────▼─────────────┐
+                        │      Code Generation       │
+                        └─────────────┬─────────────┘
+                                      │
+                  ┌──────────────────▼──────────────────┐
+                  │ Save HCL → Run Checkov Static Scan  │
+                  └──────────────────┬──────────────────┘
+                                      │
+      ┌───────────────────────────────▼──────────────────────────────┐
+      │ Validate Code Compliance w/ CIS Rules (Pass, Warn, Fail)     │
+      └───────────────────────────────┬──────────────────────────────┘
+                                      │
+         ┌────────────────────────────▼────────────────────────────┐
+         │ Return Result + Traceable CIS Controls + Compliance Log │
+         └─────────────────────────────────────────────────────────┘
+```
+
+---
