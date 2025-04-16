@@ -4,12 +4,14 @@ import json
 import subprocess
 import tempfile
 import datetime
-from typing import Dict, Any, Tuple, Optional, List
+from typing import Dict, Any
 import logging
 import shutil
 from app.checkov_validator import run_checkov_validation, generate_compliance_report
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 logger = logging.getLogger(__name__)
 
 
@@ -20,7 +22,7 @@ def check_terraform_installed():
         for cmd in [
             ["terraform", "--version"],
             ["C:\\Program Files\\Terraform\\terraform.exe", "--version"],
-            ["C:\\terraform\\terraform.exe", "--version"]
+            ["C:\\terraform\\terraform.exe", "--version"],
         ]:
             try:
                 result = subprocess.run(cmd, capture_output=True, check=False)
@@ -29,15 +31,19 @@ def check_terraform_installed():
                     return True
             except (subprocess.SubprocessError, FileNotFoundError):
                 continue
-                
+
         # Try with shell=True as a last resort
-        result = subprocess.run("terraform --version", capture_output=True, check=False, shell=True)
+        result = subprocess.run(
+            "terraform --version", capture_output=True, check=False, shell=True
+        )
         if result.returncode == 0:
             logger.info("Terraform found using shell command")
             return True
-            
+
         # If we get here, we couldn't find Terraform
-        logger.warning("Terraform not found in PATH. Skipping Terraform validation steps.")
+        logger.warning(
+            "Terraform not found in PATH. Skipping Terraform validation steps."
+        )
         return False
     except Exception as e:
         logger.warning(f"Error checking for Terraform: {str(e)}")
@@ -51,7 +57,7 @@ def check_checkov_installed():
         for cmd in [
             ["checkov", "--version"],
             ["python", "-m", "checkov", "--version"],
-            [sys.executable, "-m", "checkov", "--version"]
+            [sys.executable, "-m", "checkov", "--version"],
         ]:
             try:
                 result = subprocess.run(cmd, capture_output=True, check=False)
@@ -60,38 +66,45 @@ def check_checkov_installed():
                     return True
             except (subprocess.SubprocessError, FileNotFoundError):
                 continue
-                
+
         # Try with shell=True as a last resort
-        result = subprocess.run("checkov --version", capture_output=True, check=False, shell=True)
+        result = subprocess.run(
+            "checkov --version", capture_output=True, check=False, shell=True
+        )
         if result.returncode == 0:
             logger.info("Checkov found using shell command")
             return True
-            
+
         # Try python module directly
         try:
             import checkov
+
             logger.info("Checkov found as Python module")
             return True
         except ImportError:
             pass
-            
+
         # If we get here, we couldn't find Checkov
-        logger.warning("Checkov not found in PATH. Skipping CIS compliance validation steps.")
+        logger.warning(
+            "Checkov not found in PATH. Skipping CIS compliance validation steps."
+        )
         return False
     except Exception as e:
         logger.warning(f"Error checking for Checkov: {str(e)}")
         return False
 
 
-def validate_terraform_code(code: str, output_dir: str = None, result_file_prefix: str = None) -> Dict[str, Any]:
+def validate_terraform_code(
+    code: str, output_dir: str = None, result_file_prefix: str = None
+) -> Dict[str, Any]:
     """
     Validate Terraform code for syntax and CIS compliance.
-    
+
     Args:
         code: The Terraform code to validate
         output_dir: The directory to store Checkov results (default: checkov_output folder in project root)
         result_file_prefix: Prefix for the Checkov result filename (default: "checkov_results")
-        
+
     Returns:
         Dictionary with validation results
     """
@@ -101,7 +114,7 @@ def validate_terraform_code(code: str, output_dir: str = None, result_file_prefi
         "terraform_output": "",
         "checkov_output": None,
         "referenced_cis_controls": [],
-        "errors": []
+        "errors": [],
     }
 
     # Strip markdown block if present
@@ -122,21 +135,23 @@ def validate_terraform_code(code: str, output_dir: str = None, result_file_prefi
     if not terraform_installed:
         result["errors"].append("Terraform not installed. Skipping syntax validation.")
         return result
-    
+
     if not checkov_installed:
-        result["errors"].append("Checkov not installed. Skipping CIS compliance validation.")
-    
+        result["errors"].append(
+            "Checkov not installed. Skipping CIS compliance validation."
+        )
+
     # Create output directory for Checkov results if it doesn't exist
     if output_dir is None:
         # Use a directory in the current working directory instead of user's home
         output_dir = os.path.join(os.getcwd(), "checkov_output")
-    
+
     try:
         os.makedirs(output_dir, exist_ok=True)
         # Test write permissions
         test_file = os.path.join(output_dir, ".test")
-        with open(test_file, 'w') as f:
-            f.write('test')
+        with open(test_file, "w") as f:
+            f.write("test")
         os.remove(test_file)
         logger.info(f"Using output directory for Checkov results: {output_dir}")
     except (OSError, IOError) as e:
@@ -157,7 +172,9 @@ def validate_terraform_code(code: str, output_dir: str = None, result_file_prefi
                 logger.info(f"Using temp directory for output: {output_dir}")
             except (OSError, IOError) as e:
                 logger.error(f"Error accessing all output directories: {str(e)}")
-                result["errors"].append(f"Error accessing all output directories: {str(e)}")
+                result["errors"].append(
+                    f"Error accessing all output directories: {str(e)}"
+                )
                 return result
 
     # Set default result file prefix if not provided
@@ -184,9 +201,9 @@ def validate_terraform_code(code: str, output_dir: str = None, result_file_prefi
                 check=False,
                 capture_output=True,
                 text=True,
-                shell=True
+                shell=True,
             )
-            
+
             if fmt_result.returncode == 0:
                 logger.info("Successfully formatted Terraform code")
             else:
@@ -197,10 +214,12 @@ def validate_terraform_code(code: str, output_dir: str = None, result_file_prefi
                     check=False,
                     capture_output=True,
                     text=True,
-                    shell=True
+                    shell=True,
                 )
                 if check_fmt_result.returncode != 0:
-                    result["errors"].append(f"Formatting error: {check_fmt_result.stderr or 'Code is not properly formatted'}")
+                    result["errors"].append(
+                        f"Formatting error: {check_fmt_result.stderr or 'Code is not properly formatted'}"
+                    )
                 else:
                     logger.info("Terraform code formatting checked successfully")
         except Exception as e:
@@ -214,10 +233,12 @@ def validate_terraform_code(code: str, output_dir: str = None, result_file_prefi
                 check=False,
                 capture_output=True,
                 text=True,
-                shell=True
+                shell=True,
             )
             if init_result.returncode != 0:
-                result["errors"].append(f"Initialization error: {init_result.stderr or 'Failed to initialize Terraform'}")
+                result["errors"].append(
+                    f"Initialization error: {init_result.stderr or 'Failed to initialize Terraform'}"
+                )
             else:
                 logger.info("Terraform initialized successfully")
         except Exception as e:
@@ -231,85 +252,105 @@ def validate_terraform_code(code: str, output_dir: str = None, result_file_prefi
                 check=False,
                 capture_output=True,
                 text=True,
-                shell=True
+                shell=True,
             )
-            
-            result["terraform_output"] = validate_result.stdout or validate_result.stderr
-            
+
+            result["terraform_output"] = (
+                validate_result.stdout or validate_result.stderr
+            )
+
             if validate_result.returncode == 0:
                 result["syntax_valid"] = True
                 logger.info("Terraform code validated successfully")
             else:
-                result["errors"].append(f"Validation error: {validate_result.stderr or 'Failed to validate Terraform configuration'}")
+                result["errors"].append(
+                    f"Validation error: {validate_result.stderr or 'Failed to validate Terraform configuration'}"
+                )
         except Exception as e:
             result["errors"].append(f"Validation error: {str(e)}")
-        
+
         # Step 4: Run Checkov for CIS compliance validation if installed
         if checkov_installed and result["syntax_valid"]:
             try:
                 # Generate a filename for the output based on the prefix
                 timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-                output_file = os.path.join(output_dir, f"{result_file_prefix}_{timestamp}.json")
-                
+                output_file = os.path.join(
+                    output_dir, f"{result_file_prefix}_{timestamp}.json"
+                )
+
                 # Run Checkov directly with output to stdout, then save results ourselves
                 # This avoids issues with Checkov creating directories
-                checkov_cmd_str = f"checkov -f {tf_file} --framework terraform --output json"
+                checkov_cmd_str = (
+                    f"checkov -f {tf_file} --framework terraform --output json"
+                )
                 logger.info(f"Running Checkov command: {checkov_cmd_str}")
-                
+
                 checkov_result = subprocess.run(
                     checkov_cmd_str,
                     check=False,
                     capture_output=True,
                     text=True,
                     shell=True,
-                    cwd=tmpdir
+                    cwd=tmpdir,
                 )
-                
+
                 # Process stdout regardless of exit code
                 if checkov_result.stdout:
                     try:
                         checkov_data = json.loads(checkov_result.stdout)
-                        
+
                         # Save the results ourselves
-                        with open(output_file, 'w') as f:
+                        with open(output_file, "w") as f:
                             json.dump(checkov_data, f, indent=2)
-                        
+
                         # Process the results using our CIS mapper
-                        is_compliant, checkov_results, referenced_controls = run_checkov_validation(code)
-                        
+                        is_compliant, checkov_results, referenced_controls = (
+                            run_checkov_validation(code)
+                        )
+
                         result["cis_compliant"] = is_compliant
                         result["checkov_results"] = checkov_results
-                        result["checkov_output"] = checkov_data  # Store the full JSON output
+                        result["checkov_output"] = (
+                            checkov_data  # Store the full JSON output
+                        )
                         result["referenced_cis_controls"] = referenced_controls
-                        
+
                         # Generate compliance report
                         report = generate_compliance_report(
                             checkov_results, referenced_controls
                         )
                         result["compliance_report"] = report
-                        
+
                         # Save a link to the output file in the results
                         result["checkov_output_file"] = output_file
-                        
-                        logger.info(f"Checkov validation complete. Results saved to {output_file}")
+
+                        logger.info(
+                            f"Checkov validation complete. Results saved to {output_file}"
+                        )
                     except json.JSONDecodeError as e:
                         logger.error(f"Error parsing Checkov results: {str(e)}")
-                        logger.error(f"Raw stdout (first 500 chars): {checkov_result.stdout[:500]}")
-                        result["errors"].append(f"Error parsing Checkov results: {str(e)}")
+                        logger.error(
+                            f"Raw stdout (first 500 chars): {checkov_result.stdout[:500]}"
+                        )
+                        result["errors"].append(
+                            f"Error parsing Checkov results: {str(e)}"
+                        )
                 else:
                     error_msg = f"Checkov error: {checkov_result.stderr}"
                     logger.error(error_msg)
                     result["errors"].append(error_msg)
-                
+
                 # If we had issues, try the direct approach as a fallback
                 if not result.get("checkov_output"):
                     # Try running the internal function without subprocess
                     try:
-                        is_compliant, checkov_results, referenced_controls = run_checkov_validation(code)
+                        is_compliant, checkov_results, referenced_controls = (
+                            run_checkov_validation(code)
+                        )
                         result["cis_compliant"] = is_compliant
                         result["checkov_results"] = checkov_results
                         result["referenced_cis_controls"] = referenced_controls
-                        
+
                         # Generate compliance report
                         report = generate_compliance_report(
                             checkov_results, referenced_controls
@@ -318,11 +359,11 @@ def validate_terraform_code(code: str, output_dir: str = None, result_file_prefi
                         logger.info("Used fallback internal Checkov validation method")
                     except Exception as e:
                         logger.error(f"Error in fallback Checkov validation: {str(e)}")
-                
+
             except Exception as e:
                 logger.error(f"CIS compliance check error: {str(e)}")
                 result["errors"].append(f"CIS compliance check error: {str(e)}")
-    
+
     return result
 
 
@@ -656,19 +697,19 @@ provider "aws" {
   region = "us-west-2"
 }
 """
-    
+
     results = validate_terraform_code(test_code)
     print(f"Syntax valid: {results['syntax_valid']}")
     print(f"CIS compliant: {results['cis_compliant']}")
     print(f"Referenced CIS controls: {results['referenced_cis_controls']}")
-    
+
     if results.get("compliance_report"):
         print("\nCompliance Report:")
         print(results["compliance_report"])
-    
+
     if results.get("checkov_output_file"):
         print(f"\nCheckov results saved to: {results['checkov_output_file']}")
-    
+
     if results["errors"]:
         print("\nErrors:")
         for error in results["errors"]:

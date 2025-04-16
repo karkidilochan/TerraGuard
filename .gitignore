@@ -8,5 +8,7 @@ chroma_rag_db/
 .cursor/
 
 
+chroma/
+
 # env
 .env

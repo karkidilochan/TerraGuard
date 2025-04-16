@@ -2,6 +2,7 @@ import requests
 import frontmatter
 import re
 import json
+import uuid
 from langchain_core.documents import Document
 from typing import List
 from tqdm import tqdm
@@ -66,32 +67,46 @@ def get_resources():
     return resources
 
 
-def chunk_aws_resources() -> List[Document]:
+def chunk_aws_resources(
+    chunk_size=1000,
+    chunk_overlap=50,
+) -> List[Document]:
     chunks = []
 
     with open("aws_resources.json", "r") as json_file:
         resources = json.load(json_file)
         for resource in tqdm(resources, desc="Processing resources:"):
-            title = resource["title"]
-            description = resource["description"]
-            resource_name = resource["resource_name"]
-            sub_category = resource["metadata"]["subcategory"]
-            sections = resource["sections"]
-            for section_name, content in sections.items():
-                chunks.append(
-                    Document(
-                        # id=str(uuid.uuid4()),
-                        metadata={
-                            "title": title,
-                            "description": description,
-                            "resource_name": resource_name,
-                            "subcategory": sub_category,
-                            "section": section_name,
-                            "type": "code" if "```terraform" in content else "text",
-                        },
-                        page_content=content,
-                    )
+            metadata_base = {
+                "title": resource["title"],
+                "description": resource["description"],
+                "resource_name": resource["resource_name"],
+                "subcategory": resource["metadata"].get("subcategory"),
+            }
+
+            for section_name, content in resource["sections"].items():
+                full_metadata = {
+                    **metadata_base,
+                    "section": section_name,
+                }
+                base_doc = Document(
+                    page_content=content,
+                    metadata=full_metadata,
                 )
+
+                # Split and assign metadata to each chunk
+                text_splitter = RecursiveCharacterTextSplitter(
+                    chunk_size=chunk_size,
+                    chunk_overlap=chunk_overlap,
+                    separators=["\n\n", "\n", " ", ""],
+                    keep_separator=False,
+                )
+
+                doc_chunks = text_splitter.split_documents([base_doc])
+
+                for idx, chunk in enumerate(doc_chunks):
+                    chunk.metadata["chunk_id"] = str(uuid.uuid4())
+                    chunk.metadata["section_chunk_index"] = idx
+                    chunks.append(chunk)
 
         return chunks
 

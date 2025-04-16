@@ -1,7 +1,7 @@
 import os
 from typing import List
 from tqdm import tqdm
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_core.documents import Document
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -9,6 +9,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from app.scrape_aws_tf import chunk_aws_resources
 
 
+# CHROMA_DB_NAME = "./chroma/rag_db"
 CHROMA_DB_NAME = "./chroma_rag_db"
 CHROMA_COLLECTION_NAME = "tf_aws_resources"
 
@@ -32,21 +33,12 @@ class VectorStore:
     def store_documents(
         self,
         documents: List[Document],
-        chunk_size=1000,
-        chunk_overlap=50,
         batch_size=150,
     ):
-        text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=chunk_size,
-            chunk_overlap=chunk_overlap,
-            separators=["\n\n", "\n"],
-            keep_separator=False,
-        )
-        split_documents = text_splitter.split_documents(documents)
         for i in tqdm(
-            range(0, len(split_documents), batch_size), desc="Storing documents..."
+            range(0, len(documents), batch_size), desc="Storing documents..."
         ):
-            batch_docs = split_documents[i : i + batch_size]
+            batch_docs = documents[i : i + batch_size]
             self.vector_db.add_documents(documents=batch_docs)
 
     def get_db_instance(self):
@@ -83,6 +75,9 @@ if __name__ == "__main__":
     if vector_store.is_store_empty:
         vector_store.store_documents(chunk_aws_resources())
     retrieved_docs = vector_store.get_db_instance().similarity_search(
-        "How do I setup AWS Access Analyzer?"
+        # "How do I setup AWS Access Analyzer?"
+        # "How do I set up an AWS S3 bucket with versioning and encryption that complies with CIS benchmarks?"
+        # "set up an AWS S3 bucket with versioning and encryption that complies with CIS benchmarks"
+        "how do i setup aws kendra experience"
     )
     print(retrieved_docs)

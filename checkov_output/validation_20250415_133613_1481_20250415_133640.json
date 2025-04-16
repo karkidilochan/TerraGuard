@@ -1,0 +1,393 @@
+{
+  "check_type": "terraform",
+  "results": {
+    "passed_checks": [
+      {
+        "check_id": "CKV_AWS_41",
+        "bc_check_id": "BC_AWS_SECRETS_5",
+        "check_name": "Ensure no hard coded AWS access key and secret key exists in provider",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            1,
+            "provider \"aws\" {\n"
+          ],
+          [
+            2,
+            "  region = \"us-west-2\"\n"
+          ],
+          [
+            3,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpfhest8x9/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          1,
+          3
+        ],
+        "resource": "aws.default",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.provider.aws.credentials",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-5",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpfhest8x9/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_66",
+        "bc_check_id": "BC_AWS_LOGGING_13",
+        "check_name": "Ensure that CloudWatch Log Group specifies retention days",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "retention_in_days"
+          ]
+        },
+        "code_block": [
+          [
+            12,
+            "resource \"aws_cloudwatch_log_group\" \"aws_route53_example_com\" {\n"
+          ],
+          [
+            13,
+            "  name              = \"aws_route53_example_com\"\n"
+          ],
+          [
+            14,
+            "  retention_in_days = 30\n"
+          ],
+          [
+            15,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpfhest8x9/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          12,
+          15
+        ],
+        "resource": "aws_cloudwatch_log_group.aws_route53_example_com",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.CloudWatchLogGroupRetention",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-13",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpfhest8x9/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_39",
+        "bc_check_id": "BC_AWS_LOGGING_34",
+        "check_name": "Ensure Domain Name System (DNS) query logging is enabled for Amazon Route 53 hosted zones",
+        "check_result": {
+          "result": "PASSED",
+          "entity": {
+            "aws_route53_zone": {
+              "primary": {
+                "__end_line__": 10,
+                "__start_line__": 8,
+                "name": [
+                  "example.com"
+                ],
+                "__address__": "aws_route53_zone.primary",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "resource_type",
+            "vpc"
+          ]
+        },
+        "code_block": [
+          [
+            8,
+            "resource \"aws_route53_zone\" \"primary\" {\n"
+          ],
+          [
+            9,
+            "  name = \"example.com\"\n"
+          ],
+          [
+            10,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpfhest8x9/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          8,
+          10
+        ],
+        "resource": "aws_route53_zone.primary",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": {
+          "code_block": [
+            [
+              40,
+              "resource \"aws_route53_query_log\" \"example\" {\n"
+            ],
+            [
+              41,
+              "  cloudwatch_log_group_arn = aws_cloudwatch_log_group.aws_route53_example_com.arn\n"
+            ],
+            [
+              42,
+              "  zone_id                  = aws_route53_zone.primary.zone_id\n"
+            ],
+            [
+              43,
+              "}"
+            ]
+          ],
+          "file_path": "/main.tf",
+          "file_line_range": [
+            40,
+            43
+          ],
+          "resource": "aws_route53_query_log.example",
+          "entity_tags": {},
+          "evaluations": null,
+          "file_abs_path": "/tmp/tmpfhest8x9/main.tf",
+          "resource_address": null
+        },
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-2-39",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpfhest8x9/main.tf"
+      }
+    ],
+    "failed_checks": [
+      {
+        "check_id": "CKV_AWS_158",
+        "bc_check_id": "BC_AWS_GENERAL_85",
+        "check_name": "Ensure that CloudWatch Log Group is encrypted by KMS",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "kms_key_id"
+          ]
+        },
+        "code_block": [
+          [
+            12,
+            "resource \"aws_cloudwatch_log_group\" \"aws_route53_example_com\" {\n"
+          ],
+          [
+            13,
+            "  name              = \"aws_route53_example_com\"\n"
+          ],
+          [
+            14,
+            "  retention_in_days = 30\n"
+          ],
+          [
+            15,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpfhest8x9/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          12,
+          15
+        ],
+        "resource": "aws_cloudwatch_log_group.aws_route53_example_com",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.CloudWatchLogGroupKMSKey",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-cloudwatch-log-group-is-encrypted-by-kms",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpfhest8x9/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_338",
+        "bc_check_id": "BC_AWS_LOGGING_46",
+        "check_name": "Ensure CloudWatch log groups retains logs for at least 1 year",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "retention_in_days"
+          ]
+        },
+        "code_block": [
+          [
+            12,
+            "resource \"aws_cloudwatch_log_group\" \"aws_route53_example_com\" {\n"
+          ],
+          [
+            13,
+            "  name              = \"aws_route53_example_com\"\n"
+          ],
+          [
+            14,
+            "  retention_in_days = 30\n"
+          ],
+          [
+            15,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpfhest8x9/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          12,
+          15
+        ],
+        "resource": "aws_cloudwatch_log_group.aws_route53_example_com",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.CloudWatchLogGroupRetentionYear",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-338",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpfhest8x9/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_38",
+        "bc_check_id": "BC_AWS_NETWORKING_83",
+        "check_name": "Ensure Domain Name System Security Extensions (DNSSEC) signing is enabled for Amazon Route 53 public hosted zones",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_route53_zone": {
+              "primary": {
+                "__end_line__": 10,
+                "__start_line__": 8,
+                "name": [
+                  "example.com"
+                ],
+                "__address__": "aws_route53_zone.primary",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "resource_type",
+            "vpc"
+          ]
+        },
+        "code_block": [
+          [
+            8,
+            "resource \"aws_route53_zone\" \"primary\" {\n"
+          ],
+          [
+            9,
+            "  name = \"example.com\"\n"
+          ],
+          [
+            10,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpfhest8x9/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          8,
+          10
+        ],
+        "resource": "aws_route53_zone.primary",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-2-38",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpfhest8x9/main.tf"
+      }
+    ],
+    "skipped_checks": [],
+    "parsing_errors": []
+  },
+  "summary": {
+    "passed": 3,
+    "failed": 3,
+    "skipped": 0,
+    "parsing_errors": 0,
+    "resource_count": 4,
+    "checkov_version": "3.2.403"
+  },
+  "url": "Add an api key '--bc-api-key <api-key>' to see more detailed insights via https://bridgecrew.cloud"
+}

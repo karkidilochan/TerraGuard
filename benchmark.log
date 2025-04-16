@@ -1,0 +1,186 @@
+2025-04-15 15:03:24,417 - datasets - INFO - PyTorch version 2.6.0 available.
+2025-04-15 15:05:30,205 - datasets - INFO - PyTorch version 2.6.0 available.
+2025-04-15 15:05:42,814 - datasets - INFO - PyTorch version 2.6.0 available.
+2025-04-15 15:06:01,029 - datasets - INFO - PyTorch version 2.6.0 available.
+2025-04-15 15:06:17,064 - datasets - INFO - PyTorch version 2.6.0 available.
+2025-04-15 15:06:54,953 - datasets - INFO - PyTorch version 2.6.0 available.
+2025-04-15 15:06:56,645 - app.benchmark_runner - INFO - Processing prompt 1: Configure a query log that can create a log stream and put log events using Route 53 resources. Name...
+2025-04-15 15:07:07,836 - httpx - INFO - HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-15 15:07:07,837 - app.benchmark_runner - INFO - Validating generated Terraform code...
+2025-04-15 15:07:07,888 - app.validate_tf - INFO - Terraform found: terraform
+2025-04-15 15:07:10,149 - app.validate_tf - INFO - Checkov found: checkov --version
+2025-04-15 15:07:10,150 - app.validate_tf - INFO - Using output directory for Checkov results: checkov_output
+2025-04-15 15:07:10,192 - app.validate_tf - INFO - Successfully formatted Terraform code
+2025-04-15 15:07:33,652 - app.validate_tf - INFO - Terraform initialized successfully
+2025-04-15 15:07:36,022 - app.validate_tf - INFO - Terraform code validated successfully
+2025-04-15 15:07:36,022 - app.validate_tf - INFO - Running Checkov command: checkov -f /tmp/tmp_vdffpcp/main.tf --framework terraform --output json
+2025-04-15 15:07:38,834 - app.checkov_validator - INFO - Running command: checkov -f /tmp/tmph2tmq4t4/main.tf --framework terraform --output json
+2025-04-15 15:07:41,646 - app.validate_tf - INFO - Checkov validation complete. Results saved to checkov_output/validation_20250415_150707_1010_20250415_150736.json
+2025-04-15 15:07:41,745 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.ZERO_SHOT.json
+2025-04-15 15:07:41,745 - app.benchmark_runner - INFO - Ending test run.
+2025-04-15 15:07:41,746 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.ZERO_SHOT.json
+2025-04-15 15:07:41,746 - app.benchmark_runner - INFO - Benchmark completed. Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.ZERO_SHOT.json
+2025-04-15 15:07:42,357 - app.benchmark_runner - INFO - Processing prompt 1: Configure a query log that can create a log stream and put log events using Route 53 resources. Name...
+2025-04-15 15:07:51,160 - httpx - INFO - HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-15 15:07:51,161 - app.benchmark_runner - INFO - Validating generated Terraform code...
+2025-04-15 15:07:51,204 - app.validate_tf - INFO - Terraform found: terraform
+2025-04-15 15:07:53,223 - app.validate_tf - INFO - Checkov found: checkov --version
+2025-04-15 15:07:53,224 - app.validate_tf - INFO - Using output directory for Checkov results: checkov_output
+2025-04-15 15:07:53,269 - app.validate_tf - INFO - Successfully formatted Terraform code
+2025-04-15 15:08:15,676 - app.validate_tf - INFO - Terraform initialized successfully
+2025-04-15 15:08:18,077 - app.validate_tf - INFO - Terraform code validated successfully
+2025-04-15 15:08:18,077 - app.validate_tf - INFO - Running Checkov command: checkov -f /tmp/tmpgvnp933c/main.tf --framework terraform --output json
+2025-04-15 15:08:20,932 - app.checkov_validator - INFO - Running command: checkov -f /tmp/tmpyhscabka/main.tf --framework terraform --output json
+2025-04-15 15:08:23,654 - app.validate_tf - INFO - Checkov validation complete. Results saved to checkov_output/validation_20250415_150751_1010_20250415_150818.json
+2025-04-15 15:08:23,761 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.FEW_SHOT.json
+2025-04-15 15:08:23,761 - app.benchmark_runner - INFO - Ending test run.
+2025-04-15 15:08:23,761 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.FEW_SHOT.json
+2025-04-15 15:08:23,762 - app.benchmark_runner - INFO - Benchmark completed. Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.FEW_SHOT.json
+2025-04-15 15:08:24,276 - app.benchmark_runner - INFO - Processing prompt 1: Configure a query log that can create a log stream and put log events using Route 53 resources. Name...
+2025-04-15 15:08:33,545 - httpx - INFO - HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-15 15:08:33,546 - app.benchmark_runner - INFO - Validating generated Terraform code...
+2025-04-15 15:08:33,595 - app.validate_tf - INFO - Terraform found: terraform
+2025-04-15 15:08:35,655 - app.validate_tf - INFO - Checkov found: checkov --version
+2025-04-15 15:08:35,655 - app.validate_tf - INFO - Using output directory for Checkov results: checkov_output
+2025-04-15 15:08:35,701 - app.validate_tf - INFO - Successfully formatted Terraform code
+2025-04-15 15:08:58,531 - app.validate_tf - INFO - Terraform initialized successfully
+2025-04-15 15:09:01,049 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.CHAIN_OF_THOUGHT.json
+2025-04-15 15:09:01,049 - app.benchmark_runner - INFO - Ending test run.
+2025-04-15 15:09:01,050 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.CHAIN_OF_THOUGHT.json
+2025-04-15 15:09:01,050 - app.benchmark_runner - INFO - Benchmark completed. Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.CHAIN_OF_THOUGHT.json
+2025-04-15 15:09:04,345 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-04-15 15:09:06,108 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-04-15 15:09:06,121 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-04-15 15:09:06,935 - app.benchmark_runner - ERROR - Failed to initialize RAGPipeline: 'LLMClient' object has no attribute 'max_tokens'
+2025-04-15 19:46:55,530 - datasets - INFO - PyTorch version 2.6.0 available.
+2025-04-15 19:46:57,210 - app.benchmark_runner - INFO - Processing prompt 1: Configure a query log that can create a log stream and put log events using Route 53 resources. Name...
+2025-04-15 19:47:28,877 - httpx - INFO - HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-15 19:47:28,878 - app.benchmark_runner - INFO - Validating generated Terraform code...
+2025-04-15 19:47:28,921 - app.validate_tf - INFO - Terraform found: terraform
+2025-04-15 19:47:30,931 - app.validate_tf - INFO - Checkov found: checkov --version
+2025-04-15 19:47:30,931 - app.validate_tf - INFO - Using output directory for Checkov results: checkov_output
+2025-04-15 19:47:30,989 - app.validate_tf - INFO - Successfully formatted Terraform code
+2025-04-15 19:47:54,046 - app.validate_tf - INFO - Terraform initialized successfully
+2025-04-15 19:47:56,477 - app.validate_tf - INFO - Terraform code validated successfully
+2025-04-15 19:47:56,477 - app.validate_tf - INFO - Running Checkov command: checkov -f /tmp/tmpnnxm4xk3/main.tf --framework terraform --output json
+2025-04-15 19:47:59,329 - app.checkov_validator - INFO - Running command: checkov -f /tmp/tmpypclst4d/main.tf --framework terraform --output json
+2025-04-15 19:48:02,071 - app.validate_tf - INFO - Checkov validation complete. Results saved to checkov_output/validation_20250415_194728_1480_20250415_194756.json
+2025-04-15 19:48:02,188 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.ZERO_SHOT.json
+2025-04-15 19:48:02,188 - app.benchmark_runner - INFO - Ending test run.
+2025-04-15 19:48:02,199 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.ZERO_SHOT.json
+2025-04-15 19:48:02,199 - app.benchmark_runner - INFO - Benchmark completed. Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.ZERO_SHOT.json
+2025-04-15 19:48:02,937 - app.benchmark_runner - INFO - Processing prompt 1: Configure a query log that can create a log stream and put log events using Route 53 resources. Name...
+2025-04-15 19:48:30,842 - httpx - INFO - HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-15 19:48:30,846 - app.benchmark_runner - INFO - Validating generated Terraform code...
+2025-04-15 19:48:30,897 - app.validate_tf - INFO - Terraform found: terraform
+2025-04-15 19:48:32,861 - app.validate_tf - INFO - Checkov found: checkov --version
+2025-04-15 19:48:32,862 - app.validate_tf - INFO - Using output directory for Checkov results: checkov_output
+2025-04-15 19:48:32,915 - app.validate_tf - INFO - Successfully formatted Terraform code
+2025-04-15 19:48:55,905 - app.validate_tf - INFO - Terraform initialized successfully
+2025-04-15 19:48:58,261 - app.validate_tf - INFO - Terraform code validated successfully
+2025-04-15 19:48:58,261 - app.validate_tf - INFO - Running Checkov command: checkov -f /tmp/tmpl00gfr0n/main.tf --framework terraform --output json
+2025-04-15 19:49:01,100 - app.checkov_validator - INFO - Running command: checkov -f /tmp/tmplseut9u2/main.tf --framework terraform --output json
+2025-04-15 19:49:03,948 - app.validate_tf - INFO - Checkov validation complete. Results saved to checkov_output/validation_20250415_194830_1480_20250415_194858.json
+2025-04-15 19:49:04,047 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.FEW_SHOT.json
+2025-04-15 19:49:04,047 - app.benchmark_runner - INFO - Ending test run.
+2025-04-15 19:49:04,058 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.FEW_SHOT.json
+2025-04-15 19:49:04,058 - app.benchmark_runner - INFO - Benchmark completed. Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.FEW_SHOT.json
+2025-04-15 19:49:04,623 - app.benchmark_runner - INFO - Processing prompt 1: Configure a query log that can create a log stream and put log events using Route 53 resources. Name...
+2025-04-15 19:50:35,634 - httpx - INFO - HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-15 19:50:35,635 - app.benchmark_runner - INFO - Validating generated Terraform code...
+2025-04-15 19:50:35,682 - app.validate_tf - INFO - Terraform found: terraform
+2025-04-15 19:50:37,641 - app.validate_tf - INFO - Checkov found: checkov --version
+2025-04-15 19:50:37,641 - app.validate_tf - INFO - Using output directory for Checkov results: checkov_output
+2025-04-15 19:50:37,695 - app.validate_tf - INFO - Successfully formatted Terraform code
+2025-04-15 19:51:05,719 - app.validate_tf - INFO - Terraform initialized successfully
+2025-04-15 19:51:08,120 - app.validate_tf - INFO - Terraform code validated successfully
+2025-04-15 19:51:08,120 - app.validate_tf - INFO - Running Checkov command: checkov -f /tmp/tmpind7gwx0/main.tf --framework terraform --output json
+2025-04-15 19:51:11,004 - app.checkov_validator - INFO - Running command: checkov -f /tmp/tmp6yr_oqti/main.tf --framework terraform --output json
+2025-04-15 19:51:13,849 - app.validate_tf - INFO - Checkov validation complete. Results saved to checkov_output/validation_20250415_195035_1480_20250415_195108.json
+2025-04-15 19:51:13,948 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.CHAIN_OF_THOUGHT.json
+2025-04-15 19:51:13,949 - app.benchmark_runner - INFO - Ending test run.
+2025-04-15 19:51:13,951 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.CHAIN_OF_THOUGHT.json
+2025-04-15 19:51:13,951 - app.benchmark_runner - INFO - Benchmark completed. Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.CHAIN_OF_THOUGHT.json
+2025-04-15 19:51:16,866 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-04-15 19:51:18,508 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-04-15 19:51:18,522 - chromadb.telemetry.product.posthog - INFO - Anonymized telemetry enabled. See                     https://docs.trychroma.com/telemetry for more information.
+2025-04-15 19:51:18,735 - app.benchmark_runner - INFO - Initialized RAGPipeline successfully
+2025-04-15 19:51:18,736 - app.benchmark_runner - INFO - Processing prompt 1: Configure a query log that can create a log stream and put log events using Route 53 resources. Name...
+2025-04-15 19:51:18,736 - app.rag_pipeline - INFO - Processing question: Configure a query log that can create a log stream and put log events using Route 53 resources. Name the zone "primary", the cloudwatch log group "aws_route53_example_com", and the cloudwatch log resource policy "route53-query-logging-policy"
+2025-04-15 19:51:18,737 - app.rag_pipeline - INFO - Analyzing query...
+2025-04-15 19:51:44,571 - httpx - INFO - HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-15 19:51:44,573 - app.rag_pipeline - INFO - Retrieving relevant documents...
+2025-04-15 19:51:44,573 - app.rag_pipeline - INFO - Search query: {'query': 'Configure a query log that can create a log stream and put log events using Route 53 resources. Name the zone "primary", the cloudwatch log group "aws_route53_example_com", and the cloudwatch log resource policy "route53-query-logging-policy"', 'resource_names': ['aws_route53_query_log', 'aws_cloudwatch_log_group', 'aws_cloudwatch_log_resource_policy']}
+2025-04-15 19:51:44,755 - app.rag_pipeline - INFO - Retrieved 0 documents
+2025-04-15 19:51:44,756 - app.rag_pipeline - INFO - Generating Terraform code...
+2025-04-15 19:53:44,855 - langchain_core.language_models.llms - WARNING - Retrying langchain_mistralai.chat_models.ChatMistralAI.completion_with_retry.<locals>._completion_with_retry in 4.0 seconds as it raised ReadTimeout: The read operation timed out.
+2025-04-15 19:54:03,090 - httpx - INFO - HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-15 19:54:03,091 - app.rag_pipeline - INFO - RAG pipeline execution completed
+2025-04-15 19:54:03,092 - app.benchmark_runner - INFO - Validating generated Terraform code...
+2025-04-15 19:54:03,132 - app.validate_tf - INFO - Terraform found: terraform
+2025-04-15 19:54:05,183 - app.validate_tf - INFO - Checkov found: checkov --version
+2025-04-15 19:54:05,183 - app.validate_tf - INFO - Using output directory for Checkov results: checkov_output
+2025-04-15 19:54:05,356 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.RAG.json
+2025-04-15 19:54:05,356 - app.benchmark_runner - INFO - Ending test run.
+2025-04-15 19:54:05,357 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.RAG.json
+2025-04-15 19:54:05,357 - app.benchmark_runner - INFO - Benchmark completed. Results saved to benchmarking_results/mistral-large-latest_0.1_PromptingStrategy.RAG.json
+2025-04-15 19:54:06,412 - app.benchmark_runner - INFO - Processing prompt 1: Configure a query log that can create a log stream and put log events using Route 53 resources. Name...
+2025-04-15 19:54:20,947 - httpx - INFO - HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-15 19:54:20,948 - app.benchmark_runner - INFO - Validating generated Terraform code...
+2025-04-15 19:54:20,993 - app.validate_tf - INFO - Terraform found: terraform
+2025-04-15 19:54:22,982 - app.validate_tf - INFO - Checkov found: checkov --version
+2025-04-15 19:54:22,982 - app.validate_tf - INFO - Using output directory for Checkov results: checkov_output
+2025-04-15 19:54:23,034 - app.validate_tf - INFO - Successfully formatted Terraform code
+2025-04-15 19:54:46,054 - app.validate_tf - INFO - Terraform initialized successfully
+2025-04-15 19:54:48,480 - app.validate_tf - INFO - Terraform code validated successfully
+2025-04-15 19:54:48,481 - app.validate_tf - INFO - Running Checkov command: checkov -f /tmp/tmpd64vd04s/main.tf --framework terraform --output json
+2025-04-15 19:54:51,223 - app.checkov_validator - INFO - Running command: checkov -f /tmp/tmpr3vkoxrv/main.tf --framework terraform --output json
+2025-04-15 19:54:53,968 - app.validate_tf - INFO - Checkov validation complete. Results saved to checkov_output/validation_20250415_195420_1480_20250415_195448.json
+2025-04-15 19:54:54,084 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.7_PromptingStrategy.ZERO_SHOT.json
+2025-04-15 19:54:54,084 - app.benchmark_runner - INFO - Ending test run.
+2025-04-15 19:54:54,084 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.7_PromptingStrategy.ZERO_SHOT.json
+2025-04-15 19:54:54,084 - app.benchmark_runner - INFO - Benchmark completed. Results saved to benchmarking_results/mistral-large-latest_0.7_PromptingStrategy.ZERO_SHOT.json
+2025-04-15 19:54:54,615 - app.benchmark_runner - INFO - Processing prompt 1: Configure a query log that can create a log stream and put log events using Route 53 resources. Name...
+2025-04-15 19:55:03,331 - httpx - INFO - HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-15 19:55:03,331 - app.benchmark_runner - INFO - Validating generated Terraform code...
+2025-04-15 19:55:03,332 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.7_PromptingStrategy.FEW_SHOT.json
+2025-04-15 19:55:03,332 - app.benchmark_runner - INFO - Ending test run.
+2025-04-15 19:55:03,332 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.7_PromptingStrategy.FEW_SHOT.json
+2025-04-15 19:55:03,332 - app.benchmark_runner - INFO - Benchmark completed. Results saved to benchmarking_results/mistral-large-latest_0.7_PromptingStrategy.FEW_SHOT.json
+2025-04-15 19:55:03,878 - app.benchmark_runner - INFO - Processing prompt 1: Configure a query log that can create a log stream and put log events using Route 53 resources. Name...
+2025-04-15 19:55:28,931 - httpx - INFO - HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-15 19:55:28,932 - app.benchmark_runner - INFO - Validating generated Terraform code...
+2025-04-15 19:55:28,984 - app.validate_tf - INFO - Terraform found: terraform
+2025-04-15 19:55:30,964 - app.validate_tf - INFO - Checkov found: checkov --version
+2025-04-15 19:55:30,965 - app.validate_tf - INFO - Using output directory for Checkov results: checkov_output
+2025-04-15 19:55:31,019 - app.validate_tf - INFO - Successfully formatted Terraform code
+2025-04-15 19:55:54,992 - app.validate_tf - INFO - Terraform initialized successfully
+2025-04-15 19:55:57,645 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.7_PromptingStrategy.CHAIN_OF_THOUGHT.json
+2025-04-15 19:55:57,645 - app.benchmark_runner - INFO - Ending test run.
+2025-04-15 19:55:57,645 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.7_PromptingStrategy.CHAIN_OF_THOUGHT.json
+2025-04-15 19:55:57,646 - app.benchmark_runner - INFO - Benchmark completed. Results saved to benchmarking_results/mistral-large-latest_0.7_PromptingStrategy.CHAIN_OF_THOUGHT.json
+2025-04-15 19:55:58,202 - sentence_transformers.SentenceTransformer - INFO - Load pretrained SentenceTransformer: sentence-transformers/all-mpnet-base-v2
+2025-04-15 19:55:58,837 - sentence_transformers.SentenceTransformer - INFO - Use pytorch device_name: cpu
+2025-04-15 19:55:58,853 - app.benchmark_runner - INFO - Initialized RAGPipeline successfully
+2025-04-15 19:55:58,854 - app.benchmark_runner - INFO - Processing prompt 1: Configure a query log that can create a log stream and put log events using Route 53 resources. Name...
+2025-04-15 19:55:58,854 - app.rag_pipeline - INFO - Processing question: Configure a query log that can create a log stream and put log events using Route 53 resources. Name the zone "primary", the cloudwatch log group "aws_route53_example_com", and the cloudwatch log resource policy "route53-query-logging-policy"
+2025-04-15 19:55:58,855 - app.rag_pipeline - INFO - Analyzing query...
+2025-04-15 19:56:00,471 - httpx - INFO - HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-15 19:56:00,474 - app.rag_pipeline - INFO - Retrieving relevant documents...
+2025-04-15 19:56:00,475 - app.rag_pipeline - INFO - Search query: {'query': 'Configure a query log that can create a log stream and put log events using Route 53 resources. Name the zone "primary", the cloudwatch log group "aws_route53_example_com", and the cloudwatch log resource policy "route53-query-logging-policy"', 'resource_names': ['aws_route53_query_log', 'aws_cloudwatch_log_group', 'aws_cloudwatch_resource_policy']}
+2025-04-15 19:56:00,638 - app.rag_pipeline - INFO - Retrieved 0 documents
+2025-04-15 19:56:00,639 - app.rag_pipeline - INFO - Generating Terraform code...
+2025-04-15 19:56:00,879 - httpx - INFO - HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-04-15 19:56:00,880 - app.rag_pipeline - WARNING - Rate limit hit, retrying in 2 seconds (attempt 1/3)
+2025-04-15 19:56:29,655 - httpx - INFO - HTTP Request: POST https://api.mistral.ai/v1/chat/completions "HTTP/1.1 200 OK"
+2025-04-15 19:56:29,656 - app.rag_pipeline - INFO - RAG pipeline execution completed
+2025-04-15 19:56:29,656 - app.benchmark_runner - INFO - Validating generated Terraform code...
+2025-04-15 19:56:29,700 - app.validate_tf - INFO - Terraform found: terraform
+2025-04-15 19:56:31,684 - app.validate_tf - INFO - Checkov found: checkov --version
+2025-04-15 19:56:31,684 - app.validate_tf - INFO - Using output directory for Checkov results: checkov_output
+2025-04-15 19:56:31,747 - app.validate_tf - INFO - Successfully formatted Terraform code
+2025-04-15 19:56:54,978 - app.validate_tf - INFO - Terraform initialized successfully
+2025-04-15 19:56:57,448 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.7_PromptingStrategy.RAG.json
+2025-04-15 19:56:57,448 - app.benchmark_runner - INFO - Ending test run.
+2025-04-15 19:56:57,449 - app.benchmark_runner - INFO - Results saved to benchmarking_results/mistral-large-latest_0.7_PromptingStrategy.RAG.json
+2025-04-15 19:56:57,449 - app.benchmark_runner - INFO - Benchmark completed. Results saved to benchmarking_results/mistral-large-latest_0.7_PromptingStrategy.RAG.json

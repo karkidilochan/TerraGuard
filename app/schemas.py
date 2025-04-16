@@ -5,7 +5,11 @@ from langchain_core.documents import Document
 # search
 class Search(TypedDict):
     query: Annotated[str, ..., "Search query to run"]
-    # resources: Annotated[List[str], ..., "List of AWS resource names to filter by"]
+    resource_names: Annotated[
+        List[str],
+        ...,
+        "List of AWS resource names in Terraform to filter by (e.g., ['aws_s3_bucket', 'aws_iam_role']",
+    ]
 
 
 # Validation results schema
@@ -23,5 +27,5 @@ class State(TypedDict):
     search: Search
     answer: str
     referenced_cis_controls: Optional[List[str]]
-    validation_results: Optional[Dict[str, Union[bool, str, List[str], Dict]]]
-    validation_summary: Optional[ValidationSummary]
+    # validation_results: Optional[Dict[str, Union[bool, str, List[str], Dict]]]
+    # validation_summary: Optional[ValidationSummary]
