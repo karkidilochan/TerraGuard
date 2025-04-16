@@ -1,0 +1,3111 @@
+{
+  "check_type": "terraform",
+  "results": {
+    "passed_checks": [
+      {
+        "check_id": "CKV_AWS_130",
+        "bc_check_id": "BC_AWS_NETWORKING_53",
+        "check_name": "Ensure VPC subnets do not assign public IP by default",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "map_public_ip_on_launch"
+          ]
+        },
+        "code_block": [
+          [
+            14,
+            "resource \"aws_subnet\" \"private_subnet_1\" {\n"
+          ],
+          [
+            15,
+            "  vpc_id            = aws_vpc.main.id\n"
+          ],
+          [
+            16,
+            "  cidr_block        = \"10.0.1.0/24\"\n"
+          ],
+          [
+            17,
+            "  availability_zone = \"us-east-1a\"\n"
+          ],
+          [
+            18,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          14,
+          18
+        ],
+        "resource": "aws_subnet.private_subnet_1",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.SubnetPublicIP",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-vpc-subnets-do-not-assign-public-ip-by-default",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_130",
+        "bc_check_id": "BC_AWS_NETWORKING_53",
+        "check_name": "Ensure VPC subnets do not assign public IP by default",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "map_public_ip_on_launch"
+          ]
+        },
+        "code_block": [
+          [
+            20,
+            "resource \"aws_subnet\" \"private_subnet_2\" {\n"
+          ],
+          [
+            21,
+            "  vpc_id            = aws_vpc.main.id\n"
+          ],
+          [
+            22,
+            "  cidr_block        = \"10.0.2.0/24\"\n"
+          ],
+          [
+            23,
+            "  availability_zone = \"us-east-1b\"\n"
+          ],
+          [
+            24,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          20,
+          24
+        ],
+        "resource": "aws_subnet.private_subnet_2",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.SubnetPublicIP",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-vpc-subnets-do-not-assign-public-ip-by-default",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_25",
+        "bc_check_id": "BC_AWS_NETWORKING_2",
+        "check_name": "Ensure no security groups allow ingress from 0.0.0.0:0 to port 3389",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            31,
+            "resource \"aws_security_group\" \"dax_sg\" {\n"
+          ],
+          [
+            32,
+            "  name        = \"dax-security-group\"\n"
+          ],
+          [
+            33,
+            "  description = \"Security group for DAX\"\n"
+          ],
+          [
+            34,
+            "  vpc_id      = aws_vpc.main.id\n"
+          ],
+          [
+            35,
+            "\n"
+          ],
+          [
+            36,
+            "  ingress {\n"
+          ],
+          [
+            37,
+            "    from_port   = 8111\n"
+          ],
+          [
+            38,
+            "    to_port     = 8111\n"
+          ],
+          [
+            39,
+            "    protocol    = \"tcp\"\n"
+          ],
+          [
+            40,
+            "    cidr_blocks = [\"10.0.0.0/16\"]\n"
+          ],
+          [
+            41,
+            "  }\n"
+          ],
+          [
+            42,
+            "\n"
+          ],
+          [
+            43,
+            "  egress {\n"
+          ],
+          [
+            44,
+            "    from_port   = 0\n"
+          ],
+          [
+            45,
+            "    to_port     = 0\n"
+          ],
+          [
+            46,
+            "    protocol    = \"-1\"\n"
+          ],
+          [
+            47,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            48,
+            "  }\n"
+          ],
+          [
+            49,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          31,
+          49
+        ],
+        "resource": "aws_security_group.dax_sg",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.SecurityGroupUnrestrictedIngress3389",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-2",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_277",
+        "bc_check_id": "BC_AWS_NETWORKING_78",
+        "check_name": "Ensure no security groups allow ingress from 0.0.0.0:0 to port -1",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            31,
+            "resource \"aws_security_group\" \"dax_sg\" {\n"
+          ],
+          [
+            32,
+            "  name        = \"dax-security-group\"\n"
+          ],
+          [
+            33,
+            "  description = \"Security group for DAX\"\n"
+          ],
+          [
+            34,
+            "  vpc_id      = aws_vpc.main.id\n"
+          ],
+          [
+            35,
+            "\n"
+          ],
+          [
+            36,
+            "  ingress {\n"
+          ],
+          [
+            37,
+            "    from_port   = 8111\n"
+          ],
+          [
+            38,
+            "    to_port     = 8111\n"
+          ],
+          [
+            39,
+            "    protocol    = \"tcp\"\n"
+          ],
+          [
+            40,
+            "    cidr_blocks = [\"10.0.0.0/16\"]\n"
+          ],
+          [
+            41,
+            "  }\n"
+          ],
+          [
+            42,
+            "\n"
+          ],
+          [
+            43,
+            "  egress {\n"
+          ],
+          [
+            44,
+            "    from_port   = 0\n"
+          ],
+          [
+            45,
+            "    to_port     = 0\n"
+          ],
+          [
+            46,
+            "    protocol    = \"-1\"\n"
+          ],
+          [
+            47,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            48,
+            "  }\n"
+          ],
+          [
+            49,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          31,
+          49
+        ],
+        "resource": "aws_security_group.dax_sg",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.SecurityGroupUnrestrictedIngressAny",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-security-group-does-not-allow-all-traffic-on-all-ports",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_24",
+        "bc_check_id": "BC_AWS_NETWORKING_1",
+        "check_name": "Ensure no security groups allow ingress from 0.0.0.0:0 to port 22",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            31,
+            "resource \"aws_security_group\" \"dax_sg\" {\n"
+          ],
+          [
+            32,
+            "  name        = \"dax-security-group\"\n"
+          ],
+          [
+            33,
+            "  description = \"Security group for DAX\"\n"
+          ],
+          [
+            34,
+            "  vpc_id      = aws_vpc.main.id\n"
+          ],
+          [
+            35,
+            "\n"
+          ],
+          [
+            36,
+            "  ingress {\n"
+          ],
+          [
+            37,
+            "    from_port   = 8111\n"
+          ],
+          [
+            38,
+            "    to_port     = 8111\n"
+          ],
+          [
+            39,
+            "    protocol    = \"tcp\"\n"
+          ],
+          [
+            40,
+            "    cidr_blocks = [\"10.0.0.0/16\"]\n"
+          ],
+          [
+            41,
+            "  }\n"
+          ],
+          [
+            42,
+            "\n"
+          ],
+          [
+            43,
+            "  egress {\n"
+          ],
+          [
+            44,
+            "    from_port   = 0\n"
+          ],
+          [
+            45,
+            "    to_port     = 0\n"
+          ],
+          [
+            46,
+            "    protocol    = \"-1\"\n"
+          ],
+          [
+            47,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            48,
+            "  }\n"
+          ],
+          [
+            49,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          31,
+          49
+        ],
+        "resource": "aws_security_group.dax_sg",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.SecurityGroupUnrestrictedIngress22",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-1-port-security",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_260",
+        "bc_check_id": "BC_AWS_NETWORKING_67",
+        "check_name": "Ensure no security groups allow ingress from 0.0.0.0:0 to port 80",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            31,
+            "resource \"aws_security_group\" \"dax_sg\" {\n"
+          ],
+          [
+            32,
+            "  name        = \"dax-security-group\"\n"
+          ],
+          [
+            33,
+            "  description = \"Security group for DAX\"\n"
+          ],
+          [
+            34,
+            "  vpc_id      = aws_vpc.main.id\n"
+          ],
+          [
+            35,
+            "\n"
+          ],
+          [
+            36,
+            "  ingress {\n"
+          ],
+          [
+            37,
+            "    from_port   = 8111\n"
+          ],
+          [
+            38,
+            "    to_port     = 8111\n"
+          ],
+          [
+            39,
+            "    protocol    = \"tcp\"\n"
+          ],
+          [
+            40,
+            "    cidr_blocks = [\"10.0.0.0/16\"]\n"
+          ],
+          [
+            41,
+            "  }\n"
+          ],
+          [
+            42,
+            "\n"
+          ],
+          [
+            43,
+            "  egress {\n"
+          ],
+          [
+            44,
+            "    from_port   = 0\n"
+          ],
+          [
+            45,
+            "    to_port     = 0\n"
+          ],
+          [
+            46,
+            "    protocol    = \"-1\"\n"
+          ],
+          [
+            47,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            48,
+            "  }\n"
+          ],
+          [
+            49,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          31,
+          49
+        ],
+        "resource": "aws_security_group.dax_sg",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.SecurityGroupUnrestrictedIngress80",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-security-groups-do-not-allow-ingress-from-00000-to-port-80",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_60",
+        "bc_check_id": "BC_AWS_IAM_44",
+        "check_name": "Ensure IAM role allows only specific services or principals to assume it",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "assume_role_policy"
+          ]
+        },
+        "code_block": [
+          [
+            62,
+            "resource \"aws_iam_role\" \"flow_log_role\" {\n"
+          ],
+          [
+            63,
+            "  name = \"vpc-flow-log-role\"\n"
+          ],
+          [
+            64,
+            "\n"
+          ],
+          [
+            65,
+            "  assume_role_policy = jsonencode({\n"
+          ],
+          [
+            66,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            67,
+            "    Statement = [\n"
+          ],
+          [
+            68,
+            "      {\n"
+          ],
+          [
+            69,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            70,
+            "        Principal = {\n"
+          ],
+          [
+            71,
+            "          Service = \"vpc-flow-logs.amazonaws.com\"\n"
+          ],
+          [
+            72,
+            "        }\n"
+          ],
+          [
+            73,
+            "        Action = \"sts:AssumeRole\"\n"
+          ],
+          [
+            74,
+            "      }\n"
+          ],
+          [
+            75,
+            "    ]\n"
+          ],
+          [
+            76,
+            "  })\n"
+          ],
+          [
+            77,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          62,
+          77
+        ],
+        "resource": "aws_iam_role.flow_log_role",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMRoleAllowsPublicAssume",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-44",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_274",
+        "bc_check_id": "BC_AWS_IAM_78",
+        "check_name": "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            62,
+            "resource \"aws_iam_role\" \"flow_log_role\" {\n"
+          ],
+          [
+            63,
+            "  name = \"vpc-flow-log-role\"\n"
+          ],
+          [
+            64,
+            "\n"
+          ],
+          [
+            65,
+            "  assume_role_policy = jsonencode({\n"
+          ],
+          [
+            66,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            67,
+            "    Statement = [\n"
+          ],
+          [
+            68,
+            "      {\n"
+          ],
+          [
+            69,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            70,
+            "        Principal = {\n"
+          ],
+          [
+            71,
+            "          Service = \"vpc-flow-logs.amazonaws.com\"\n"
+          ],
+          [
+            72,
+            "        }\n"
+          ],
+          [
+            73,
+            "        Action = \"sts:AssumeRole\"\n"
+          ],
+          [
+            74,
+            "      }\n"
+          ],
+          [
+            75,
+            "    ]\n"
+          ],
+          [
+            76,
+            "  })\n"
+          ],
+          [
+            77,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          62,
+          77
+        ],
+        "resource": "aws_iam_role.flow_log_role",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMManagedAdminPolicy",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_61",
+        "bc_check_id": "BC_AWS_IAM_45",
+        "check_name": "Ensure AWS IAM policy does not allow assume role permission across all services",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "assume_role_policy"
+          ]
+        },
+        "code_block": [
+          [
+            62,
+            "resource \"aws_iam_role\" \"flow_log_role\" {\n"
+          ],
+          [
+            63,
+            "  name = \"vpc-flow-log-role\"\n"
+          ],
+          [
+            64,
+            "\n"
+          ],
+          [
+            65,
+            "  assume_role_policy = jsonencode({\n"
+          ],
+          [
+            66,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            67,
+            "    Statement = [\n"
+          ],
+          [
+            68,
+            "      {\n"
+          ],
+          [
+            69,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            70,
+            "        Principal = {\n"
+          ],
+          [
+            71,
+            "          Service = \"vpc-flow-logs.amazonaws.com\"\n"
+          ],
+          [
+            72,
+            "        }\n"
+          ],
+          [
+            73,
+            "        Action = \"sts:AssumeRole\"\n"
+          ],
+          [
+            74,
+            "      }\n"
+          ],
+          [
+            75,
+            "    ]\n"
+          ],
+          [
+            76,
+            "  })\n"
+          ],
+          [
+            77,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          62,
+          77
+        ],
+        "resource": "aws_iam_role.flow_log_role",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMRoleAllowAssumeFromAccount",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_290",
+        "bc_check_id": "BC_AWS_IAM_85",
+        "check_name": "Ensure IAM policies does not allow write access without constraints",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            79,
+            "resource \"aws_iam_policy\" \"flow_log_policy\" {\n"
+          ],
+          [
+            80,
+            "  name        = \"vpc-flow-log-policy\"\n"
+          ],
+          [
+            81,
+            "  description = \"Policy for VPC flow logs\"\n"
+          ],
+          [
+            82,
+            "\n"
+          ],
+          [
+            83,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            84,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            85,
+            "    Statement = [\n"
+          ],
+          [
+            86,
+            "      {\n"
+          ],
+          [
+            87,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            88,
+            "        Action = [\n"
+          ],
+          [
+            89,
+            "          \"logs:CreateLogGroup\",\n"
+          ],
+          [
+            90,
+            "          \"logs:CreateLogStream\",\n"
+          ],
+          [
+            91,
+            "          \"logs:PutLogEvents\",\n"
+          ],
+          [
+            92,
+            "          \"logs:DescribeLogGroups\",\n"
+          ],
+          [
+            93,
+            "          \"logs:DescribeLogStreams\"\n"
+          ],
+          [
+            94,
+            "        ]\n"
+          ],
+          [
+            95,
+            "        Resource = [\n"
+          ],
+          [
+            96,
+            "          \"arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/vpc/flow-logs:*\"\n"
+          ],
+          [
+            97,
+            "        ]\n"
+          ],
+          [
+            98,
+            "      }\n"
+          ],
+          [
+            99,
+            "    ]\n"
+          ],
+          [
+            100,
+            "  })\n"
+          ],
+          [
+            101,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          79,
+          101
+        ],
+        "resource": "aws_iam_policy.flow_log_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMWriteAccess",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-290",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_355",
+        "bc_check_id": "BC_AWS_IAM_88",
+        "check_name": "Ensure no IAM policies documents allow \"*\" as a statement's resource for restrictable actions",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            79,
+            "resource \"aws_iam_policy\" \"flow_log_policy\" {\n"
+          ],
+          [
+            80,
+            "  name        = \"vpc-flow-log-policy\"\n"
+          ],
+          [
+            81,
+            "  description = \"Policy for VPC flow logs\"\n"
+          ],
+          [
+            82,
+            "\n"
+          ],
+          [
+            83,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            84,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            85,
+            "    Statement = [\n"
+          ],
+          [
+            86,
+            "      {\n"
+          ],
+          [
+            87,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            88,
+            "        Action = [\n"
+          ],
+          [
+            89,
+            "          \"logs:CreateLogGroup\",\n"
+          ],
+          [
+            90,
+            "          \"logs:CreateLogStream\",\n"
+          ],
+          [
+            91,
+            "          \"logs:PutLogEvents\",\n"
+          ],
+          [
+            92,
+            "          \"logs:DescribeLogGroups\",\n"
+          ],
+          [
+            93,
+            "          \"logs:DescribeLogStreams\"\n"
+          ],
+          [
+            94,
+            "        ]\n"
+          ],
+          [
+            95,
+            "        Resource = [\n"
+          ],
+          [
+            96,
+            "          \"arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/vpc/flow-logs:*\"\n"
+          ],
+          [
+            97,
+            "        ]\n"
+          ],
+          [
+            98,
+            "      }\n"
+          ],
+          [
+            99,
+            "    ]\n"
+          ],
+          [
+            100,
+            "  })\n"
+          ],
+          [
+            101,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          79,
+          101
+        ],
+        "resource": "aws_iam_policy.flow_log_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMStarResourcePolicyDocument",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-355",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_63",
+        "bc_check_id": "BC_AWS_IAM_48",
+        "check_name": "Ensure no IAM policies documents allow \"*\" as a statement's actions",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "policy",
+            "inline_policy"
+          ]
+        },
+        "code_block": [
+          [
+            79,
+            "resource \"aws_iam_policy\" \"flow_log_policy\" {\n"
+          ],
+          [
+            80,
+            "  name        = \"vpc-flow-log-policy\"\n"
+          ],
+          [
+            81,
+            "  description = \"Policy for VPC flow logs\"\n"
+          ],
+          [
+            82,
+            "\n"
+          ],
+          [
+            83,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            84,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            85,
+            "    Statement = [\n"
+          ],
+          [
+            86,
+            "      {\n"
+          ],
+          [
+            87,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            88,
+            "        Action = [\n"
+          ],
+          [
+            89,
+            "          \"logs:CreateLogGroup\",\n"
+          ],
+          [
+            90,
+            "          \"logs:CreateLogStream\",\n"
+          ],
+          [
+            91,
+            "          \"logs:PutLogEvents\",\n"
+          ],
+          [
+            92,
+            "          \"logs:DescribeLogGroups\",\n"
+          ],
+          [
+            93,
+            "          \"logs:DescribeLogStreams\"\n"
+          ],
+          [
+            94,
+            "        ]\n"
+          ],
+          [
+            95,
+            "        Resource = [\n"
+          ],
+          [
+            96,
+            "          \"arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/vpc/flow-logs:*\"\n"
+          ],
+          [
+            97,
+            "        ]\n"
+          ],
+          [
+            98,
+            "      }\n"
+          ],
+          [
+            99,
+            "    ]\n"
+          ],
+          [
+            100,
+            "  })\n"
+          ],
+          [
+            101,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          79,
+          101
+        ],
+        "resource": "aws_iam_policy.flow_log_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMStarActionPolicyDocument",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/iam-48",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_289",
+        "bc_check_id": "BC_AWS_IAM_84",
+        "check_name": "Ensure IAM policies does not allow permissions management / resource exposure without constraints",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            79,
+            "resource \"aws_iam_policy\" \"flow_log_policy\" {\n"
+          ],
+          [
+            80,
+            "  name        = \"vpc-flow-log-policy\"\n"
+          ],
+          [
+            81,
+            "  description = \"Policy for VPC flow logs\"\n"
+          ],
+          [
+            82,
+            "\n"
+          ],
+          [
+            83,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            84,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            85,
+            "    Statement = [\n"
+          ],
+          [
+            86,
+            "      {\n"
+          ],
+          [
+            87,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            88,
+            "        Action = [\n"
+          ],
+          [
+            89,
+            "          \"logs:CreateLogGroup\",\n"
+          ],
+          [
+            90,
+            "          \"logs:CreateLogStream\",\n"
+          ],
+          [
+            91,
+            "          \"logs:PutLogEvents\",\n"
+          ],
+          [
+            92,
+            "          \"logs:DescribeLogGroups\",\n"
+          ],
+          [
+            93,
+            "          \"logs:DescribeLogStreams\"\n"
+          ],
+          [
+            94,
+            "        ]\n"
+          ],
+          [
+            95,
+            "        Resource = [\n"
+          ],
+          [
+            96,
+            "          \"arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/vpc/flow-logs:*\"\n"
+          ],
+          [
+            97,
+            "        ]\n"
+          ],
+          [
+            98,
+            "      }\n"
+          ],
+          [
+            99,
+            "    ]\n"
+          ],
+          [
+            100,
+            "  })\n"
+          ],
+          [
+            101,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          79,
+          101
+        ],
+        "resource": "aws_iam_policy.flow_log_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMPermissionsManagement",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-289",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_286",
+        "bc_check_id": "BC_AWS_IAM_81",
+        "check_name": "Ensure IAM policies does not allow privilege escalation",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            79,
+            "resource \"aws_iam_policy\" \"flow_log_policy\" {\n"
+          ],
+          [
+            80,
+            "  name        = \"vpc-flow-log-policy\"\n"
+          ],
+          [
+            81,
+            "  description = \"Policy for VPC flow logs\"\n"
+          ],
+          [
+            82,
+            "\n"
+          ],
+          [
+            83,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            84,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            85,
+            "    Statement = [\n"
+          ],
+          [
+            86,
+            "      {\n"
+          ],
+          [
+            87,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            88,
+            "        Action = [\n"
+          ],
+          [
+            89,
+            "          \"logs:CreateLogGroup\",\n"
+          ],
+          [
+            90,
+            "          \"logs:CreateLogStream\",\n"
+          ],
+          [
+            91,
+            "          \"logs:PutLogEvents\",\n"
+          ],
+          [
+            92,
+            "          \"logs:DescribeLogGroups\",\n"
+          ],
+          [
+            93,
+            "          \"logs:DescribeLogStreams\"\n"
+          ],
+          [
+            94,
+            "        ]\n"
+          ],
+          [
+            95,
+            "        Resource = [\n"
+          ],
+          [
+            96,
+            "          \"arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/vpc/flow-logs:*\"\n"
+          ],
+          [
+            97,
+            "        ]\n"
+          ],
+          [
+            98,
+            "      }\n"
+          ],
+          [
+            99,
+            "    ]\n"
+          ],
+          [
+            100,
+            "  })\n"
+          ],
+          [
+            101,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          79,
+          101
+        ],
+        "resource": "aws_iam_policy.flow_log_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMPrivilegeEscalation",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-286",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_288",
+        "bc_check_id": "BC_AWS_IAM_83",
+        "check_name": "Ensure IAM policies does not allow data exfiltration",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            79,
+            "resource \"aws_iam_policy\" \"flow_log_policy\" {\n"
+          ],
+          [
+            80,
+            "  name        = \"vpc-flow-log-policy\"\n"
+          ],
+          [
+            81,
+            "  description = \"Policy for VPC flow logs\"\n"
+          ],
+          [
+            82,
+            "\n"
+          ],
+          [
+            83,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            84,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            85,
+            "    Statement = [\n"
+          ],
+          [
+            86,
+            "      {\n"
+          ],
+          [
+            87,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            88,
+            "        Action = [\n"
+          ],
+          [
+            89,
+            "          \"logs:CreateLogGroup\",\n"
+          ],
+          [
+            90,
+            "          \"logs:CreateLogStream\",\n"
+          ],
+          [
+            91,
+            "          \"logs:PutLogEvents\",\n"
+          ],
+          [
+            92,
+            "          \"logs:DescribeLogGroups\",\n"
+          ],
+          [
+            93,
+            "          \"logs:DescribeLogStreams\"\n"
+          ],
+          [
+            94,
+            "        ]\n"
+          ],
+          [
+            95,
+            "        Resource = [\n"
+          ],
+          [
+            96,
+            "          \"arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/vpc/flow-logs:*\"\n"
+          ],
+          [
+            97,
+            "        ]\n"
+          ],
+          [
+            98,
+            "      }\n"
+          ],
+          [
+            99,
+            "    ]\n"
+          ],
+          [
+            100,
+            "  })\n"
+          ],
+          [
+            101,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          79,
+          101
+        ],
+        "resource": "aws_iam_policy.flow_log_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMDataExfiltration",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-288",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_287",
+        "bc_check_id": "BC_AWS_IAM_82",
+        "check_name": "Ensure IAM policies does not allow credentials exposure",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            79,
+            "resource \"aws_iam_policy\" \"flow_log_policy\" {\n"
+          ],
+          [
+            80,
+            "  name        = \"vpc-flow-log-policy\"\n"
+          ],
+          [
+            81,
+            "  description = \"Policy for VPC flow logs\"\n"
+          ],
+          [
+            82,
+            "\n"
+          ],
+          [
+            83,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            84,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            85,
+            "    Statement = [\n"
+          ],
+          [
+            86,
+            "      {\n"
+          ],
+          [
+            87,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            88,
+            "        Action = [\n"
+          ],
+          [
+            89,
+            "          \"logs:CreateLogGroup\",\n"
+          ],
+          [
+            90,
+            "          \"logs:CreateLogStream\",\n"
+          ],
+          [
+            91,
+            "          \"logs:PutLogEvents\",\n"
+          ],
+          [
+            92,
+            "          \"logs:DescribeLogGroups\",\n"
+          ],
+          [
+            93,
+            "          \"logs:DescribeLogStreams\"\n"
+          ],
+          [
+            94,
+            "        ]\n"
+          ],
+          [
+            95,
+            "        Resource = [\n"
+          ],
+          [
+            96,
+            "          \"arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/vpc/flow-logs:*\"\n"
+          ],
+          [
+            97,
+            "        ]\n"
+          ],
+          [
+            98,
+            "      }\n"
+          ],
+          [
+            99,
+            "    ]\n"
+          ],
+          [
+            100,
+            "  })\n"
+          ],
+          [
+            101,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          79,
+          101
+        ],
+        "resource": "aws_iam_policy.flow_log_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMCredentialsExposure",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-287",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_62",
+        "bc_check_id": "BC_AWS_IAM_47",
+        "check_name": "Ensure IAM policies that allow full \"*-*\" administrative privileges are not created",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "policy",
+            "inline_policy"
+          ]
+        },
+        "code_block": [
+          [
+            79,
+            "resource \"aws_iam_policy\" \"flow_log_policy\" {\n"
+          ],
+          [
+            80,
+            "  name        = \"vpc-flow-log-policy\"\n"
+          ],
+          [
+            81,
+            "  description = \"Policy for VPC flow logs\"\n"
+          ],
+          [
+            82,
+            "\n"
+          ],
+          [
+            83,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            84,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            85,
+            "    Statement = [\n"
+          ],
+          [
+            86,
+            "      {\n"
+          ],
+          [
+            87,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            88,
+            "        Action = [\n"
+          ],
+          [
+            89,
+            "          \"logs:CreateLogGroup\",\n"
+          ],
+          [
+            90,
+            "          \"logs:CreateLogStream\",\n"
+          ],
+          [
+            91,
+            "          \"logs:PutLogEvents\",\n"
+          ],
+          [
+            92,
+            "          \"logs:DescribeLogGroups\",\n"
+          ],
+          [
+            93,
+            "          \"logs:DescribeLogStreams\"\n"
+          ],
+          [
+            94,
+            "        ]\n"
+          ],
+          [
+            95,
+            "        Resource = [\n"
+          ],
+          [
+            96,
+            "          \"arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/vpc/flow-logs:*\"\n"
+          ],
+          [
+            97,
+            "        ]\n"
+          ],
+          [
+            98,
+            "      }\n"
+          ],
+          [
+            99,
+            "    ]\n"
+          ],
+          [
+            100,
+            "  })\n"
+          ],
+          [
+            101,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          79,
+          101
+        ],
+        "resource": "aws_iam_policy.flow_log_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMAdminPolicyDocument",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_274",
+        "bc_check_id": "BC_AWS_IAM_78",
+        "check_name": "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            103,
+            "resource \"aws_iam_role_policy_attachment\" \"flow_log_policy_attachment\" {\n"
+          ],
+          [
+            104,
+            "  role       = aws_iam_role.flow_log_role.name\n"
+          ],
+          [
+            105,
+            "  policy_arn = aws_iam_policy.flow_log_policy.arn\n"
+          ],
+          [
+            106,
+            "}"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          103,
+          106
+        ],
+        "resource": "aws_iam_role_policy_attachment.flow_log_policy_attachment",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMManagedAdminPolicy",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf",
+        "breadcrumbs": {
+          "role": [
+            {
+              "type": "resource",
+              "name": "aws_iam_role.flow_log_role",
+              "path": "/tmp/tmpageym9jb/main.tf",
+              "module_connection": false
+            }
+          ]
+        }
+      },
+      {
+        "check_id": "CKV_AWS_41",
+        "bc_check_id": "BC_AWS_SECRETS_5",
+        "check_name": "Ensure no hard coded AWS access key and secret key exists in provider",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            1,
+            "provider \"aws\" {\n"
+          ],
+          [
+            2,
+            "  region = \"us-east-1\"\n"
+          ],
+          [
+            3,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          1,
+          3
+        ],
+        "resource": "aws.default",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.provider.aws.credentials",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-5",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_11",
+        "bc_check_id": "BC_AWS_LOGGING_9",
+        "check_name": "Ensure VPC flow logging is enabled in all VPCs",
+        "check_result": {
+          "result": "PASSED",
+          "entity": {
+            "aws_vpc": {
+              "main": {
+                "__end_line__": 12,
+                "__start_line__": 8,
+                "cidr_block": [
+                  "10.0.0.0/16"
+                ],
+                "enable_dns_hostnames": [
+                  true
+                ],
+                "enable_dns_support": [
+                  true
+                ],
+                "__address__": "aws_vpc.main",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "resource_type",
+            "networking"
+          ]
+        },
+        "code_block": [
+          [
+            8,
+            "resource \"aws_vpc\" \"main\" {\n"
+          ],
+          [
+            9,
+            "  cidr_block           = \"10.0.0.0/16\"\n"
+          ],
+          [
+            10,
+            "  enable_dns_support   = true\n"
+          ],
+          [
+            11,
+            "  enable_dns_hostnames = true\n"
+          ],
+          [
+            12,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          8,
+          12
+        ],
+        "resource": "aws_vpc.main",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": {
+          "code_block": [
+            [
+              51,
+              "resource \"aws_flow_log\" \"vpc_flow_log\" {\n"
+            ],
+            [
+              52,
+              "  log_destination = aws_cloudwatch_log_group.flow_log_group.arn\n"
+            ],
+            [
+              53,
+              "  iam_role_arn    = aws_iam_role.flow_log_role.arn\n"
+            ],
+            [
+              54,
+              "  vpc_id          = aws_vpc.main.id\n"
+            ],
+            [
+              55,
+              "  traffic_type    = \"ALL\"\n"
+            ],
+            [
+              56,
+              "}\n"
+            ]
+          ],
+          "file_path": "/main.tf",
+          "file_line_range": [
+            51,
+            56
+          ],
+          "resource": "aws_flow_log.vpc_flow_log",
+          "entity_tags": {},
+          "evaluations": null,
+          "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+          "resource_address": null
+        },
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-9-enable-vpc-flow-logging",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_56",
+        "bc_check_id": "BC_AWS_IAM_75",
+        "check_name": "Ensure AWS Managed IAMFullAccess IAM policy is not used.",
+        "check_result": {
+          "result": "PASSED",
+          "entity": {
+            "aws_iam_role": {
+              "flow_log_role": {
+                "__end_line__": 77,
+                "__start_line__": 62,
+                "assume_role_policy": [
+                  {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Principal": {
+                          "Service": "vpc-flow-logs.amazonaws.com"
+                        },
+                        "Action": "sts:AssumeRole"
+                      }
+                    ]
+                  }
+                ],
+                "name": [
+                  "vpc-flow-log-role"
+                ],
+                "__address__": "aws_iam_role.flow_log_role",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "managed_policy_arns/*",
+            "name",
+            "policy_arn",
+            "arn",
+            "managed_policy_arn"
+          ]
+        },
+        "code_block": [
+          [
+            62,
+            "resource \"aws_iam_role\" \"flow_log_role\" {\n"
+          ],
+          [
+            63,
+            "  name = \"vpc-flow-log-role\"\n"
+          ],
+          [
+            64,
+            "\n"
+          ],
+          [
+            65,
+            "  assume_role_policy = jsonencode({\n"
+          ],
+          [
+            66,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            67,
+            "    Statement = [\n"
+          ],
+          [
+            68,
+            "      {\n"
+          ],
+          [
+            69,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            70,
+            "        Principal = {\n"
+          ],
+          [
+            71,
+            "          Service = \"vpc-flow-logs.amazonaws.com\"\n"
+          ],
+          [
+            72,
+            "        }\n"
+          ],
+          [
+            73,
+            "        Action = \"sts:AssumeRole\"\n"
+          ],
+          [
+            74,
+            "      }\n"
+          ],
+          [
+            75,
+            "    ]\n"
+          ],
+          [
+            76,
+            "  })\n"
+          ],
+          [
+            77,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          62,
+          77
+        ],
+        "resource": "aws_iam_role.flow_log_role",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-2-56",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_40",
+        "bc_check_id": "BC_AWS_IAM_73",
+        "check_name": "Ensure AWS IAM policy does not allow full IAM privileges",
+        "check_result": {
+          "result": "PASSED",
+          "entity": {
+            "aws_iam_policy": {
+              "flow_log_policy": {
+                "__end_line__": 101,
+                "__start_line__": 79,
+                "description": [
+                  "Policy for VPC flow logs"
+                ],
+                "name": [
+                  "vpc-flow-log-policy"
+                ],
+                "policy": [
+                  {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "logs:CreateLogGroup",
+                          "logs:CreateLogStream",
+                          "logs:PutLogEvents",
+                          "logs:DescribeLogGroups",
+                          "logs:DescribeLogStreams"
+                        ],
+                        "Resource": [
+                          "arn:aws:logs:data.aws_region.current.name:data.aws_caller_identity.current.account_id:log-group:/aws/vpc/flow-logs:*"
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "__address__": "aws_iam_policy.flow_log_policy",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "statement[?(@/effect == Allow)]/actions[*]",
+            "policy/Statement[?(@/Effect == Allow)]/Action[*]",
+            "inline_policy/Statement[?(@/Effect == Allow)]/Action[*]"
+          ]
+        },
+        "code_block": [
+          [
+            79,
+            "resource \"aws_iam_policy\" \"flow_log_policy\" {\n"
+          ],
+          [
+            80,
+            "  name        = \"vpc-flow-log-policy\"\n"
+          ],
+          [
+            81,
+            "  description = \"Policy for VPC flow logs\"\n"
+          ],
+          [
+            82,
+            "\n"
+          ],
+          [
+            83,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            84,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            85,
+            "    Statement = [\n"
+          ],
+          [
+            86,
+            "      {\n"
+          ],
+          [
+            87,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            88,
+            "        Action = [\n"
+          ],
+          [
+            89,
+            "          \"logs:CreateLogGroup\",\n"
+          ],
+          [
+            90,
+            "          \"logs:CreateLogStream\",\n"
+          ],
+          [
+            91,
+            "          \"logs:PutLogEvents\",\n"
+          ],
+          [
+            92,
+            "          \"logs:DescribeLogGroups\",\n"
+          ],
+          [
+            93,
+            "          \"logs:DescribeLogStreams\"\n"
+          ],
+          [
+            94,
+            "        ]\n"
+          ],
+          [
+            95,
+            "        Resource = [\n"
+          ],
+          [
+            96,
+            "          \"arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/vpc/flow-logs:*\"\n"
+          ],
+          [
+            97,
+            "        ]\n"
+          ],
+          [
+            98,
+            "      }\n"
+          ],
+          [
+            99,
+            "    ]\n"
+          ],
+          [
+            100,
+            "  })\n"
+          ],
+          [
+            101,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          79,
+          101
+        ],
+        "resource": "aws_iam_policy.flow_log_policy",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-2-40",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      }
+    ],
+    "failed_checks": [
+      {
+        "check_id": "CKV_AWS_382",
+        "bc_check_id": "BC_AWS_IAM_93",
+        "check_name": "Ensure no security groups allow egress from 0.0.0.0:0 to port -1",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "egress/[0]/from_port",
+            "egress/[0]/to_port",
+            "egress/[0]/cidr_blocks",
+            "egress/[0]/ipv6_cidr_blocks"
+          ]
+        },
+        "code_block": [
+          [
+            31,
+            "resource \"aws_security_group\" \"dax_sg\" {\n"
+          ],
+          [
+            32,
+            "  name        = \"dax-security-group\"\n"
+          ],
+          [
+            33,
+            "  description = \"Security group for DAX\"\n"
+          ],
+          [
+            34,
+            "  vpc_id      = aws_vpc.main.id\n"
+          ],
+          [
+            35,
+            "\n"
+          ],
+          [
+            36,
+            "  ingress {\n"
+          ],
+          [
+            37,
+            "    from_port   = 8111\n"
+          ],
+          [
+            38,
+            "    to_port     = 8111\n"
+          ],
+          [
+            39,
+            "    protocol    = \"tcp\"\n"
+          ],
+          [
+            40,
+            "    cidr_blocks = [\"10.0.0.0/16\"]\n"
+          ],
+          [
+            41,
+            "  }\n"
+          ],
+          [
+            42,
+            "\n"
+          ],
+          [
+            43,
+            "  egress {\n"
+          ],
+          [
+            44,
+            "    from_port   = 0\n"
+          ],
+          [
+            45,
+            "    to_port     = 0\n"
+          ],
+          [
+            46,
+            "    protocol    = \"-1\"\n"
+          ],
+          [
+            47,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            48,
+            "  }\n"
+          ],
+          [
+            49,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          31,
+          49
+        ],
+        "resource": "aws_security_group.dax_sg",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.SecurityGroupUnrestrictedEgressAny",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-382",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_23",
+        "bc_check_id": "BC_AWS_NETWORKING_31",
+        "check_name": "Ensure every security group and rule has a description",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "description",
+            "egress/[0]",
+            "ingress/[0]"
+          ]
+        },
+        "code_block": [
+          [
+            31,
+            "resource \"aws_security_group\" \"dax_sg\" {\n"
+          ],
+          [
+            32,
+            "  name        = \"dax-security-group\"\n"
+          ],
+          [
+            33,
+            "  description = \"Security group for DAX\"\n"
+          ],
+          [
+            34,
+            "  vpc_id      = aws_vpc.main.id\n"
+          ],
+          [
+            35,
+            "\n"
+          ],
+          [
+            36,
+            "  ingress {\n"
+          ],
+          [
+            37,
+            "    from_port   = 8111\n"
+          ],
+          [
+            38,
+            "    to_port     = 8111\n"
+          ],
+          [
+            39,
+            "    protocol    = \"tcp\"\n"
+          ],
+          [
+            40,
+            "    cidr_blocks = [\"10.0.0.0/16\"]\n"
+          ],
+          [
+            41,
+            "  }\n"
+          ],
+          [
+            42,
+            "\n"
+          ],
+          [
+            43,
+            "  egress {\n"
+          ],
+          [
+            44,
+            "    from_port   = 0\n"
+          ],
+          [
+            45,
+            "    to_port     = 0\n"
+          ],
+          [
+            46,
+            "    protocol    = \"-1\"\n"
+          ],
+          [
+            47,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            48,
+            "  }\n"
+          ],
+          [
+            49,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          31,
+          49
+        ],
+        "resource": "aws_security_group.dax_sg",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.SecurityGroupRuleDescription",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-31",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_158",
+        "bc_check_id": "BC_AWS_GENERAL_85",
+        "check_name": "Ensure that CloudWatch Log Group is encrypted by KMS",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "kms_key_id"
+          ]
+        },
+        "code_block": [
+          [
+            58,
+            "resource \"aws_cloudwatch_log_group\" \"flow_log_group\" {\n"
+          ],
+          [
+            59,
+            "  name = \"/aws/vpc/flow-logs\"\n"
+          ],
+          [
+            60,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          58,
+          60
+        ],
+        "resource": "aws_cloudwatch_log_group.flow_log_group",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.CloudWatchLogGroupKMSKey",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-cloudwatch-log-group-is-encrypted-by-kms",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_338",
+        "bc_check_id": "BC_AWS_LOGGING_46",
+        "check_name": "Ensure CloudWatch log groups retains logs for at least 1 year",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "retention_in_days"
+          ]
+        },
+        "code_block": [
+          [
+            58,
+            "resource \"aws_cloudwatch_log_group\" \"flow_log_group\" {\n"
+          ],
+          [
+            59,
+            "  name = \"/aws/vpc/flow-logs\"\n"
+          ],
+          [
+            60,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          58,
+          60
+        ],
+        "resource": "aws_cloudwatch_log_group.flow_log_group",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.CloudWatchLogGroupRetentionYear",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-338",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_66",
+        "bc_check_id": "BC_AWS_LOGGING_13",
+        "check_name": "Ensure that CloudWatch Log Group specifies retention days",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "retention_in_days"
+          ]
+        },
+        "code_block": [
+          [
+            58,
+            "resource \"aws_cloudwatch_log_group\" \"flow_log_group\" {\n"
+          ],
+          [
+            59,
+            "  name = \"/aws/vpc/flow-logs\"\n"
+          ],
+          [
+            60,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          58,
+          60
+        ],
+        "resource": "aws_cloudwatch_log_group.flow_log_group",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.CloudWatchLogGroupRetention",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-13",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_12",
+        "bc_check_id": "BC_AWS_NETWORKING_4",
+        "check_name": "Ensure the default security group of every VPC restricts all traffic",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_vpc": {
+              "main": {
+                "__end_line__": 12,
+                "__start_line__": 8,
+                "cidr_block": [
+                  "10.0.0.0/16"
+                ],
+                "enable_dns_hostnames": [
+                  true
+                ],
+                "enable_dns_support": [
+                  true
+                ],
+                "__address__": "aws_vpc.main",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "ingress/from_port",
+            "egress/to_port",
+            "ingress/self",
+            "ingress/to_port",
+            "resource_type",
+            "egress/cidr_blocks",
+            "egress/protocol",
+            "egress/from_port",
+            "ingress/protocol"
+          ]
+        },
+        "code_block": [
+          [
+            8,
+            "resource \"aws_vpc\" \"main\" {\n"
+          ],
+          [
+            9,
+            "  cidr_block           = \"10.0.0.0/16\"\n"
+          ],
+          [
+            10,
+            "  enable_dns_support   = true\n"
+          ],
+          [
+            11,
+            "  enable_dns_hostnames = true\n"
+          ],
+          [
+            12,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          8,
+          12
+        ],
+        "resource": "aws_vpc.main",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-4",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_5",
+        "bc_check_id": "BC_AWS_NETWORKING_51",
+        "check_name": "Ensure that Security Groups are attached to another resource",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_security_group": {
+              "dax_sg": {
+                "__end_line__": 49,
+                "__start_line__": 31,
+                "description": [
+                  "Security group for DAX"
+                ],
+                "egress": [
+                  {
+                    "cidr_blocks": [
+                      [
+                        "0.0.0.0/0"
+                      ]
+                    ],
+                    "from_port": [
+                      0
+                    ],
+                    "protocol": [
+                      "-1"
+                    ],
+                    "to_port": [
+                      0
+                    ]
+                  }
+                ],
+                "ingress": [
+                  {
+                    "cidr_blocks": [
+                      [
+                        "10.0.0.0/16"
+                      ]
+                    ],
+                    "from_port": [
+                      8111
+                    ],
+                    "protocol": [
+                      "tcp"
+                    ],
+                    "to_port": [
+                      8111
+                    ]
+                  }
+                ],
+                "name": [
+                  "dax-security-group"
+                ],
+                "vpc_id": [
+                  "aws_vpc.main.id"
+                ],
+                "__address__": "aws_security_group.dax_sg",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "resource_type",
+            "networking"
+          ]
+        },
+        "code_block": [
+          [
+            31,
+            "resource \"aws_security_group\" \"dax_sg\" {\n"
+          ],
+          [
+            32,
+            "  name        = \"dax-security-group\"\n"
+          ],
+          [
+            33,
+            "  description = \"Security group for DAX\"\n"
+          ],
+          [
+            34,
+            "  vpc_id      = aws_vpc.main.id\n"
+          ],
+          [
+            35,
+            "\n"
+          ],
+          [
+            36,
+            "  ingress {\n"
+          ],
+          [
+            37,
+            "    from_port   = 8111\n"
+          ],
+          [
+            38,
+            "    to_port     = 8111\n"
+          ],
+          [
+            39,
+            "    protocol    = \"tcp\"\n"
+          ],
+          [
+            40,
+            "    cidr_blocks = [\"10.0.0.0/16\"]\n"
+          ],
+          [
+            41,
+            "  }\n"
+          ],
+          [
+            42,
+            "\n"
+          ],
+          [
+            43,
+            "  egress {\n"
+          ],
+          [
+            44,
+            "    from_port   = 0\n"
+          ],
+          [
+            45,
+            "    to_port     = 0\n"
+          ],
+          [
+            46,
+            "    protocol    = \"-1\"\n"
+          ],
+          [
+            47,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            48,
+            "  }\n"
+          ],
+          [
+            49,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpageym9jb/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          31,
+          49
+        ],
+        "resource": "aws_security_group.dax_sg",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-that-security-groups-are-attached-to-ec2-instances-or-elastic-network-interfaces-enis",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpageym9jb/main.tf"
+      }
+    ],
+    "skipped_checks": [],
+    "parsing_errors": []
+  },
+  "summary": {
+    "passed": 22,
+    "failed": 7,
+    "skipped": 0,
+    "parsing_errors": 0,
+    "resource_count": 10,
+    "checkov_version": "3.2.403"
+  },
+  "url": "Add an api key '--bc-api-key <api-key>' to see more detailed insights via https://bridgecrew.cloud"
+}

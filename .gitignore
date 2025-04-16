@@ -9,6 +9,7 @@ chroma_rag_db/
 
 
 chroma/
+benchmarking_results/
 
 # env
 .env

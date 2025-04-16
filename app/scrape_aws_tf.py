@@ -77,10 +77,9 @@ def chunk_aws_resources(
         resources = json.load(json_file)
         for resource in tqdm(resources, desc="Processing resources:"):
             metadata_base = {
-                "title": resource["title"],
-                "description": resource["description"],
                 "resource_name": resource["resource_name"],
                 "subcategory": resource["metadata"].get("subcategory"),
+                "example_usage": resource["sections"].get("Example Usage"),
             }
 
             for section_name, content in resource["sections"].items():

@@ -1,0 +1,2759 @@
+{
+  "check_type": "terraform",
+  "results": {
+    "passed_checks": [
+      {
+        "check_id": "CKV_AWS_290",
+        "bc_check_id": "BC_AWS_IAM_85",
+        "check_name": "Ensure IAM policies does not allow write access without constraints",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            8,
+            "resource \"aws_iam_policy\" \"elasticache_user_policy\" {\n"
+          ],
+          [
+            9,
+            "  name        = \"elasticache_user_policy\"\n"
+          ],
+          [
+            10,
+            "  description = \"Policy for ElastiCache user\"\n"
+          ],
+          [
+            11,
+            "\n"
+          ],
+          [
+            12,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            13,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            14,
+            "    Statement = [\n"
+          ],
+          [
+            15,
+            "      {\n"
+          ],
+          [
+            16,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            17,
+            "        Action = [\n"
+          ],
+          [
+            18,
+            "          \"elasticache:Describe*\",\n"
+          ],
+          [
+            19,
+            "          \"elasticache:List*\"\n"
+          ],
+          [
+            20,
+            "        ]\n"
+          ],
+          [
+            21,
+            "        Resource = \"*\"\n"
+          ],
+          [
+            22,
+            "      }\n"
+          ],
+          [
+            23,
+            "    ]\n"
+          ],
+          [
+            24,
+            "  })\n"
+          ],
+          [
+            25,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          8,
+          25
+        ],
+        "resource": "aws_iam_policy.elasticache_user_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMWriteAccess",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-290",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_63",
+        "bc_check_id": "BC_AWS_IAM_48",
+        "check_name": "Ensure no IAM policies documents allow \"*\" as a statement's actions",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "policy",
+            "inline_policy"
+          ]
+        },
+        "code_block": [
+          [
+            8,
+            "resource \"aws_iam_policy\" \"elasticache_user_policy\" {\n"
+          ],
+          [
+            9,
+            "  name        = \"elasticache_user_policy\"\n"
+          ],
+          [
+            10,
+            "  description = \"Policy for ElastiCache user\"\n"
+          ],
+          [
+            11,
+            "\n"
+          ],
+          [
+            12,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            13,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            14,
+            "    Statement = [\n"
+          ],
+          [
+            15,
+            "      {\n"
+          ],
+          [
+            16,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            17,
+            "        Action = [\n"
+          ],
+          [
+            18,
+            "          \"elasticache:Describe*\",\n"
+          ],
+          [
+            19,
+            "          \"elasticache:List*\"\n"
+          ],
+          [
+            20,
+            "        ]\n"
+          ],
+          [
+            21,
+            "        Resource = \"*\"\n"
+          ],
+          [
+            22,
+            "      }\n"
+          ],
+          [
+            23,
+            "    ]\n"
+          ],
+          [
+            24,
+            "  })\n"
+          ],
+          [
+            25,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          8,
+          25
+        ],
+        "resource": "aws_iam_policy.elasticache_user_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMStarActionPolicyDocument",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/iam-48",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_289",
+        "bc_check_id": "BC_AWS_IAM_84",
+        "check_name": "Ensure IAM policies does not allow permissions management / resource exposure without constraints",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            8,
+            "resource \"aws_iam_policy\" \"elasticache_user_policy\" {\n"
+          ],
+          [
+            9,
+            "  name        = \"elasticache_user_policy\"\n"
+          ],
+          [
+            10,
+            "  description = \"Policy for ElastiCache user\"\n"
+          ],
+          [
+            11,
+            "\n"
+          ],
+          [
+            12,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            13,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            14,
+            "    Statement = [\n"
+          ],
+          [
+            15,
+            "      {\n"
+          ],
+          [
+            16,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            17,
+            "        Action = [\n"
+          ],
+          [
+            18,
+            "          \"elasticache:Describe*\",\n"
+          ],
+          [
+            19,
+            "          \"elasticache:List*\"\n"
+          ],
+          [
+            20,
+            "        ]\n"
+          ],
+          [
+            21,
+            "        Resource = \"*\"\n"
+          ],
+          [
+            22,
+            "      }\n"
+          ],
+          [
+            23,
+            "    ]\n"
+          ],
+          [
+            24,
+            "  })\n"
+          ],
+          [
+            25,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          8,
+          25
+        ],
+        "resource": "aws_iam_policy.elasticache_user_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMPermissionsManagement",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-289",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_286",
+        "bc_check_id": "BC_AWS_IAM_81",
+        "check_name": "Ensure IAM policies does not allow privilege escalation",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            8,
+            "resource \"aws_iam_policy\" \"elasticache_user_policy\" {\n"
+          ],
+          [
+            9,
+            "  name        = \"elasticache_user_policy\"\n"
+          ],
+          [
+            10,
+            "  description = \"Policy for ElastiCache user\"\n"
+          ],
+          [
+            11,
+            "\n"
+          ],
+          [
+            12,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            13,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            14,
+            "    Statement = [\n"
+          ],
+          [
+            15,
+            "      {\n"
+          ],
+          [
+            16,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            17,
+            "        Action = [\n"
+          ],
+          [
+            18,
+            "          \"elasticache:Describe*\",\n"
+          ],
+          [
+            19,
+            "          \"elasticache:List*\"\n"
+          ],
+          [
+            20,
+            "        ]\n"
+          ],
+          [
+            21,
+            "        Resource = \"*\"\n"
+          ],
+          [
+            22,
+            "      }\n"
+          ],
+          [
+            23,
+            "    ]\n"
+          ],
+          [
+            24,
+            "  })\n"
+          ],
+          [
+            25,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          8,
+          25
+        ],
+        "resource": "aws_iam_policy.elasticache_user_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMPrivilegeEscalation",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-286",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_288",
+        "bc_check_id": "BC_AWS_IAM_83",
+        "check_name": "Ensure IAM policies does not allow data exfiltration",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            8,
+            "resource \"aws_iam_policy\" \"elasticache_user_policy\" {\n"
+          ],
+          [
+            9,
+            "  name        = \"elasticache_user_policy\"\n"
+          ],
+          [
+            10,
+            "  description = \"Policy for ElastiCache user\"\n"
+          ],
+          [
+            11,
+            "\n"
+          ],
+          [
+            12,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            13,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            14,
+            "    Statement = [\n"
+          ],
+          [
+            15,
+            "      {\n"
+          ],
+          [
+            16,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            17,
+            "        Action = [\n"
+          ],
+          [
+            18,
+            "          \"elasticache:Describe*\",\n"
+          ],
+          [
+            19,
+            "          \"elasticache:List*\"\n"
+          ],
+          [
+            20,
+            "        ]\n"
+          ],
+          [
+            21,
+            "        Resource = \"*\"\n"
+          ],
+          [
+            22,
+            "      }\n"
+          ],
+          [
+            23,
+            "    ]\n"
+          ],
+          [
+            24,
+            "  })\n"
+          ],
+          [
+            25,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          8,
+          25
+        ],
+        "resource": "aws_iam_policy.elasticache_user_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMDataExfiltration",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-288",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_287",
+        "bc_check_id": "BC_AWS_IAM_82",
+        "check_name": "Ensure IAM policies does not allow credentials exposure",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            8,
+            "resource \"aws_iam_policy\" \"elasticache_user_policy\" {\n"
+          ],
+          [
+            9,
+            "  name        = \"elasticache_user_policy\"\n"
+          ],
+          [
+            10,
+            "  description = \"Policy for ElastiCache user\"\n"
+          ],
+          [
+            11,
+            "\n"
+          ],
+          [
+            12,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            13,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            14,
+            "    Statement = [\n"
+          ],
+          [
+            15,
+            "      {\n"
+          ],
+          [
+            16,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            17,
+            "        Action = [\n"
+          ],
+          [
+            18,
+            "          \"elasticache:Describe*\",\n"
+          ],
+          [
+            19,
+            "          \"elasticache:List*\"\n"
+          ],
+          [
+            20,
+            "        ]\n"
+          ],
+          [
+            21,
+            "        Resource = \"*\"\n"
+          ],
+          [
+            22,
+            "      }\n"
+          ],
+          [
+            23,
+            "    ]\n"
+          ],
+          [
+            24,
+            "  })\n"
+          ],
+          [
+            25,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          8,
+          25
+        ],
+        "resource": "aws_iam_policy.elasticache_user_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMCredentialsExposure",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-287",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_62",
+        "bc_check_id": "BC_AWS_IAM_47",
+        "check_name": "Ensure IAM policies that allow full \"*-*\" administrative privileges are not created",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "policy",
+            "inline_policy"
+          ]
+        },
+        "code_block": [
+          [
+            8,
+            "resource \"aws_iam_policy\" \"elasticache_user_policy\" {\n"
+          ],
+          [
+            9,
+            "  name        = \"elasticache_user_policy\"\n"
+          ],
+          [
+            10,
+            "  description = \"Policy for ElastiCache user\"\n"
+          ],
+          [
+            11,
+            "\n"
+          ],
+          [
+            12,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            13,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            14,
+            "    Statement = [\n"
+          ],
+          [
+            15,
+            "      {\n"
+          ],
+          [
+            16,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            17,
+            "        Action = [\n"
+          ],
+          [
+            18,
+            "          \"elasticache:Describe*\",\n"
+          ],
+          [
+            19,
+            "          \"elasticache:List*\"\n"
+          ],
+          [
+            20,
+            "        ]\n"
+          ],
+          [
+            21,
+            "        Resource = \"*\"\n"
+          ],
+          [
+            22,
+            "      }\n"
+          ],
+          [
+            23,
+            "    ]\n"
+          ],
+          [
+            24,
+            "  })\n"
+          ],
+          [
+            25,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          8,
+          25
+        ],
+        "resource": "aws_iam_policy.elasticache_user_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMAdminPolicyDocument",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_60",
+        "bc_check_id": "BC_AWS_IAM_44",
+        "check_name": "Ensure IAM role allows only specific services or principals to assume it",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "assume_role_policy"
+          ]
+        },
+        "code_block": [
+          [
+            27,
+            "resource \"aws_iam_role\" \"elasticache_user_role\" {\n"
+          ],
+          [
+            28,
+            "  name = \"elasticache_user_role\"\n"
+          ],
+          [
+            29,
+            "  assume_role_policy = jsonencode({\n"
+          ],
+          [
+            30,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            31,
+            "    Statement = [\n"
+          ],
+          [
+            32,
+            "      {\n"
+          ],
+          [
+            33,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            34,
+            "        Principal = {\n"
+          ],
+          [
+            35,
+            "          Service = \"elasticache.amazonaws.com\"\n"
+          ],
+          [
+            36,
+            "        }\n"
+          ],
+          [
+            37,
+            "        Action = \"sts:AssumeRole\"\n"
+          ],
+          [
+            38,
+            "      }\n"
+          ],
+          [
+            39,
+            "    ]\n"
+          ],
+          [
+            40,
+            "  })\n"
+          ],
+          [
+            41,
+            "\n"
+          ],
+          [
+            42,
+            "  inline_policy {\n"
+          ],
+          [
+            43,
+            "    name = \"elasticache_user_inline_policy\"\n"
+          ],
+          [
+            44,
+            "    policy = jsonencode({\n"
+          ],
+          [
+            45,
+            "      Version = \"2012-10-17\"\n"
+          ],
+          [
+            46,
+            "      Statement = [\n"
+          ],
+          [
+            47,
+            "        {\n"
+          ],
+          [
+            48,
+            "          Effect = \"Allow\"\n"
+          ],
+          [
+            49,
+            "          Action = [\n"
+          ],
+          [
+            50,
+            "            \"elasticache:Describe*\",\n"
+          ],
+          [
+            51,
+            "            \"elasticache:List*\"\n"
+          ],
+          [
+            52,
+            "          ]\n"
+          ],
+          [
+            53,
+            "          Resource = \"*\"\n"
+          ],
+          [
+            54,
+            "        }\n"
+          ],
+          [
+            55,
+            "      ]\n"
+          ],
+          [
+            56,
+            "    })\n"
+          ],
+          [
+            57,
+            "  }\n"
+          ],
+          [
+            58,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          27,
+          58
+        ],
+        "resource": "aws_iam_role.elasticache_user_role",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMRoleAllowsPublicAssume",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-44",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_274",
+        "bc_check_id": "BC_AWS_IAM_78",
+        "check_name": "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            27,
+            "resource \"aws_iam_role\" \"elasticache_user_role\" {\n"
+          ],
+          [
+            28,
+            "  name = \"elasticache_user_role\"\n"
+          ],
+          [
+            29,
+            "  assume_role_policy = jsonencode({\n"
+          ],
+          [
+            30,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            31,
+            "    Statement = [\n"
+          ],
+          [
+            32,
+            "      {\n"
+          ],
+          [
+            33,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            34,
+            "        Principal = {\n"
+          ],
+          [
+            35,
+            "          Service = \"elasticache.amazonaws.com\"\n"
+          ],
+          [
+            36,
+            "        }\n"
+          ],
+          [
+            37,
+            "        Action = \"sts:AssumeRole\"\n"
+          ],
+          [
+            38,
+            "      }\n"
+          ],
+          [
+            39,
+            "    ]\n"
+          ],
+          [
+            40,
+            "  })\n"
+          ],
+          [
+            41,
+            "\n"
+          ],
+          [
+            42,
+            "  inline_policy {\n"
+          ],
+          [
+            43,
+            "    name = \"elasticache_user_inline_policy\"\n"
+          ],
+          [
+            44,
+            "    policy = jsonencode({\n"
+          ],
+          [
+            45,
+            "      Version = \"2012-10-17\"\n"
+          ],
+          [
+            46,
+            "      Statement = [\n"
+          ],
+          [
+            47,
+            "        {\n"
+          ],
+          [
+            48,
+            "          Effect = \"Allow\"\n"
+          ],
+          [
+            49,
+            "          Action = [\n"
+          ],
+          [
+            50,
+            "            \"elasticache:Describe*\",\n"
+          ],
+          [
+            51,
+            "            \"elasticache:List*\"\n"
+          ],
+          [
+            52,
+            "          ]\n"
+          ],
+          [
+            53,
+            "          Resource = \"*\"\n"
+          ],
+          [
+            54,
+            "        }\n"
+          ],
+          [
+            55,
+            "      ]\n"
+          ],
+          [
+            56,
+            "    })\n"
+          ],
+          [
+            57,
+            "  }\n"
+          ],
+          [
+            58,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          27,
+          58
+        ],
+        "resource": "aws_iam_role.elasticache_user_role",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMManagedAdminPolicy",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_61",
+        "bc_check_id": "BC_AWS_IAM_45",
+        "check_name": "Ensure AWS IAM policy does not allow assume role permission across all services",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "assume_role_policy"
+          ]
+        },
+        "code_block": [
+          [
+            27,
+            "resource \"aws_iam_role\" \"elasticache_user_role\" {\n"
+          ],
+          [
+            28,
+            "  name = \"elasticache_user_role\"\n"
+          ],
+          [
+            29,
+            "  assume_role_policy = jsonencode({\n"
+          ],
+          [
+            30,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            31,
+            "    Statement = [\n"
+          ],
+          [
+            32,
+            "      {\n"
+          ],
+          [
+            33,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            34,
+            "        Principal = {\n"
+          ],
+          [
+            35,
+            "          Service = \"elasticache.amazonaws.com\"\n"
+          ],
+          [
+            36,
+            "        }\n"
+          ],
+          [
+            37,
+            "        Action = \"sts:AssumeRole\"\n"
+          ],
+          [
+            38,
+            "      }\n"
+          ],
+          [
+            39,
+            "    ]\n"
+          ],
+          [
+            40,
+            "  })\n"
+          ],
+          [
+            41,
+            "\n"
+          ],
+          [
+            42,
+            "  inline_policy {\n"
+          ],
+          [
+            43,
+            "    name = \"elasticache_user_inline_policy\"\n"
+          ],
+          [
+            44,
+            "    policy = jsonencode({\n"
+          ],
+          [
+            45,
+            "      Version = \"2012-10-17\"\n"
+          ],
+          [
+            46,
+            "      Statement = [\n"
+          ],
+          [
+            47,
+            "        {\n"
+          ],
+          [
+            48,
+            "          Effect = \"Allow\"\n"
+          ],
+          [
+            49,
+            "          Action = [\n"
+          ],
+          [
+            50,
+            "            \"elasticache:Describe*\",\n"
+          ],
+          [
+            51,
+            "            \"elasticache:List*\"\n"
+          ],
+          [
+            52,
+            "          ]\n"
+          ],
+          [
+            53,
+            "          Resource = \"*\"\n"
+          ],
+          [
+            54,
+            "        }\n"
+          ],
+          [
+            55,
+            "      ]\n"
+          ],
+          [
+            56,
+            "    })\n"
+          ],
+          [
+            57,
+            "  }\n"
+          ],
+          [
+            58,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          27,
+          58
+        ],
+        "resource": "aws_iam_role.elasticache_user_role",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMRoleAllowAssumeFromAccount",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_274",
+        "bc_check_id": "BC_AWS_IAM_78",
+        "check_name": "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            60,
+            "resource \"aws_iam_role_policy_attachment\" \"elasticache_user_policy_attachment\" {\n"
+          ],
+          [
+            61,
+            "  role       = aws_iam_role.elasticache_user_role.name\n"
+          ],
+          [
+            62,
+            "  policy_arn = aws_iam_policy.elasticache_user_policy.arn\n"
+          ],
+          [
+            63,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          60,
+          63
+        ],
+        "resource": "aws_iam_role_policy_attachment.elasticache_user_policy_attachment",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMManagedAdminPolicy",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf",
+        "breadcrumbs": {
+          "role": [
+            {
+              "type": "resource",
+              "name": "aws_iam_role.elasticache_user_role",
+              "path": "/tmp/tmpvvx38l3l/main.tf",
+              "module_connection": false
+            }
+          ]
+        }
+      },
+      {
+        "check_id": "CKV_AWS_66",
+        "bc_check_id": "BC_AWS_LOGGING_13",
+        "check_name": "Ensure that CloudWatch Log Group specifies retention days",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "retention_in_days"
+          ]
+        },
+        "code_block": [
+          [
+            85,
+            "resource \"aws_cloudwatch_log_group\" \"elasticache_logs\" {\n"
+          ],
+          [
+            86,
+            "  name              = \"/aws/elasticache/example\"\n"
+          ],
+          [
+            87,
+            "  retention_in_days = 30\n"
+          ],
+          [
+            88,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          85,
+          88
+        ],
+        "resource": "aws_cloudwatch_log_group.elasticache_logs",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.CloudWatchLogGroupRetention",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-13",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_60",
+        "bc_check_id": "BC_AWS_IAM_44",
+        "check_name": "Ensure IAM role allows only specific services or principals to assume it",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "assume_role_policy"
+          ]
+        },
+        "code_block": [
+          [
+            95,
+            "resource \"aws_iam_role\" \"elasticache_cloudwatch_role\" {\n"
+          ],
+          [
+            96,
+            "  name = \"elasticache_cloudwatch_role\"\n"
+          ],
+          [
+            97,
+            "  assume_role_policy = jsonencode({\n"
+          ],
+          [
+            98,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            99,
+            "    Statement = [\n"
+          ],
+          [
+            100,
+            "      {\n"
+          ],
+          [
+            101,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            102,
+            "        Principal = {\n"
+          ],
+          [
+            103,
+            "          Service = \"logs.amazonaws.com\"\n"
+          ],
+          [
+            104,
+            "        }\n"
+          ],
+          [
+            105,
+            "        Action = \"sts:AssumeRole\"\n"
+          ],
+          [
+            106,
+            "      }\n"
+          ],
+          [
+            107,
+            "    ]\n"
+          ],
+          [
+            108,
+            "  })\n"
+          ],
+          [
+            109,
+            "\n"
+          ],
+          [
+            110,
+            "  inline_policy {\n"
+          ],
+          [
+            111,
+            "    name = \"elasticache_cloudwatch_inline_policy\"\n"
+          ],
+          [
+            112,
+            "    policy = jsonencode({\n"
+          ],
+          [
+            113,
+            "      Version = \"2012-10-17\"\n"
+          ],
+          [
+            114,
+            "      Statement = [\n"
+          ],
+          [
+            115,
+            "        {\n"
+          ],
+          [
+            116,
+            "          Effect = \"Allow\"\n"
+          ],
+          [
+            117,
+            "          Action = [\n"
+          ],
+          [
+            118,
+            "            \"logs:CreateLogStream\",\n"
+          ],
+          [
+            119,
+            "            \"logs:PutLogEvents\"\n"
+          ],
+          [
+            120,
+            "          ]\n"
+          ],
+          [
+            121,
+            "          Resource = \"*\"\n"
+          ],
+          [
+            122,
+            "        }\n"
+          ],
+          [
+            123,
+            "      ]\n"
+          ],
+          [
+            124,
+            "    })\n"
+          ],
+          [
+            125,
+            "  }\n"
+          ],
+          [
+            126,
+            "}"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          95,
+          126
+        ],
+        "resource": "aws_iam_role.elasticache_cloudwatch_role",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMRoleAllowsPublicAssume",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-44",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_274",
+        "bc_check_id": "BC_AWS_IAM_78",
+        "check_name": "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            95,
+            "resource \"aws_iam_role\" \"elasticache_cloudwatch_role\" {\n"
+          ],
+          [
+            96,
+            "  name = \"elasticache_cloudwatch_role\"\n"
+          ],
+          [
+            97,
+            "  assume_role_policy = jsonencode({\n"
+          ],
+          [
+            98,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            99,
+            "    Statement = [\n"
+          ],
+          [
+            100,
+            "      {\n"
+          ],
+          [
+            101,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            102,
+            "        Principal = {\n"
+          ],
+          [
+            103,
+            "          Service = \"logs.amazonaws.com\"\n"
+          ],
+          [
+            104,
+            "        }\n"
+          ],
+          [
+            105,
+            "        Action = \"sts:AssumeRole\"\n"
+          ],
+          [
+            106,
+            "      }\n"
+          ],
+          [
+            107,
+            "    ]\n"
+          ],
+          [
+            108,
+            "  })\n"
+          ],
+          [
+            109,
+            "\n"
+          ],
+          [
+            110,
+            "  inline_policy {\n"
+          ],
+          [
+            111,
+            "    name = \"elasticache_cloudwatch_inline_policy\"\n"
+          ],
+          [
+            112,
+            "    policy = jsonencode({\n"
+          ],
+          [
+            113,
+            "      Version = \"2012-10-17\"\n"
+          ],
+          [
+            114,
+            "      Statement = [\n"
+          ],
+          [
+            115,
+            "        {\n"
+          ],
+          [
+            116,
+            "          Effect = \"Allow\"\n"
+          ],
+          [
+            117,
+            "          Action = [\n"
+          ],
+          [
+            118,
+            "            \"logs:CreateLogStream\",\n"
+          ],
+          [
+            119,
+            "            \"logs:PutLogEvents\"\n"
+          ],
+          [
+            120,
+            "          ]\n"
+          ],
+          [
+            121,
+            "          Resource = \"*\"\n"
+          ],
+          [
+            122,
+            "        }\n"
+          ],
+          [
+            123,
+            "      ]\n"
+          ],
+          [
+            124,
+            "    })\n"
+          ],
+          [
+            125,
+            "  }\n"
+          ],
+          [
+            126,
+            "}"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          95,
+          126
+        ],
+        "resource": "aws_iam_role.elasticache_cloudwatch_role",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMManagedAdminPolicy",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_61",
+        "bc_check_id": "BC_AWS_IAM_45",
+        "check_name": "Ensure AWS IAM policy does not allow assume role permission across all services",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "assume_role_policy"
+          ]
+        },
+        "code_block": [
+          [
+            95,
+            "resource \"aws_iam_role\" \"elasticache_cloudwatch_role\" {\n"
+          ],
+          [
+            96,
+            "  name = \"elasticache_cloudwatch_role\"\n"
+          ],
+          [
+            97,
+            "  assume_role_policy = jsonencode({\n"
+          ],
+          [
+            98,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            99,
+            "    Statement = [\n"
+          ],
+          [
+            100,
+            "      {\n"
+          ],
+          [
+            101,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            102,
+            "        Principal = {\n"
+          ],
+          [
+            103,
+            "          Service = \"logs.amazonaws.com\"\n"
+          ],
+          [
+            104,
+            "        }\n"
+          ],
+          [
+            105,
+            "        Action = \"sts:AssumeRole\"\n"
+          ],
+          [
+            106,
+            "      }\n"
+          ],
+          [
+            107,
+            "    ]\n"
+          ],
+          [
+            108,
+            "  })\n"
+          ],
+          [
+            109,
+            "\n"
+          ],
+          [
+            110,
+            "  inline_policy {\n"
+          ],
+          [
+            111,
+            "    name = \"elasticache_cloudwatch_inline_policy\"\n"
+          ],
+          [
+            112,
+            "    policy = jsonencode({\n"
+          ],
+          [
+            113,
+            "      Version = \"2012-10-17\"\n"
+          ],
+          [
+            114,
+            "      Statement = [\n"
+          ],
+          [
+            115,
+            "        {\n"
+          ],
+          [
+            116,
+            "          Effect = \"Allow\"\n"
+          ],
+          [
+            117,
+            "          Action = [\n"
+          ],
+          [
+            118,
+            "            \"logs:CreateLogStream\",\n"
+          ],
+          [
+            119,
+            "            \"logs:PutLogEvents\"\n"
+          ],
+          [
+            120,
+            "          ]\n"
+          ],
+          [
+            121,
+            "          Resource = \"*\"\n"
+          ],
+          [
+            122,
+            "        }\n"
+          ],
+          [
+            123,
+            "      ]\n"
+          ],
+          [
+            124,
+            "    })\n"
+          ],
+          [
+            125,
+            "  }\n"
+          ],
+          [
+            126,
+            "}"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          95,
+          126
+        ],
+        "resource": "aws_iam_role.elasticache_cloudwatch_role",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMRoleAllowAssumeFromAccount",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_41",
+        "bc_check_id": "BC_AWS_SECRETS_5",
+        "check_name": "Ensure no hard coded AWS access key and secret key exists in provider",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            1,
+            "provider \"aws\" {\n"
+          ],
+          [
+            2,
+            "  region = \"us-west-2\"\n"
+          ],
+          [
+            3,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          1,
+          3
+        ],
+        "resource": "aws.default",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.provider.aws.credentials",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-5",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_56",
+        "bc_check_id": "BC_AWS_IAM_75",
+        "check_name": "Ensure AWS Managed IAMFullAccess IAM policy is not used.",
+        "check_result": {
+          "result": "PASSED",
+          "entity": {
+            "aws_iam_role": {
+              "elasticache_user_role": {
+                "__end_line__": 58,
+                "__start_line__": 27,
+                "assume_role_policy": [
+                  {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Principal": {
+                          "Service": "elasticache.amazonaws.com"
+                        },
+                        "Action": "sts:AssumeRole"
+                      }
+                    ]
+                  }
+                ],
+                "inline_policy": [
+                  {
+                    "name": [
+                      "elasticache_user_inline_policy"
+                    ],
+                    "policy": [
+                      {
+                        "Version": "2012-10-17",
+                        "Statement": [
+                          {
+                            "Effect": "Allow",
+                            "Action": [
+                              "elasticache:Describe*",
+                              "elasticache:List*"
+                            ],
+                            "Resource": "*"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "name": [
+                  "elasticache_user_role"
+                ],
+                "__address__": "aws_iam_role.elasticache_user_role",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "arn",
+            "name",
+            "managed_policy_arns/*",
+            "policy_arn",
+            "managed_policy_arn"
+          ]
+        },
+        "code_block": [
+          [
+            27,
+            "resource \"aws_iam_role\" \"elasticache_user_role\" {\n"
+          ],
+          [
+            28,
+            "  name = \"elasticache_user_role\"\n"
+          ],
+          [
+            29,
+            "  assume_role_policy = jsonencode({\n"
+          ],
+          [
+            30,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            31,
+            "    Statement = [\n"
+          ],
+          [
+            32,
+            "      {\n"
+          ],
+          [
+            33,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            34,
+            "        Principal = {\n"
+          ],
+          [
+            35,
+            "          Service = \"elasticache.amazonaws.com\"\n"
+          ],
+          [
+            36,
+            "        }\n"
+          ],
+          [
+            37,
+            "        Action = \"sts:AssumeRole\"\n"
+          ],
+          [
+            38,
+            "      }\n"
+          ],
+          [
+            39,
+            "    ]\n"
+          ],
+          [
+            40,
+            "  })\n"
+          ],
+          [
+            41,
+            "\n"
+          ],
+          [
+            42,
+            "  inline_policy {\n"
+          ],
+          [
+            43,
+            "    name = \"elasticache_user_inline_policy\"\n"
+          ],
+          [
+            44,
+            "    policy = jsonencode({\n"
+          ],
+          [
+            45,
+            "      Version = \"2012-10-17\"\n"
+          ],
+          [
+            46,
+            "      Statement = [\n"
+          ],
+          [
+            47,
+            "        {\n"
+          ],
+          [
+            48,
+            "          Effect = \"Allow\"\n"
+          ],
+          [
+            49,
+            "          Action = [\n"
+          ],
+          [
+            50,
+            "            \"elasticache:Describe*\",\n"
+          ],
+          [
+            51,
+            "            \"elasticache:List*\"\n"
+          ],
+          [
+            52,
+            "          ]\n"
+          ],
+          [
+            53,
+            "          Resource = \"*\"\n"
+          ],
+          [
+            54,
+            "        }\n"
+          ],
+          [
+            55,
+            "      ]\n"
+          ],
+          [
+            56,
+            "    })\n"
+          ],
+          [
+            57,
+            "  }\n"
+          ],
+          [
+            58,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          27,
+          58
+        ],
+        "resource": "aws_iam_role.elasticache_user_role",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-2-56",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_56",
+        "bc_check_id": "BC_AWS_IAM_75",
+        "check_name": "Ensure AWS Managed IAMFullAccess IAM policy is not used.",
+        "check_result": {
+          "result": "PASSED",
+          "entity": {
+            "aws_iam_role": {
+              "elasticache_cloudwatch_role": {
+                "__end_line__": 126,
+                "__start_line__": 95,
+                "assume_role_policy": [
+                  {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Principal": {
+                          "Service": "logs.amazonaws.com"
+                        },
+                        "Action": "sts:AssumeRole"
+                      }
+                    ]
+                  }
+                ],
+                "inline_policy": [
+                  {
+                    "name": [
+                      "elasticache_cloudwatch_inline_policy"
+                    ],
+                    "policy": [
+                      {
+                        "Version": "2012-10-17",
+                        "Statement": [
+                          {
+                            "Effect": "Allow",
+                            "Action": [
+                              "logs:CreateLogStream",
+                              "logs:PutLogEvents"
+                            ],
+                            "Resource": "*"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ],
+                "name": [
+                  "elasticache_cloudwatch_role"
+                ],
+                "__address__": "aws_iam_role.elasticache_cloudwatch_role",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "arn",
+            "name",
+            "managed_policy_arns/*",
+            "policy_arn",
+            "managed_policy_arn"
+          ]
+        },
+        "code_block": [
+          [
+            95,
+            "resource \"aws_iam_role\" \"elasticache_cloudwatch_role\" {\n"
+          ],
+          [
+            96,
+            "  name = \"elasticache_cloudwatch_role\"\n"
+          ],
+          [
+            97,
+            "  assume_role_policy = jsonencode({\n"
+          ],
+          [
+            98,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            99,
+            "    Statement = [\n"
+          ],
+          [
+            100,
+            "      {\n"
+          ],
+          [
+            101,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            102,
+            "        Principal = {\n"
+          ],
+          [
+            103,
+            "          Service = \"logs.amazonaws.com\"\n"
+          ],
+          [
+            104,
+            "        }\n"
+          ],
+          [
+            105,
+            "        Action = \"sts:AssumeRole\"\n"
+          ],
+          [
+            106,
+            "      }\n"
+          ],
+          [
+            107,
+            "    ]\n"
+          ],
+          [
+            108,
+            "  })\n"
+          ],
+          [
+            109,
+            "\n"
+          ],
+          [
+            110,
+            "  inline_policy {\n"
+          ],
+          [
+            111,
+            "    name = \"elasticache_cloudwatch_inline_policy\"\n"
+          ],
+          [
+            112,
+            "    policy = jsonencode({\n"
+          ],
+          [
+            113,
+            "      Version = \"2012-10-17\"\n"
+          ],
+          [
+            114,
+            "      Statement = [\n"
+          ],
+          [
+            115,
+            "        {\n"
+          ],
+          [
+            116,
+            "          Effect = \"Allow\"\n"
+          ],
+          [
+            117,
+            "          Action = [\n"
+          ],
+          [
+            118,
+            "            \"logs:CreateLogStream\",\n"
+          ],
+          [
+            119,
+            "            \"logs:PutLogEvents\"\n"
+          ],
+          [
+            120,
+            "          ]\n"
+          ],
+          [
+            121,
+            "          Resource = \"*\"\n"
+          ],
+          [
+            122,
+            "        }\n"
+          ],
+          [
+            123,
+            "      ]\n"
+          ],
+          [
+            124,
+            "    })\n"
+          ],
+          [
+            125,
+            "  }\n"
+          ],
+          [
+            126,
+            "}"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          95,
+          126
+        ],
+        "resource": "aws_iam_role.elasticache_cloudwatch_role",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-2-56",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_40",
+        "bc_check_id": "BC_AWS_IAM_73",
+        "check_name": "Ensure AWS IAM policy does not allow full IAM privileges",
+        "check_result": {
+          "result": "PASSED",
+          "entity": {
+            "aws_iam_policy": {
+              "elasticache_user_policy": {
+                "__end_line__": 25,
+                "__start_line__": 8,
+                "description": [
+                  "Policy for ElastiCache user"
+                ],
+                "name": [
+                  "elasticache_user_policy"
+                ],
+                "policy": [
+                  {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "elasticache:Describe*",
+                          "elasticache:List*"
+                        ],
+                        "Resource": "*"
+                      }
+                    ]
+                  }
+                ],
+                "__address__": "aws_iam_policy.elasticache_user_policy",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "inline_policy/Statement[?(@/Effect == Allow)]/Action[*]",
+            "statement[?(@/effect == Allow)]/actions[*]",
+            "policy/Statement[?(@/Effect == Allow)]/Action[*]"
+          ]
+        },
+        "code_block": [
+          [
+            8,
+            "resource \"aws_iam_policy\" \"elasticache_user_policy\" {\n"
+          ],
+          [
+            9,
+            "  name        = \"elasticache_user_policy\"\n"
+          ],
+          [
+            10,
+            "  description = \"Policy for ElastiCache user\"\n"
+          ],
+          [
+            11,
+            "\n"
+          ],
+          [
+            12,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            13,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            14,
+            "    Statement = [\n"
+          ],
+          [
+            15,
+            "      {\n"
+          ],
+          [
+            16,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            17,
+            "        Action = [\n"
+          ],
+          [
+            18,
+            "          \"elasticache:Describe*\",\n"
+          ],
+          [
+            19,
+            "          \"elasticache:List*\"\n"
+          ],
+          [
+            20,
+            "        ]\n"
+          ],
+          [
+            21,
+            "        Resource = \"*\"\n"
+          ],
+          [
+            22,
+            "      }\n"
+          ],
+          [
+            23,
+            "    ]\n"
+          ],
+          [
+            24,
+            "  })\n"
+          ],
+          [
+            25,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          8,
+          25
+        ],
+        "resource": "aws_iam_policy.elasticache_user_policy",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-2-40",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      }
+    ],
+    "failed_checks": [
+      {
+        "check_id": "CKV_AWS_355",
+        "bc_check_id": "BC_AWS_IAM_88",
+        "check_name": "Ensure no IAM policies documents allow \"*\" as a statement's resource for restrictable actions",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "policy/Statement/[0]/Action"
+          ]
+        },
+        "code_block": [
+          [
+            8,
+            "resource \"aws_iam_policy\" \"elasticache_user_policy\" {\n"
+          ],
+          [
+            9,
+            "  name        = \"elasticache_user_policy\"\n"
+          ],
+          [
+            10,
+            "  description = \"Policy for ElastiCache user\"\n"
+          ],
+          [
+            11,
+            "\n"
+          ],
+          [
+            12,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            13,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            14,
+            "    Statement = [\n"
+          ],
+          [
+            15,
+            "      {\n"
+          ],
+          [
+            16,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            17,
+            "        Action = [\n"
+          ],
+          [
+            18,
+            "          \"elasticache:Describe*\",\n"
+          ],
+          [
+            19,
+            "          \"elasticache:List*\"\n"
+          ],
+          [
+            20,
+            "        ]\n"
+          ],
+          [
+            21,
+            "        Resource = \"*\"\n"
+          ],
+          [
+            22,
+            "      }\n"
+          ],
+          [
+            23,
+            "    ]\n"
+          ],
+          [
+            24,
+            "  })\n"
+          ],
+          [
+            25,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          8,
+          25
+        ],
+        "resource": "aws_iam_policy.elasticache_user_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMStarResourcePolicyDocument",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-355",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_158",
+        "bc_check_id": "BC_AWS_GENERAL_85",
+        "check_name": "Ensure that CloudWatch Log Group is encrypted by KMS",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "kms_key_id"
+          ]
+        },
+        "code_block": [
+          [
+            85,
+            "resource \"aws_cloudwatch_log_group\" \"elasticache_logs\" {\n"
+          ],
+          [
+            86,
+            "  name              = \"/aws/elasticache/example\"\n"
+          ],
+          [
+            87,
+            "  retention_in_days = 30\n"
+          ],
+          [
+            88,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          85,
+          88
+        ],
+        "resource": "aws_cloudwatch_log_group.elasticache_logs",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.CloudWatchLogGroupKMSKey",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-cloudwatch-log-group-is-encrypted-by-kms",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_338",
+        "bc_check_id": "BC_AWS_LOGGING_46",
+        "check_name": "Ensure CloudWatch log groups retains logs for at least 1 year",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "retention_in_days"
+          ]
+        },
+        "code_block": [
+          [
+            85,
+            "resource \"aws_cloudwatch_log_group\" \"elasticache_logs\" {\n"
+          ],
+          [
+            86,
+            "  name              = \"/aws/elasticache/example\"\n"
+          ],
+          [
+            87,
+            "  retention_in_days = 30\n"
+          ],
+          [
+            88,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpvvx38l3l/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          85,
+          88
+        ],
+        "resource": "aws_cloudwatch_log_group.elasticache_logs",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.CloudWatchLogGroupRetentionYear",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-338",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpvvx38l3l/main.tf"
+      }
+    ],
+    "skipped_checks": [],
+    "parsing_errors": []
+  },
+  "summary": {
+    "passed": 19,
+    "failed": 3,
+    "skipped": 0,
+    "parsing_errors": 0,
+    "resource_count": 9,
+    "checkov_version": "3.2.403"
+  },
+  "url": "Add an api key '--bc-api-key <api-key>' to see more detailed insights via https://bridgecrew.cloud"
+}

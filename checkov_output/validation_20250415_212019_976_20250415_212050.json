@@ -1,0 +1,199 @@
+{
+  "check_type": "terraform",
+  "results": {
+    "passed_checks": [
+      {
+        "check_id": "CKV_AWS_41",
+        "bc_check_id": "BC_AWS_SECRETS_5",
+        "check_name": "Ensure no hard coded AWS access key and secret key exists in provider",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            1,
+            "provider \"aws\" {\n"
+          ],
+          [
+            2,
+            "  region = \"us-east-1\"\n"
+          ],
+          [
+            3,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpfvgk49l7/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          1,
+          3
+        ],
+        "resource": "aws.default",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.provider.aws.credentials",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-5",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpfvgk49l7/main.tf"
+      }
+    ],
+    "failed_checks": [
+      {
+        "check_id": "CKV2_AWS_39",
+        "bc_check_id": "BC_AWS_LOGGING_34",
+        "check_name": "Ensure Domain Name System (DNS) query logging is enabled for Amazon Route 53 hosted zones",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_route53_zone": {
+              "reverse_zone": {
+                "__end_line__": 10,
+                "__start_line__": 8,
+                "name": [
+                  "reverse_zone"
+                ],
+                "__address__": "aws_route53_zone.reverse_zone",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "resource_type",
+            "vpc"
+          ]
+        },
+        "code_block": [
+          [
+            8,
+            "resource \"aws_route53_zone\" \"reverse_zone\" {\n"
+          ],
+          [
+            9,
+            "  name = \"reverse_zone\"\n"
+          ],
+          [
+            10,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpfvgk49l7/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          8,
+          10
+        ],
+        "resource": "aws_route53_zone.reverse_zone",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-2-39",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpfvgk49l7/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_38",
+        "bc_check_id": "BC_AWS_NETWORKING_83",
+        "check_name": "Ensure Domain Name System Security Extensions (DNSSEC) signing is enabled for Amazon Route 53 public hosted zones",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_route53_zone": {
+              "reverse_zone": {
+                "__end_line__": 10,
+                "__start_line__": 8,
+                "name": [
+                  "reverse_zone"
+                ],
+                "__address__": "aws_route53_zone.reverse_zone",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "resource_type",
+            "vpc"
+          ]
+        },
+        "code_block": [
+          [
+            8,
+            "resource \"aws_route53_zone\" \"reverse_zone\" {\n"
+          ],
+          [
+            9,
+            "  name = \"reverse_zone\"\n"
+          ],
+          [
+            10,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpfvgk49l7/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          8,
+          10
+        ],
+        "resource": "aws_route53_zone.reverse_zone",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-2-38",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpfvgk49l7/main.tf"
+      }
+    ],
+    "skipped_checks": [],
+    "parsing_errors": []
+  },
+  "summary": {
+    "passed": 1,
+    "failed": 2,
+    "skipped": 0,
+    "parsing_errors": 0,
+    "resource_count": 2,
+    "checkov_version": "3.2.403"
+  },
+  "url": "Add an api key '--bc-api-key <api-key>' to see more detailed insights via https://bridgecrew.cloud"
+}

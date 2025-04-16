@@ -105,3 +105,20 @@ class LLMClient:
         except Exception as e:
             logger.error(f"Error running LLM: {str(e)}")
             return ""
+
+
+if __name__ == "__main__":
+    # Example usage
+    llm_client = LLMClient(
+        provider="gemini",
+        model="gemini-2.0-flash",
+        temperature=0.7,
+        # top_p=0.8,
+    )
+    from app.prompt_loader import PromptLoader
+
+    prompt_loader = PromptLoader()
+    system_prompt = prompt_loader.system_prompt
+    prompt = "How do I set up an AWS S3 bucket with versioning and encryption that complies with CIS benchmarks?"
+    response = llm_client.run(prompt, system_prompt)
+    print(response)

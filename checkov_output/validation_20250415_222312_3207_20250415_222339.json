@@ -1,0 +1,683 @@
+{
+  "check_type": "terraform",
+  "results": {
+    "passed_checks": [
+      {
+        "check_id": "CKV_AWS_41",
+        "bc_check_id": "BC_AWS_SECRETS_5",
+        "check_name": "Ensure no hard coded AWS access key and secret key exists in provider",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            1,
+            "provider \"aws\" {\n"
+          ],
+          [
+            2,
+            "  region = \"us-west-2\"\n"
+          ],
+          [
+            3,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpfr1d88_m/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          1,
+          3
+        ],
+        "resource": "aws.default",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.provider.aws.credentials",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-5",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpfr1d88_m/main.tf"
+      }
+    ],
+    "failed_checks": [
+      {
+        "check_id": "CKV2_AWS_39",
+        "bc_check_id": "BC_AWS_LOGGING_34",
+        "check_name": "Ensure Domain Name System (DNS) query logging is enabled for Amazon Route 53 hosted zones",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_route53_zone": {
+              "primary": {
+                "__end_line__": 10,
+                "__start_line__": 8,
+                "name": [
+                  "primary"
+                ],
+                "__address__": "aws_route53_zone.primary",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "resource_type",
+            "vpc"
+          ]
+        },
+        "code_block": [
+          [
+            8,
+            "resource \"aws_route53_zone\" \"primary\" {\n"
+          ],
+          [
+            9,
+            "  name = \"primary\"\n"
+          ],
+          [
+            10,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpfr1d88_m/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          8,
+          10
+        ],
+        "resource": "aws_route53_zone.primary",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-2-39",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpfr1d88_m/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_38",
+        "bc_check_id": "BC_AWS_NETWORKING_83",
+        "check_name": "Ensure Domain Name System Security Extensions (DNSSEC) signing is enabled for Amazon Route 53 public hosted zones",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_route53_zone": {
+              "primary": {
+                "__end_line__": 10,
+                "__start_line__": 8,
+                "name": [
+                  "primary"
+                ],
+                "__address__": "aws_route53_zone.primary",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "resource_type",
+            "vpc"
+          ]
+        },
+        "code_block": [
+          [
+            8,
+            "resource \"aws_route53_zone\" \"primary\" {\n"
+          ],
+          [
+            9,
+            "  name = \"primary\"\n"
+          ],
+          [
+            10,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpfr1d88_m/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          8,
+          10
+        ],
+        "resource": "aws_route53_zone.primary",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-2-38",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpfr1d88_m/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_23",
+        "bc_check_id": "BC_AWS_GENERAL_95",
+        "check_name": "Route53 A Record has Attached Resource",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_route53_record": {
+              "primary_health_check": {
+                "__end_line__": 20,
+                "__start_line__": 12,
+                "health_check_id": [
+                  "aws_route53_health_check.primary_health_check.id"
+                ],
+                "name": [
+                  "primary.example.com"
+                ],
+                "records": [
+                  [
+                    "192.0.2.1"
+                  ]
+                ],
+                "ttl": [
+                  "300"
+                ],
+                "type": [
+                  "A"
+                ],
+                "zone_id": [
+                  "aws_route53_zone.primary.zone_id"
+                ],
+                "__address__": "aws_route53_record.primary_health_check",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "type",
+            "networking",
+            "resource_type",
+            "alias/name"
+          ]
+        },
+        "code_block": [
+          [
+            12,
+            "resource \"aws_route53_record\" \"primary_health_check\" {\n"
+          ],
+          [
+            13,
+            "  zone_id = aws_route53_zone.primary.zone_id\n"
+          ],
+          [
+            14,
+            "  name    = \"primary.example.com\"\n"
+          ],
+          [
+            15,
+            "  type    = \"A\"\n"
+          ],
+          [
+            16,
+            "  ttl     = \"300\"\n"
+          ],
+          [
+            17,
+            "  records = [\"192.0.2.1\"]\n"
+          ],
+          [
+            18,
+            "\n"
+          ],
+          [
+            19,
+            "  health_check_id = aws_route53_health_check.primary_health_check.id\n"
+          ],
+          [
+            20,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpfr1d88_m/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          12,
+          20
+        ],
+        "resource": "aws_route53_record.primary_health_check",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-route53-a-record-has-an-attached-resource",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpfr1d88_m/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_23",
+        "bc_check_id": "BC_AWS_GENERAL_95",
+        "check_name": "Route53 A Record has Attached Resource",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_route53_record": {
+              "secondary_health_check": {
+                "__end_line__": 43,
+                "__start_line__": 35,
+                "health_check_id": [
+                  "aws_route53_health_check.primary_health_check.id"
+                ],
+                "name": [
+                  "secondary.example.com"
+                ],
+                "records": [
+                  [
+                    "192.0.2.2"
+                  ]
+                ],
+                "ttl": [
+                  "300"
+                ],
+                "type": [
+                  "A"
+                ],
+                "zone_id": [
+                  "aws_route53_zone.primary.zone_id"
+                ],
+                "__address__": "aws_route53_record.secondary_health_check",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "type",
+            "networking",
+            "resource_type",
+            "alias/name"
+          ]
+        },
+        "code_block": [
+          [
+            35,
+            "resource \"aws_route53_record\" \"secondary_health_check\" {\n"
+          ],
+          [
+            36,
+            "  zone_id = aws_route53_zone.primary.zone_id\n"
+          ],
+          [
+            37,
+            "  name    = \"secondary.example.com\"\n"
+          ],
+          [
+            38,
+            "  type    = \"A\"\n"
+          ],
+          [
+            39,
+            "  ttl     = \"300\"\n"
+          ],
+          [
+            40,
+            "  records = [\"192.0.2.2\"]\n"
+          ],
+          [
+            41,
+            "\n"
+          ],
+          [
+            42,
+            "  health_check_id = aws_route53_health_check.primary_health_check.id\n"
+          ],
+          [
+            43,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpfr1d88_m/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          35,
+          43
+        ],
+        "resource": "aws_route53_record.secondary_health_check",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-route53-a-record-has-an-attached-resource",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpfr1d88_m/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_23",
+        "bc_check_id": "BC_AWS_GENERAL_95",
+        "check_name": "Route53 A Record has Attached Resource",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_route53_record": {
+              "primary_failover": {
+                "__end_line__": 70,
+                "__start_line__": 58,
+                "failover_routing_policy": [
+                  {
+                    "type": [
+                      "PRIMARY"
+                    ]
+                  }
+                ],
+                "health_check_id": [
+                  "aws_route53_health_check.primary_health_check.id"
+                ],
+                "name": [
+                  "primary.example.com"
+                ],
+                "records": [
+                  [
+                    "192.0.2.1"
+                  ]
+                ],
+                "set_identifier": [
+                  "primary"
+                ],
+                "ttl": [
+                  "300"
+                ],
+                "type": [
+                  "A"
+                ],
+                "zone_id": [
+                  "aws_route53_zone.primary.zone_id"
+                ],
+                "__address__": "aws_route53_record.primary_failover",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "type",
+            "networking",
+            "resource_type",
+            "alias/name"
+          ]
+        },
+        "code_block": [
+          [
+            58,
+            "resource \"aws_route53_record\" \"primary_failover\" {\n"
+          ],
+          [
+            59,
+            "  zone_id = aws_route53_zone.primary.zone_id\n"
+          ],
+          [
+            60,
+            "  name    = \"primary.example.com\"\n"
+          ],
+          [
+            61,
+            "  type    = \"A\"\n"
+          ],
+          [
+            62,
+            "  ttl     = \"300\"\n"
+          ],
+          [
+            63,
+            "  records = [\"192.0.2.1\"]\n"
+          ],
+          [
+            64,
+            "\n"
+          ],
+          [
+            65,
+            "  set_identifier  = \"primary\"\n"
+          ],
+          [
+            66,
+            "  health_check_id = aws_route53_health_check.primary_health_check.id\n"
+          ],
+          [
+            67,
+            "  failover_routing_policy {\n"
+          ],
+          [
+            68,
+            "    type = \"PRIMARY\"\n"
+          ],
+          [
+            69,
+            "  }\n"
+          ],
+          [
+            70,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpfr1d88_m/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          58,
+          70
+        ],
+        "resource": "aws_route53_record.primary_failover",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-route53-a-record-has-an-attached-resource",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpfr1d88_m/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_23",
+        "bc_check_id": "BC_AWS_GENERAL_95",
+        "check_name": "Route53 A Record has Attached Resource",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_route53_record": {
+              "secondary_failover": {
+                "__end_line__": 84,
+                "__start_line__": 72,
+                "failover_routing_policy": [
+                  {
+                    "type": [
+                      "SECONDARY"
+                    ]
+                  }
+                ],
+                "health_check_id": [
+                  "aws_route53_health_check.secondary_health_check.id"
+                ],
+                "name": [
+                  "secondary.example.com"
+                ],
+                "records": [
+                  [
+                    "192.0.2.2"
+                  ]
+                ],
+                "set_identifier": [
+                  "secondary"
+                ],
+                "ttl": [
+                  "300"
+                ],
+                "type": [
+                  "A"
+                ],
+                "zone_id": [
+                  "aws_route53_zone.primary.zone_id"
+                ],
+                "__address__": "aws_route53_record.secondary_failover",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "type",
+            "networking",
+            "resource_type",
+            "alias/name"
+          ]
+        },
+        "code_block": [
+          [
+            72,
+            "resource \"aws_route53_record\" \"secondary_failover\" {\n"
+          ],
+          [
+            73,
+            "  zone_id = aws_route53_zone.primary.zone_id\n"
+          ],
+          [
+            74,
+            "  name    = \"secondary.example.com\"\n"
+          ],
+          [
+            75,
+            "  type    = \"A\"\n"
+          ],
+          [
+            76,
+            "  ttl     = \"300\"\n"
+          ],
+          [
+            77,
+            "  records = [\"192.0.2.2\"]\n"
+          ],
+          [
+            78,
+            "\n"
+          ],
+          [
+            79,
+            "  set_identifier  = \"secondary\"\n"
+          ],
+          [
+            80,
+            "  health_check_id = aws_route53_health_check.secondary_health_check.id\n"
+          ],
+          [
+            81,
+            "  failover_routing_policy {\n"
+          ],
+          [
+            82,
+            "    type = \"SECONDARY\"\n"
+          ],
+          [
+            83,
+            "  }\n"
+          ],
+          [
+            84,
+            "}"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpfr1d88_m/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          72,
+          84
+        ],
+        "resource": "aws_route53_record.secondary_failover",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-route53-a-record-has-an-attached-resource",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpfr1d88_m/main.tf"
+      }
+    ],
+    "skipped_checks": [],
+    "parsing_errors": []
+  },
+  "summary": {
+    "passed": 1,
+    "failed": 6,
+    "skipped": 0,
+    "parsing_errors": 0,
+    "resource_count": 7,
+    "checkov_version": "3.2.403"
+  },
+  "url": "Add an api key '--bc-api-key <api-key>' to see more detailed insights via https://bridgecrew.cloud"
+}

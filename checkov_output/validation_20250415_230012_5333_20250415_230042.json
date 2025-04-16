@@ -1,0 +1,6915 @@
+{
+  "check_type": "terraform",
+  "results": {
+    "passed_checks": [
+      {
+        "check_id": "CKV_AWS_41",
+        "bc_check_id": "BC_AWS_SECRETS_5",
+        "check_name": "Ensure no hard coded AWS access key and secret key exists in provider",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            1,
+            "provider \"aws\" {\n"
+          ],
+          [
+            2,
+            "  region = \"us-west-2\"\n"
+          ],
+          [
+            3,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          1,
+          3
+        ],
+        "resource": "aws.default",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.provider.aws.credentials",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-5",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_204",
+        "bc_check_id": "BC_AWS_GENERAL_153",
+        "check_name": "Ensure AMIs are encrypted using KMS CMKs",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "ebs_block_device"
+          ]
+        },
+        "code_block": [
+          [
+            8,
+            "resource \"aws_ami\" \"latest_amazon_linux_2\" {\n"
+          ],
+          [
+            9,
+            "  name                = \"latest-amazon-linux-2\"\n"
+          ],
+          [
+            10,
+            "  virtualization_type = \"hvm\"\n"
+          ],
+          [
+            11,
+            "  root_device_name    = \"/dev/xvda\"\n"
+          ],
+          [
+            12,
+            "\n"
+          ],
+          [
+            13,
+            "  ebs_block_device {\n"
+          ],
+          [
+            14,
+            "    device_name = \"/dev/xvda\"\n"
+          ],
+          [
+            15,
+            "    volume_size = 8\n"
+          ],
+          [
+            16,
+            "    volume_type = \"gp2\"\n"
+          ],
+          [
+            17,
+            "    encrypted   = true\n"
+          ],
+          [
+            18,
+            "  }\n"
+          ],
+          [
+            19,
+            "\n"
+          ],
+          [
+            20,
+            "  tags = {\n"
+          ],
+          [
+            21,
+            "    Name = \"latest-amazon-linux-2\"\n"
+          ],
+          [
+            22,
+            "  }\n"
+          ],
+          [
+            23,
+            "\n"
+          ],
+          [
+            24,
+            "  lifecycle {\n"
+          ],
+          [
+            25,
+            "    ignore_changes = [ebs_block_device]\n"
+          ],
+          [
+            26,
+            "  }\n"
+          ],
+          [
+            27,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          8,
+          27
+        ],
+        "resource": "aws_ami.latest_amazon_linux_2",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.AMIEncryption",
+        "fixed_definition": null,
+        "entity_tags": {
+          "Name": "latest-amazon-linux-2"
+        },
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-amis-are-encrypted-by-key-management-service-kms-using-customer-managed-keys-cmks",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_60",
+        "bc_check_id": "BC_AWS_IAM_44",
+        "check_name": "Ensure IAM role allows only specific services or principals to assume it",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "assume_role_policy"
+          ]
+        },
+        "code_block": [
+          [
+            29,
+            "resource \"aws_iam_role\" \"ec2_role\" {\n"
+          ],
+          [
+            30,
+            "  name = \"ec2_role\"\n"
+          ],
+          [
+            31,
+            "\n"
+          ],
+          [
+            32,
+            "  assume_role_policy = jsonencode({\n"
+          ],
+          [
+            33,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            34,
+            "    Statement = [\n"
+          ],
+          [
+            35,
+            "      {\n"
+          ],
+          [
+            36,
+            "        Action = \"sts:AssumeRole\"\n"
+          ],
+          [
+            37,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            38,
+            "        Principal = {\n"
+          ],
+          [
+            39,
+            "          Service = \"ec2.amazonaws.com\"\n"
+          ],
+          [
+            40,
+            "        }\n"
+          ],
+          [
+            41,
+            "      }\n"
+          ],
+          [
+            42,
+            "    ]\n"
+          ],
+          [
+            43,
+            "  })\n"
+          ],
+          [
+            44,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          29,
+          44
+        ],
+        "resource": "aws_iam_role.ec2_role",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMRoleAllowsPublicAssume",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-44",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_274",
+        "bc_check_id": "BC_AWS_IAM_78",
+        "check_name": "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            29,
+            "resource \"aws_iam_role\" \"ec2_role\" {\n"
+          ],
+          [
+            30,
+            "  name = \"ec2_role\"\n"
+          ],
+          [
+            31,
+            "\n"
+          ],
+          [
+            32,
+            "  assume_role_policy = jsonencode({\n"
+          ],
+          [
+            33,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            34,
+            "    Statement = [\n"
+          ],
+          [
+            35,
+            "      {\n"
+          ],
+          [
+            36,
+            "        Action = \"sts:AssumeRole\"\n"
+          ],
+          [
+            37,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            38,
+            "        Principal = {\n"
+          ],
+          [
+            39,
+            "          Service = \"ec2.amazonaws.com\"\n"
+          ],
+          [
+            40,
+            "        }\n"
+          ],
+          [
+            41,
+            "      }\n"
+          ],
+          [
+            42,
+            "    ]\n"
+          ],
+          [
+            43,
+            "  })\n"
+          ],
+          [
+            44,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          29,
+          44
+        ],
+        "resource": "aws_iam_role.ec2_role",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMManagedAdminPolicy",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_61",
+        "bc_check_id": "BC_AWS_IAM_45",
+        "check_name": "Ensure AWS IAM policy does not allow assume role permission across all services",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "assume_role_policy"
+          ]
+        },
+        "code_block": [
+          [
+            29,
+            "resource \"aws_iam_role\" \"ec2_role\" {\n"
+          ],
+          [
+            30,
+            "  name = \"ec2_role\"\n"
+          ],
+          [
+            31,
+            "\n"
+          ],
+          [
+            32,
+            "  assume_role_policy = jsonencode({\n"
+          ],
+          [
+            33,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            34,
+            "    Statement = [\n"
+          ],
+          [
+            35,
+            "      {\n"
+          ],
+          [
+            36,
+            "        Action = \"sts:AssumeRole\"\n"
+          ],
+          [
+            37,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            38,
+            "        Principal = {\n"
+          ],
+          [
+            39,
+            "          Service = \"ec2.amazonaws.com\"\n"
+          ],
+          [
+            40,
+            "        }\n"
+          ],
+          [
+            41,
+            "      }\n"
+          ],
+          [
+            42,
+            "    ]\n"
+          ],
+          [
+            43,
+            "  })\n"
+          ],
+          [
+            44,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          29,
+          44
+        ],
+        "resource": "aws_iam_role.ec2_role",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMRoleAllowAssumeFromAccount",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_290",
+        "bc_check_id": "BC_AWS_IAM_85",
+        "check_name": "Ensure IAM policies does not allow write access without constraints",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            46,
+            "resource \"aws_iam_policy\" \"ec2_policy\" {\n"
+          ],
+          [
+            47,
+            "  name = \"ec2_policy\"\n"
+          ],
+          [
+            48,
+            "\n"
+          ],
+          [
+            49,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            50,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            51,
+            "    Statement = [\n"
+          ],
+          [
+            52,
+            "      {\n"
+          ],
+          [
+            53,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            54,
+            "        Action = [\n"
+          ],
+          [
+            55,
+            "          \"ec2:Describe*\"\n"
+          ],
+          [
+            56,
+            "        ]\n"
+          ],
+          [
+            57,
+            "        Resource = \"*\"\n"
+          ],
+          [
+            58,
+            "      }\n"
+          ],
+          [
+            59,
+            "    ]\n"
+          ],
+          [
+            60,
+            "  })\n"
+          ],
+          [
+            61,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          46,
+          61
+        ],
+        "resource": "aws_iam_policy.ec2_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMWriteAccess",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-290",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_63",
+        "bc_check_id": "BC_AWS_IAM_48",
+        "check_name": "Ensure no IAM policies documents allow \"*\" as a statement's actions",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "policy",
+            "inline_policy"
+          ]
+        },
+        "code_block": [
+          [
+            46,
+            "resource \"aws_iam_policy\" \"ec2_policy\" {\n"
+          ],
+          [
+            47,
+            "  name = \"ec2_policy\"\n"
+          ],
+          [
+            48,
+            "\n"
+          ],
+          [
+            49,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            50,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            51,
+            "    Statement = [\n"
+          ],
+          [
+            52,
+            "      {\n"
+          ],
+          [
+            53,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            54,
+            "        Action = [\n"
+          ],
+          [
+            55,
+            "          \"ec2:Describe*\"\n"
+          ],
+          [
+            56,
+            "        ]\n"
+          ],
+          [
+            57,
+            "        Resource = \"*\"\n"
+          ],
+          [
+            58,
+            "      }\n"
+          ],
+          [
+            59,
+            "    ]\n"
+          ],
+          [
+            60,
+            "  })\n"
+          ],
+          [
+            61,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          46,
+          61
+        ],
+        "resource": "aws_iam_policy.ec2_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMStarActionPolicyDocument",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/iam-48",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_289",
+        "bc_check_id": "BC_AWS_IAM_84",
+        "check_name": "Ensure IAM policies does not allow permissions management / resource exposure without constraints",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            46,
+            "resource \"aws_iam_policy\" \"ec2_policy\" {\n"
+          ],
+          [
+            47,
+            "  name = \"ec2_policy\"\n"
+          ],
+          [
+            48,
+            "\n"
+          ],
+          [
+            49,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            50,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            51,
+            "    Statement = [\n"
+          ],
+          [
+            52,
+            "      {\n"
+          ],
+          [
+            53,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            54,
+            "        Action = [\n"
+          ],
+          [
+            55,
+            "          \"ec2:Describe*\"\n"
+          ],
+          [
+            56,
+            "        ]\n"
+          ],
+          [
+            57,
+            "        Resource = \"*\"\n"
+          ],
+          [
+            58,
+            "      }\n"
+          ],
+          [
+            59,
+            "    ]\n"
+          ],
+          [
+            60,
+            "  })\n"
+          ],
+          [
+            61,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          46,
+          61
+        ],
+        "resource": "aws_iam_policy.ec2_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMPermissionsManagement",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-289",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_286",
+        "bc_check_id": "BC_AWS_IAM_81",
+        "check_name": "Ensure IAM policies does not allow privilege escalation",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            46,
+            "resource \"aws_iam_policy\" \"ec2_policy\" {\n"
+          ],
+          [
+            47,
+            "  name = \"ec2_policy\"\n"
+          ],
+          [
+            48,
+            "\n"
+          ],
+          [
+            49,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            50,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            51,
+            "    Statement = [\n"
+          ],
+          [
+            52,
+            "      {\n"
+          ],
+          [
+            53,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            54,
+            "        Action = [\n"
+          ],
+          [
+            55,
+            "          \"ec2:Describe*\"\n"
+          ],
+          [
+            56,
+            "        ]\n"
+          ],
+          [
+            57,
+            "        Resource = \"*\"\n"
+          ],
+          [
+            58,
+            "      }\n"
+          ],
+          [
+            59,
+            "    ]\n"
+          ],
+          [
+            60,
+            "  })\n"
+          ],
+          [
+            61,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          46,
+          61
+        ],
+        "resource": "aws_iam_policy.ec2_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMPrivilegeEscalation",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-286",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_288",
+        "bc_check_id": "BC_AWS_IAM_83",
+        "check_name": "Ensure IAM policies does not allow data exfiltration",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            46,
+            "resource \"aws_iam_policy\" \"ec2_policy\" {\n"
+          ],
+          [
+            47,
+            "  name = \"ec2_policy\"\n"
+          ],
+          [
+            48,
+            "\n"
+          ],
+          [
+            49,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            50,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            51,
+            "    Statement = [\n"
+          ],
+          [
+            52,
+            "      {\n"
+          ],
+          [
+            53,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            54,
+            "        Action = [\n"
+          ],
+          [
+            55,
+            "          \"ec2:Describe*\"\n"
+          ],
+          [
+            56,
+            "        ]\n"
+          ],
+          [
+            57,
+            "        Resource = \"*\"\n"
+          ],
+          [
+            58,
+            "      }\n"
+          ],
+          [
+            59,
+            "    ]\n"
+          ],
+          [
+            60,
+            "  })\n"
+          ],
+          [
+            61,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          46,
+          61
+        ],
+        "resource": "aws_iam_policy.ec2_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMDataExfiltration",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-288",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_287",
+        "bc_check_id": "BC_AWS_IAM_82",
+        "check_name": "Ensure IAM policies does not allow credentials exposure",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            46,
+            "resource \"aws_iam_policy\" \"ec2_policy\" {\n"
+          ],
+          [
+            47,
+            "  name = \"ec2_policy\"\n"
+          ],
+          [
+            48,
+            "\n"
+          ],
+          [
+            49,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            50,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            51,
+            "    Statement = [\n"
+          ],
+          [
+            52,
+            "      {\n"
+          ],
+          [
+            53,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            54,
+            "        Action = [\n"
+          ],
+          [
+            55,
+            "          \"ec2:Describe*\"\n"
+          ],
+          [
+            56,
+            "        ]\n"
+          ],
+          [
+            57,
+            "        Resource = \"*\"\n"
+          ],
+          [
+            58,
+            "      }\n"
+          ],
+          [
+            59,
+            "    ]\n"
+          ],
+          [
+            60,
+            "  })\n"
+          ],
+          [
+            61,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          46,
+          61
+        ],
+        "resource": "aws_iam_policy.ec2_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMCredentialsExposure",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-287",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_62",
+        "bc_check_id": "BC_AWS_IAM_47",
+        "check_name": "Ensure IAM policies that allow full \"*-*\" administrative privileges are not created",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "policy",
+            "inline_policy"
+          ]
+        },
+        "code_block": [
+          [
+            46,
+            "resource \"aws_iam_policy\" \"ec2_policy\" {\n"
+          ],
+          [
+            47,
+            "  name = \"ec2_policy\"\n"
+          ],
+          [
+            48,
+            "\n"
+          ],
+          [
+            49,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            50,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            51,
+            "    Statement = [\n"
+          ],
+          [
+            52,
+            "      {\n"
+          ],
+          [
+            53,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            54,
+            "        Action = [\n"
+          ],
+          [
+            55,
+            "          \"ec2:Describe*\"\n"
+          ],
+          [
+            56,
+            "        ]\n"
+          ],
+          [
+            57,
+            "        Resource = \"*\"\n"
+          ],
+          [
+            58,
+            "      }\n"
+          ],
+          [
+            59,
+            "    ]\n"
+          ],
+          [
+            60,
+            "  })\n"
+          ],
+          [
+            61,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          46,
+          61
+        ],
+        "resource": "aws_iam_policy.ec2_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMAdminPolicyDocument",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_274",
+        "bc_check_id": "BC_AWS_IAM_78",
+        "check_name": "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            63,
+            "resource \"aws_iam_role_policy_attachment\" \"ec2_policy_attachment\" {\n"
+          ],
+          [
+            64,
+            "  role       = aws_iam_role.ec2_role.name\n"
+          ],
+          [
+            65,
+            "  policy_arn = aws_iam_policy.ec2_policy.arn\n"
+          ],
+          [
+            66,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          63,
+          66
+        ],
+        "resource": "aws_iam_role_policy_attachment.ec2_policy_attachment",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMManagedAdminPolicy",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf",
+        "breadcrumbs": {
+          "role": [
+            {
+              "type": "resource",
+              "name": "aws_iam_role.ec2_role",
+              "path": "/tmp/tmpprgpkdv8/main.tf",
+              "module_connection": false
+            }
+          ]
+        }
+      },
+      {
+        "check_id": "CKV_AWS_46",
+        "bc_check_id": "BC_AWS_SECRETS_1",
+        "check_name": "Ensure no hard-coded secrets exist in EC2 user data",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "user_data"
+          ]
+        },
+        "code_block": [
+          [
+            68,
+            "resource \"aws_instance\" \"example\" {\n"
+          ],
+          [
+            69,
+            "  ami                  = aws_ami.latest_amazon_linux_2.id\n"
+          ],
+          [
+            70,
+            "  instance_type        = \"t2.micro\"\n"
+          ],
+          [
+            71,
+            "  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name\n"
+          ],
+          [
+            72,
+            "\n"
+          ],
+          [
+            73,
+            "  tags = {\n"
+          ],
+          [
+            74,
+            "    Name = \"example-instance\"\n"
+          ],
+          [
+            75,
+            "  }\n"
+          ],
+          [
+            76,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          68,
+          76
+        ],
+        "resource": "aws_instance.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.EC2Credentials",
+        "fixed_definition": null,
+        "entity_tags": {
+          "Name": "example-instance"
+        },
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-1",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf",
+        "breadcrumbs": {
+          "iam_instance_profile": [
+            {
+              "type": "resource",
+              "name": "aws_iam_instance_profile.ec2_profile",
+              "path": "/tmp/tmpprgpkdv8/main.tf",
+              "module_connection": false
+            }
+          ]
+        }
+      },
+      {
+        "check_id": "CKV_AWS_88",
+        "bc_check_id": "BC_AWS_PUBLIC_12",
+        "check_name": "EC2 instance should not have public IP.",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "associate_public_ip_address"
+          ]
+        },
+        "code_block": [
+          [
+            68,
+            "resource \"aws_instance\" \"example\" {\n"
+          ],
+          [
+            69,
+            "  ami                  = aws_ami.latest_amazon_linux_2.id\n"
+          ],
+          [
+            70,
+            "  instance_type        = \"t2.micro\"\n"
+          ],
+          [
+            71,
+            "  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name\n"
+          ],
+          [
+            72,
+            "\n"
+          ],
+          [
+            73,
+            "  tags = {\n"
+          ],
+          [
+            74,
+            "    Name = \"example-instance\"\n"
+          ],
+          [
+            75,
+            "  }\n"
+          ],
+          [
+            76,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          68,
+          76
+        ],
+        "resource": "aws_instance.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.EC2PublicIP",
+        "fixed_definition": null,
+        "entity_tags": {
+          "Name": "example-instance"
+        },
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/public-policies/public-12",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf",
+        "breadcrumbs": {
+          "iam_instance_profile": [
+            {
+              "type": "resource",
+              "name": "aws_iam_instance_profile.ec2_profile",
+              "path": "/tmp/tmpprgpkdv8/main.tf",
+              "module_connection": false
+            }
+          ]
+        }
+      },
+      {
+        "check_id": "CKV_AWS_25",
+        "bc_check_id": "BC_AWS_NETWORKING_2",
+        "check_name": "Ensure no security groups allow ingress from 0.0.0.0:0 to port 3389",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            83,
+            "resource \"aws_security_group\" \"example\" {\n"
+          ],
+          [
+            84,
+            "  name        = \"example-sg\"\n"
+          ],
+          [
+            85,
+            "  description = \"Example security group\"\n"
+          ],
+          [
+            86,
+            "\n"
+          ],
+          [
+            87,
+            "  ingress {\n"
+          ],
+          [
+            88,
+            "    from_port   = 22\n"
+          ],
+          [
+            89,
+            "    to_port     = 22\n"
+          ],
+          [
+            90,
+            "    protocol    = \"tcp\"\n"
+          ],
+          [
+            91,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            92,
+            "  }\n"
+          ],
+          [
+            93,
+            "\n"
+          ],
+          [
+            94,
+            "  egress {\n"
+          ],
+          [
+            95,
+            "    from_port   = 0\n"
+          ],
+          [
+            96,
+            "    to_port     = 0\n"
+          ],
+          [
+            97,
+            "    protocol    = \"-1\"\n"
+          ],
+          [
+            98,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            99,
+            "  }\n"
+          ],
+          [
+            100,
+            "\n"
+          ],
+          [
+            101,
+            "  tags = {\n"
+          ],
+          [
+            102,
+            "    Name = \"example-sg\"\n"
+          ],
+          [
+            103,
+            "  }\n"
+          ],
+          [
+            104,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          83,
+          104
+        ],
+        "resource": "aws_security_group.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.SecurityGroupUnrestrictedIngress3389",
+        "fixed_definition": null,
+        "entity_tags": {
+          "Name": "example-sg"
+        },
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-2",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_277",
+        "bc_check_id": "BC_AWS_NETWORKING_78",
+        "check_name": "Ensure no security groups allow ingress from 0.0.0.0:0 to port -1",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            83,
+            "resource \"aws_security_group\" \"example\" {\n"
+          ],
+          [
+            84,
+            "  name        = \"example-sg\"\n"
+          ],
+          [
+            85,
+            "  description = \"Example security group\"\n"
+          ],
+          [
+            86,
+            "\n"
+          ],
+          [
+            87,
+            "  ingress {\n"
+          ],
+          [
+            88,
+            "    from_port   = 22\n"
+          ],
+          [
+            89,
+            "    to_port     = 22\n"
+          ],
+          [
+            90,
+            "    protocol    = \"tcp\"\n"
+          ],
+          [
+            91,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            92,
+            "  }\n"
+          ],
+          [
+            93,
+            "\n"
+          ],
+          [
+            94,
+            "  egress {\n"
+          ],
+          [
+            95,
+            "    from_port   = 0\n"
+          ],
+          [
+            96,
+            "    to_port     = 0\n"
+          ],
+          [
+            97,
+            "    protocol    = \"-1\"\n"
+          ],
+          [
+            98,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            99,
+            "  }\n"
+          ],
+          [
+            100,
+            "\n"
+          ],
+          [
+            101,
+            "  tags = {\n"
+          ],
+          [
+            102,
+            "    Name = \"example-sg\"\n"
+          ],
+          [
+            103,
+            "  }\n"
+          ],
+          [
+            104,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          83,
+          104
+        ],
+        "resource": "aws_security_group.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.SecurityGroupUnrestrictedIngressAny",
+        "fixed_definition": null,
+        "entity_tags": {
+          "Name": "example-sg"
+        },
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-security-group-does-not-allow-all-traffic-on-all-ports",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_260",
+        "bc_check_id": "BC_AWS_NETWORKING_67",
+        "check_name": "Ensure no security groups allow ingress from 0.0.0.0:0 to port 80",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            83,
+            "resource \"aws_security_group\" \"example\" {\n"
+          ],
+          [
+            84,
+            "  name        = \"example-sg\"\n"
+          ],
+          [
+            85,
+            "  description = \"Example security group\"\n"
+          ],
+          [
+            86,
+            "\n"
+          ],
+          [
+            87,
+            "  ingress {\n"
+          ],
+          [
+            88,
+            "    from_port   = 22\n"
+          ],
+          [
+            89,
+            "    to_port     = 22\n"
+          ],
+          [
+            90,
+            "    protocol    = \"tcp\"\n"
+          ],
+          [
+            91,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            92,
+            "  }\n"
+          ],
+          [
+            93,
+            "\n"
+          ],
+          [
+            94,
+            "  egress {\n"
+          ],
+          [
+            95,
+            "    from_port   = 0\n"
+          ],
+          [
+            96,
+            "    to_port     = 0\n"
+          ],
+          [
+            97,
+            "    protocol    = \"-1\"\n"
+          ],
+          [
+            98,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            99,
+            "  }\n"
+          ],
+          [
+            100,
+            "\n"
+          ],
+          [
+            101,
+            "  tags = {\n"
+          ],
+          [
+            102,
+            "    Name = \"example-sg\"\n"
+          ],
+          [
+            103,
+            "  }\n"
+          ],
+          [
+            104,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          83,
+          104
+        ],
+        "resource": "aws_security_group.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.SecurityGroupUnrestrictedIngress80",
+        "fixed_definition": null,
+        "entity_tags": {
+          "Name": "example-sg"
+        },
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-aws-security-groups-do-not-allow-ingress-from-00000-to-port-80",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_130",
+        "bc_check_id": "BC_AWS_NETWORKING_53",
+        "check_name": "Ensure VPC subnets do not assign public IP by default",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "map_public_ip_on_launch"
+          ]
+        },
+        "code_block": [
+          [
+            114,
+            "resource \"aws_subnet\" \"example\" {\n"
+          ],
+          [
+            115,
+            "  vpc_id            = aws_vpc.example.id\n"
+          ],
+          [
+            116,
+            "  cidr_block        = \"10.0.1.0/24\"\n"
+          ],
+          [
+            117,
+            "  availability_zone = \"us-west-2a\"\n"
+          ],
+          [
+            118,
+            "\n"
+          ],
+          [
+            119,
+            "  tags = {\n"
+          ],
+          [
+            120,
+            "    Name = \"example-subnet\"\n"
+          ],
+          [
+            121,
+            "  }\n"
+          ],
+          [
+            122,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          114,
+          122
+        ],
+        "resource": "aws_subnet.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.SubnetPublicIP",
+        "fixed_definition": null,
+        "entity_tags": {
+          "Name": "example-subnet"
+        },
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-vpc-subnets-do-not-assign-public-ip-by-default",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_251",
+        "bc_check_id": "BC_AWS_GENERAL_172",
+        "check_name": "Ensure CloudTrail logging is enabled",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "enable_logging"
+          ]
+        },
+        "code_block": [
+          [
+            135,
+            "resource \"aws_cloudtrail\" \"example\" {\n"
+          ],
+          [
+            136,
+            "  name                          = \"example-trail\"\n"
+          ],
+          [
+            137,
+            "  s3_bucket_name                = aws_s3_bucket.example.id\n"
+          ],
+          [
+            138,
+            "  include_global_service_events = true\n"
+          ],
+          [
+            139,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          135,
+          139
+        ],
+        "resource": "aws_cloudtrail.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.CloudtrailEnableLogging",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-cloudtrail-logging-is-enabled",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_93",
+        "bc_check_id": "BC_AWS_S3_24",
+        "check_name": "Ensure S3 bucket policy does not lockout all but root user. (Prevent lockouts needing root account fixes)",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "policy"
+          ]
+        },
+        "code_block": [
+          [
+            141,
+            "resource \"aws_s3_bucket\" \"example\" {\n"
+          ],
+          [
+            142,
+            "  bucket = \"example-bucket\"\n"
+          ],
+          [
+            143,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          141,
+          143
+        ],
+        "resource": "aws_s3_bucket.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.S3ProtectAgainstPolicyLockout",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/bc-aws-s3-24",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_53",
+        "bc_check_id": "BC_AWS_S3_19",
+        "check_name": "Ensure S3 bucket has block public ACLS enabled",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "block_public_acls"
+          ]
+        },
+        "code_block": [
+          [
+            145,
+            "resource \"aws_s3_bucket_public_access_block\" \"example\" {\n"
+          ],
+          [
+            146,
+            "  bucket = aws_s3_bucket.example.id\n"
+          ],
+          [
+            147,
+            "\n"
+          ],
+          [
+            148,
+            "  block_public_acls       = true\n"
+          ],
+          [
+            149,
+            "  block_public_policy     = true\n"
+          ],
+          [
+            150,
+            "  ignore_public_acls      = true\n"
+          ],
+          [
+            151,
+            "  restrict_public_buckets = true\n"
+          ],
+          [
+            152,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          145,
+          152
+        ],
+        "resource": "aws_s3_bucket_public_access_block.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.S3BlockPublicACLs",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/bc-aws-s3-19",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_54",
+        "bc_check_id": "BC_AWS_S3_20",
+        "check_name": "Ensure S3 bucket has block public policy enabled",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "block_public_policy"
+          ]
+        },
+        "code_block": [
+          [
+            145,
+            "resource \"aws_s3_bucket_public_access_block\" \"example\" {\n"
+          ],
+          [
+            146,
+            "  bucket = aws_s3_bucket.example.id\n"
+          ],
+          [
+            147,
+            "\n"
+          ],
+          [
+            148,
+            "  block_public_acls       = true\n"
+          ],
+          [
+            149,
+            "  block_public_policy     = true\n"
+          ],
+          [
+            150,
+            "  ignore_public_acls      = true\n"
+          ],
+          [
+            151,
+            "  restrict_public_buckets = true\n"
+          ],
+          [
+            152,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          145,
+          152
+        ],
+        "resource": "aws_s3_bucket_public_access_block.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.S3BlockPublicPolicy",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/bc-aws-s3-20",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_56",
+        "bc_check_id": "BC_AWS_S3_22",
+        "check_name": "Ensure S3 bucket has 'restrict_public_buckets' enabled",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "restrict_public_buckets"
+          ]
+        },
+        "code_block": [
+          [
+            145,
+            "resource \"aws_s3_bucket_public_access_block\" \"example\" {\n"
+          ],
+          [
+            146,
+            "  bucket = aws_s3_bucket.example.id\n"
+          ],
+          [
+            147,
+            "\n"
+          ],
+          [
+            148,
+            "  block_public_acls       = true\n"
+          ],
+          [
+            149,
+            "  block_public_policy     = true\n"
+          ],
+          [
+            150,
+            "  ignore_public_acls      = true\n"
+          ],
+          [
+            151,
+            "  restrict_public_buckets = true\n"
+          ],
+          [
+            152,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          145,
+          152
+        ],
+        "resource": "aws_s3_bucket_public_access_block.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.S3RestrictPublicBuckets",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/bc-aws-s3-22",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_55",
+        "bc_check_id": "BC_AWS_S3_21",
+        "check_name": "Ensure S3 bucket has ignore public ACLs enabled",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "ignore_public_acls"
+          ]
+        },
+        "code_block": [
+          [
+            145,
+            "resource \"aws_s3_bucket_public_access_block\" \"example\" {\n"
+          ],
+          [
+            146,
+            "  bucket = aws_s3_bucket.example.id\n"
+          ],
+          [
+            147,
+            "\n"
+          ],
+          [
+            148,
+            "  block_public_acls       = true\n"
+          ],
+          [
+            149,
+            "  block_public_policy     = true\n"
+          ],
+          [
+            150,
+            "  ignore_public_acls      = true\n"
+          ],
+          [
+            151,
+            "  restrict_public_buckets = true\n"
+          ],
+          [
+            152,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          145,
+          152
+        ],
+        "resource": "aws_s3_bucket_public_access_block.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.S3IgnorePublicACLs",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/bc-aws-s3-21",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_70",
+        "bc_check_id": "BC_AWS_S3_23",
+        "check_name": "Ensure S3 bucket does not allow an action with any Principal",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "policy"
+          ]
+        },
+        "code_block": [
+          [
+            172,
+            "resource \"aws_s3_bucket_policy\" \"example\" {\n"
+          ],
+          [
+            173,
+            "  bucket = aws_s3_bucket.example.id\n"
+          ],
+          [
+            174,
+            "\n"
+          ],
+          [
+            175,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            176,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            177,
+            "    Statement = [\n"
+          ],
+          [
+            178,
+            "      {\n"
+          ],
+          [
+            179,
+            "        Effect    = \"Deny\"\n"
+          ],
+          [
+            180,
+            "        Principal = \"*\"\n"
+          ],
+          [
+            181,
+            "        Action    = \"s3:*\"\n"
+          ],
+          [
+            182,
+            "        Resource = [\n"
+          ],
+          [
+            183,
+            "          \"arn:aws:s3:::${aws_s3_bucket.example.id}\",\n"
+          ],
+          [
+            184,
+            "          \"arn:aws:s3:::${aws_s3_bucket.example.id}/*\"\n"
+          ],
+          [
+            185,
+            "        ]\n"
+          ],
+          [
+            186,
+            "        Condition = {\n"
+          ],
+          [
+            187,
+            "          StringNotEquals = {\n"
+          ],
+          [
+            188,
+            "            \"aws:SourceArn\" = \"arn:aws:cloudtrail:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:trail/example-trail\"\n"
+          ],
+          [
+            189,
+            "          }\n"
+          ],
+          [
+            190,
+            "        }\n"
+          ],
+          [
+            191,
+            "      }\n"
+          ],
+          [
+            192,
+            "    ]\n"
+          ],
+          [
+            193,
+            "  })\n"
+          ],
+          [
+            194,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          172,
+          194
+        ],
+        "resource": "aws_s3_bucket_policy.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.S3AllowsAnyPrincipal",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/bc-aws-s3-23",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_93",
+        "bc_check_id": "BC_AWS_S3_24",
+        "check_name": "Ensure S3 bucket policy does not lockout all but root user. (Prevent lockouts needing root account fixes)",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "policy"
+          ]
+        },
+        "code_block": [
+          [
+            172,
+            "resource \"aws_s3_bucket_policy\" \"example\" {\n"
+          ],
+          [
+            173,
+            "  bucket = aws_s3_bucket.example.id\n"
+          ],
+          [
+            174,
+            "\n"
+          ],
+          [
+            175,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            176,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            177,
+            "    Statement = [\n"
+          ],
+          [
+            178,
+            "      {\n"
+          ],
+          [
+            179,
+            "        Effect    = \"Deny\"\n"
+          ],
+          [
+            180,
+            "        Principal = \"*\"\n"
+          ],
+          [
+            181,
+            "        Action    = \"s3:*\"\n"
+          ],
+          [
+            182,
+            "        Resource = [\n"
+          ],
+          [
+            183,
+            "          \"arn:aws:s3:::${aws_s3_bucket.example.id}\",\n"
+          ],
+          [
+            184,
+            "          \"arn:aws:s3:::${aws_s3_bucket.example.id}/*\"\n"
+          ],
+          [
+            185,
+            "        ]\n"
+          ],
+          [
+            186,
+            "        Condition = {\n"
+          ],
+          [
+            187,
+            "          StringNotEquals = {\n"
+          ],
+          [
+            188,
+            "            \"aws:SourceArn\" = \"arn:aws:cloudtrail:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:trail/example-trail\"\n"
+          ],
+          [
+            189,
+            "          }\n"
+          ],
+          [
+            190,
+            "        }\n"
+          ],
+          [
+            191,
+            "      }\n"
+          ],
+          [
+            192,
+            "    ]\n"
+          ],
+          [
+            193,
+            "  })\n"
+          ],
+          [
+            194,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          172,
+          194
+        ],
+        "resource": "aws_s3_bucket_policy.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.S3ProtectAgainstPolicyLockout",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/bc-aws-s3-24",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_227",
+        "bc_check_id": "BC_AWS_GENERAL_122",
+        "check_name": "Ensure KMS key is enabled",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "is_enabled"
+          ]
+        },
+        "code_block": [
+          [
+            196,
+            "resource \"aws_kms_key\" \"example\" {\n"
+          ],
+          [
+            197,
+            "  description             = \"KMS key for example\"\n"
+          ],
+          [
+            198,
+            "  deletion_window_in_days = 30\n"
+          ],
+          [
+            199,
+            "  enable_key_rotation     = true\n"
+          ],
+          [
+            200,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          196,
+          200
+        ],
+        "resource": "aws_kms_key.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.KMSKeyIsEnabled",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-key-management-service-kms-key-is-enabled",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_33",
+        "bc_check_id": "BC_AWS_IAM_63",
+        "check_name": "Ensure KMS key policy does not contain wildcard (*) principal",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            196,
+            "resource \"aws_kms_key\" \"example\" {\n"
+          ],
+          [
+            197,
+            "  description             = \"KMS key for example\"\n"
+          ],
+          [
+            198,
+            "  deletion_window_in_days = 30\n"
+          ],
+          [
+            199,
+            "  enable_key_rotation     = true\n"
+          ],
+          [
+            200,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          196,
+          200
+        ],
+        "resource": "aws_kms_key.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.KMSKeyWildcardPrincipal",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/ensure-kms-key-policy-does-not-contain-wildcard-principal",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_7",
+        "bc_check_id": "BC_AWS_LOGGING_8",
+        "check_name": "Ensure rotation for customer created CMKs is enabled",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "enable_key_rotation"
+          ]
+        },
+        "code_block": [
+          [
+            196,
+            "resource \"aws_kms_key\" \"example\" {\n"
+          ],
+          [
+            197,
+            "  description             = \"KMS key for example\"\n"
+          ],
+          [
+            198,
+            "  deletion_window_in_days = 30\n"
+          ],
+          [
+            199,
+            "  enable_key_rotation     = true\n"
+          ],
+          [
+            200,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          196,
+          200
+        ],
+        "resource": "aws_kms_key.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.KMSRotation",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-8",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_290",
+        "bc_check_id": "BC_AWS_IAM_85",
+        "check_name": "Ensure IAM policies does not allow write access without constraints",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            207,
+            "resource \"aws_iam_policy\" \"kms_policy\" {\n"
+          ],
+          [
+            208,
+            "  name = \"kms_policy\"\n"
+          ],
+          [
+            209,
+            "\n"
+          ],
+          [
+            210,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            211,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            212,
+            "    Statement = [\n"
+          ],
+          [
+            213,
+            "      {\n"
+          ],
+          [
+            214,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            215,
+            "        Action = [\n"
+          ],
+          [
+            216,
+            "          \"kms:Encrypt\",\n"
+          ],
+          [
+            217,
+            "          \"kms:Decrypt\",\n"
+          ],
+          [
+            218,
+            "          \"kms:ReEncrypt*\",\n"
+          ],
+          [
+            219,
+            "          \"kms:GenerateDataKey*\",\n"
+          ],
+          [
+            220,
+            "          \"kms:DescribeKey\"\n"
+          ],
+          [
+            221,
+            "        ]\n"
+          ],
+          [
+            222,
+            "        Resource = aws_kms_key.example.arn\n"
+          ],
+          [
+            223,
+            "      }\n"
+          ],
+          [
+            224,
+            "    ]\n"
+          ],
+          [
+            225,
+            "  })\n"
+          ],
+          [
+            226,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          207,
+          226
+        ],
+        "resource": "aws_iam_policy.kms_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMWriteAccess",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-290",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_355",
+        "bc_check_id": "BC_AWS_IAM_88",
+        "check_name": "Ensure no IAM policies documents allow \"*\" as a statement's resource for restrictable actions",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            207,
+            "resource \"aws_iam_policy\" \"kms_policy\" {\n"
+          ],
+          [
+            208,
+            "  name = \"kms_policy\"\n"
+          ],
+          [
+            209,
+            "\n"
+          ],
+          [
+            210,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            211,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            212,
+            "    Statement = [\n"
+          ],
+          [
+            213,
+            "      {\n"
+          ],
+          [
+            214,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            215,
+            "        Action = [\n"
+          ],
+          [
+            216,
+            "          \"kms:Encrypt\",\n"
+          ],
+          [
+            217,
+            "          \"kms:Decrypt\",\n"
+          ],
+          [
+            218,
+            "          \"kms:ReEncrypt*\",\n"
+          ],
+          [
+            219,
+            "          \"kms:GenerateDataKey*\",\n"
+          ],
+          [
+            220,
+            "          \"kms:DescribeKey\"\n"
+          ],
+          [
+            221,
+            "        ]\n"
+          ],
+          [
+            222,
+            "        Resource = aws_kms_key.example.arn\n"
+          ],
+          [
+            223,
+            "      }\n"
+          ],
+          [
+            224,
+            "    ]\n"
+          ],
+          [
+            225,
+            "  })\n"
+          ],
+          [
+            226,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          207,
+          226
+        ],
+        "resource": "aws_iam_policy.kms_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMStarResourcePolicyDocument",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-355",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_63",
+        "bc_check_id": "BC_AWS_IAM_48",
+        "check_name": "Ensure no IAM policies documents allow \"*\" as a statement's actions",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "policy",
+            "inline_policy"
+          ]
+        },
+        "code_block": [
+          [
+            207,
+            "resource \"aws_iam_policy\" \"kms_policy\" {\n"
+          ],
+          [
+            208,
+            "  name = \"kms_policy\"\n"
+          ],
+          [
+            209,
+            "\n"
+          ],
+          [
+            210,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            211,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            212,
+            "    Statement = [\n"
+          ],
+          [
+            213,
+            "      {\n"
+          ],
+          [
+            214,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            215,
+            "        Action = [\n"
+          ],
+          [
+            216,
+            "          \"kms:Encrypt\",\n"
+          ],
+          [
+            217,
+            "          \"kms:Decrypt\",\n"
+          ],
+          [
+            218,
+            "          \"kms:ReEncrypt*\",\n"
+          ],
+          [
+            219,
+            "          \"kms:GenerateDataKey*\",\n"
+          ],
+          [
+            220,
+            "          \"kms:DescribeKey\"\n"
+          ],
+          [
+            221,
+            "        ]\n"
+          ],
+          [
+            222,
+            "        Resource = aws_kms_key.example.arn\n"
+          ],
+          [
+            223,
+            "      }\n"
+          ],
+          [
+            224,
+            "    ]\n"
+          ],
+          [
+            225,
+            "  })\n"
+          ],
+          [
+            226,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          207,
+          226
+        ],
+        "resource": "aws_iam_policy.kms_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMStarActionPolicyDocument",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/iam-48",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_289",
+        "bc_check_id": "BC_AWS_IAM_84",
+        "check_name": "Ensure IAM policies does not allow permissions management / resource exposure without constraints",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            207,
+            "resource \"aws_iam_policy\" \"kms_policy\" {\n"
+          ],
+          [
+            208,
+            "  name = \"kms_policy\"\n"
+          ],
+          [
+            209,
+            "\n"
+          ],
+          [
+            210,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            211,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            212,
+            "    Statement = [\n"
+          ],
+          [
+            213,
+            "      {\n"
+          ],
+          [
+            214,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            215,
+            "        Action = [\n"
+          ],
+          [
+            216,
+            "          \"kms:Encrypt\",\n"
+          ],
+          [
+            217,
+            "          \"kms:Decrypt\",\n"
+          ],
+          [
+            218,
+            "          \"kms:ReEncrypt*\",\n"
+          ],
+          [
+            219,
+            "          \"kms:GenerateDataKey*\",\n"
+          ],
+          [
+            220,
+            "          \"kms:DescribeKey\"\n"
+          ],
+          [
+            221,
+            "        ]\n"
+          ],
+          [
+            222,
+            "        Resource = aws_kms_key.example.arn\n"
+          ],
+          [
+            223,
+            "      }\n"
+          ],
+          [
+            224,
+            "    ]\n"
+          ],
+          [
+            225,
+            "  })\n"
+          ],
+          [
+            226,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          207,
+          226
+        ],
+        "resource": "aws_iam_policy.kms_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMPermissionsManagement",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-289",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_286",
+        "bc_check_id": "BC_AWS_IAM_81",
+        "check_name": "Ensure IAM policies does not allow privilege escalation",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            207,
+            "resource \"aws_iam_policy\" \"kms_policy\" {\n"
+          ],
+          [
+            208,
+            "  name = \"kms_policy\"\n"
+          ],
+          [
+            209,
+            "\n"
+          ],
+          [
+            210,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            211,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            212,
+            "    Statement = [\n"
+          ],
+          [
+            213,
+            "      {\n"
+          ],
+          [
+            214,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            215,
+            "        Action = [\n"
+          ],
+          [
+            216,
+            "          \"kms:Encrypt\",\n"
+          ],
+          [
+            217,
+            "          \"kms:Decrypt\",\n"
+          ],
+          [
+            218,
+            "          \"kms:ReEncrypt*\",\n"
+          ],
+          [
+            219,
+            "          \"kms:GenerateDataKey*\",\n"
+          ],
+          [
+            220,
+            "          \"kms:DescribeKey\"\n"
+          ],
+          [
+            221,
+            "        ]\n"
+          ],
+          [
+            222,
+            "        Resource = aws_kms_key.example.arn\n"
+          ],
+          [
+            223,
+            "      }\n"
+          ],
+          [
+            224,
+            "    ]\n"
+          ],
+          [
+            225,
+            "  })\n"
+          ],
+          [
+            226,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          207,
+          226
+        ],
+        "resource": "aws_iam_policy.kms_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMPrivilegeEscalation",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-286",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_288",
+        "bc_check_id": "BC_AWS_IAM_83",
+        "check_name": "Ensure IAM policies does not allow data exfiltration",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            207,
+            "resource \"aws_iam_policy\" \"kms_policy\" {\n"
+          ],
+          [
+            208,
+            "  name = \"kms_policy\"\n"
+          ],
+          [
+            209,
+            "\n"
+          ],
+          [
+            210,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            211,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            212,
+            "    Statement = [\n"
+          ],
+          [
+            213,
+            "      {\n"
+          ],
+          [
+            214,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            215,
+            "        Action = [\n"
+          ],
+          [
+            216,
+            "          \"kms:Encrypt\",\n"
+          ],
+          [
+            217,
+            "          \"kms:Decrypt\",\n"
+          ],
+          [
+            218,
+            "          \"kms:ReEncrypt*\",\n"
+          ],
+          [
+            219,
+            "          \"kms:GenerateDataKey*\",\n"
+          ],
+          [
+            220,
+            "          \"kms:DescribeKey\"\n"
+          ],
+          [
+            221,
+            "        ]\n"
+          ],
+          [
+            222,
+            "        Resource = aws_kms_key.example.arn\n"
+          ],
+          [
+            223,
+            "      }\n"
+          ],
+          [
+            224,
+            "    ]\n"
+          ],
+          [
+            225,
+            "  })\n"
+          ],
+          [
+            226,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          207,
+          226
+        ],
+        "resource": "aws_iam_policy.kms_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMDataExfiltration",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-288",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_287",
+        "bc_check_id": "BC_AWS_IAM_82",
+        "check_name": "Ensure IAM policies does not allow credentials exposure",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            207,
+            "resource \"aws_iam_policy\" \"kms_policy\" {\n"
+          ],
+          [
+            208,
+            "  name = \"kms_policy\"\n"
+          ],
+          [
+            209,
+            "\n"
+          ],
+          [
+            210,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            211,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            212,
+            "    Statement = [\n"
+          ],
+          [
+            213,
+            "      {\n"
+          ],
+          [
+            214,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            215,
+            "        Action = [\n"
+          ],
+          [
+            216,
+            "          \"kms:Encrypt\",\n"
+          ],
+          [
+            217,
+            "          \"kms:Decrypt\",\n"
+          ],
+          [
+            218,
+            "          \"kms:ReEncrypt*\",\n"
+          ],
+          [
+            219,
+            "          \"kms:GenerateDataKey*\",\n"
+          ],
+          [
+            220,
+            "          \"kms:DescribeKey\"\n"
+          ],
+          [
+            221,
+            "        ]\n"
+          ],
+          [
+            222,
+            "        Resource = aws_kms_key.example.arn\n"
+          ],
+          [
+            223,
+            "      }\n"
+          ],
+          [
+            224,
+            "    ]\n"
+          ],
+          [
+            225,
+            "  })\n"
+          ],
+          [
+            226,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          207,
+          226
+        ],
+        "resource": "aws_iam_policy.kms_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMCredentialsExposure",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-287",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_62",
+        "bc_check_id": "BC_AWS_IAM_47",
+        "check_name": "Ensure IAM policies that allow full \"*-*\" administrative privileges are not created",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": [
+            "policy",
+            "inline_policy"
+          ]
+        },
+        "code_block": [
+          [
+            207,
+            "resource \"aws_iam_policy\" \"kms_policy\" {\n"
+          ],
+          [
+            208,
+            "  name = \"kms_policy\"\n"
+          ],
+          [
+            209,
+            "\n"
+          ],
+          [
+            210,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            211,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            212,
+            "    Statement = [\n"
+          ],
+          [
+            213,
+            "      {\n"
+          ],
+          [
+            214,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            215,
+            "        Action = [\n"
+          ],
+          [
+            216,
+            "          \"kms:Encrypt\",\n"
+          ],
+          [
+            217,
+            "          \"kms:Decrypt\",\n"
+          ],
+          [
+            218,
+            "          \"kms:ReEncrypt*\",\n"
+          ],
+          [
+            219,
+            "          \"kms:GenerateDataKey*\",\n"
+          ],
+          [
+            220,
+            "          \"kms:DescribeKey\"\n"
+          ],
+          [
+            221,
+            "        ]\n"
+          ],
+          [
+            222,
+            "        Resource = aws_kms_key.example.arn\n"
+          ],
+          [
+            223,
+            "      }\n"
+          ],
+          [
+            224,
+            "    ]\n"
+          ],
+          [
+            225,
+            "  })\n"
+          ],
+          [
+            226,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          207,
+          226
+        ],
+        "resource": "aws_iam_policy.kms_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMAdminPolicyDocument",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-iam-45",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_274",
+        "bc_check_id": "BC_AWS_IAM_78",
+        "check_name": "Disallow IAM roles, users, and groups from using the AWS AdministratorAccess policy",
+        "check_result": {
+          "result": "PASSED",
+          "evaluated_keys": []
+        },
+        "code_block": [
+          [
+            228,
+            "resource \"aws_iam_role_policy_attachment\" \"kms_policy_attachment\" {\n"
+          ],
+          [
+            229,
+            "  role       = aws_iam_role.ec2_role.name\n"
+          ],
+          [
+            230,
+            "  policy_arn = aws_iam_policy.kms_policy.arn\n"
+          ],
+          [
+            231,
+            "}"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          228,
+          231
+        ],
+        "resource": "aws_iam_role_policy_attachment.kms_policy_attachment",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMManagedAdminPolicy",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-274",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf",
+        "breadcrumbs": {
+          "role": [
+            {
+              "type": "resource",
+              "name": "aws_iam_role.ec2_role",
+              "path": "/tmp/tmpprgpkdv8/main.tf",
+              "module_connection": false
+            }
+          ]
+        }
+      },
+      {
+        "check_id": "CKV2_AWS_11",
+        "bc_check_id": "BC_AWS_LOGGING_9",
+        "check_name": "Ensure VPC flow logging is enabled in all VPCs",
+        "check_result": {
+          "result": "PASSED",
+          "entity": {
+            "aws_vpc": {
+              "example": {
+                "__end_line__": 112,
+                "__start_line__": 106,
+                "cidr_block": [
+                  "10.0.0.0/16"
+                ],
+                "tags": [
+                  {
+                    "Name": "example-vpc"
+                  }
+                ],
+                "__address__": "aws_vpc.example",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "networking",
+            "resource_type"
+          ]
+        },
+        "code_block": [
+          [
+            106,
+            "resource \"aws_vpc\" \"example\" {\n"
+          ],
+          [
+            107,
+            "  cidr_block = \"10.0.0.0/16\"\n"
+          ],
+          [
+            108,
+            "\n"
+          ],
+          [
+            109,
+            "  tags = {\n"
+          ],
+          [
+            110,
+            "    Name = \"example-vpc\"\n"
+          ],
+          [
+            111,
+            "  }\n"
+          ],
+          [
+            112,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          106,
+          112
+        ],
+        "resource": "aws_vpc.example",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {
+          "Name": "example-vpc"
+        },
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": {
+          "code_block": [
+            [
+              124,
+              "resource \"aws_flow_log\" \"example\" {\n"
+            ],
+            [
+              125,
+              "  log_destination      = aws_cloudwatch_log_group.example.arn\n"
+            ],
+            [
+              126,
+              "  log_destination_type = \"cloud-watch-logs\"\n"
+            ],
+            [
+              127,
+              "  traffic_type         = \"ALL\"\n"
+            ],
+            [
+              128,
+              "  vpc_id               = aws_vpc.example.id\n"
+            ],
+            [
+              129,
+              "}\n"
+            ]
+          ],
+          "file_path": "/main.tf",
+          "file_line_range": [
+            124,
+            129
+          ],
+          "resource": "aws_flow_log.example",
+          "entity_tags": {},
+          "evaluations": null,
+          "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+          "resource_address": null
+        },
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-9-enable-vpc-flow-logging",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_41",
+        "bc_check_id": "BC_AWS_IAM_69",
+        "check_name": "Ensure an IAM role is attached to EC2 instance",
+        "check_result": {
+          "result": "PASSED",
+          "entity": {
+            "aws_instance": {
+              "example": {
+                "__end_line__": 76,
+                "__start_line__": 68,
+                "ami": [
+                  "aws_ami.latest_amazon_linux_2.id"
+                ],
+                "iam_instance_profile": [
+                  "ec2_profile"
+                ],
+                "instance_type": [
+                  "t2.micro"
+                ],
+                "tags": [
+                  {
+                    "Name": "example-instance"
+                  }
+                ],
+                "__address__": "aws_instance.example",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "iam_instance_profile"
+          ]
+        },
+        "code_block": [
+          [
+            68,
+            "resource \"aws_instance\" \"example\" {\n"
+          ],
+          [
+            69,
+            "  ami                  = aws_ami.latest_amazon_linux_2.id\n"
+          ],
+          [
+            70,
+            "  instance_type        = \"t2.micro\"\n"
+          ],
+          [
+            71,
+            "  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name\n"
+          ],
+          [
+            72,
+            "\n"
+          ],
+          [
+            73,
+            "  tags = {\n"
+          ],
+          [
+            74,
+            "    Name = \"example-instance\"\n"
+          ],
+          [
+            75,
+            "  }\n"
+          ],
+          [
+            76,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          68,
+          76
+        ],
+        "resource": "aws_instance.example",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {
+          "Name": "example-instance"
+        },
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/ensure-an-iam-role-is-attached-to-ec2-instance",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf",
+        "breadcrumbs": {
+          "iam_instance_profile": [
+            {
+              "type": "resource",
+              "name": "aws_iam_instance_profile.ec2_profile",
+              "path": "/tmp/tmpprgpkdv8/main.tf",
+              "module_connection": false
+            }
+          ]
+        }
+      },
+      {
+        "check_id": "CKV_AWS_57",
+        "bc_check_id": "BC_AWS_S3_2",
+        "check_name": "S3 Bucket has an ACL defined which allows public WRITE access.",
+        "check_result": {
+          "result": "PASSED",
+          "entity": {
+            "aws_s3_bucket": {
+              "example": {
+                "__end_line__": 143,
+                "__start_line__": 141,
+                "bucket": [
+                  "example-bucket"
+                ],
+                "__address__": "aws_s3_bucket.example",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "access_control_policy/grant/*/permission",
+            "acl",
+            "resource_type",
+            "access_control_policy/grant",
+            "access_control_policy",
+            "access_control_policy/grant/*/grantee/uri"
+          ]
+        },
+        "code_block": [
+          [
+            141,
+            "resource \"aws_s3_bucket\" \"example\" {\n"
+          ],
+          [
+            142,
+            "  bucket = \"example-bucket\"\n"
+          ],
+          [
+            143,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          141,
+          143
+        ],
+        "resource": "aws_s3_bucket.example",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/s3-2-acl-write-permissions-everyone",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_6",
+        "bc_check_id": "BC_AWS_NETWORKING_52",
+        "check_name": "Ensure that S3 bucket has a Public Access block",
+        "check_result": {
+          "result": "PASSED",
+          "entity": {
+            "aws_s3_bucket": {
+              "example": {
+                "__end_line__": 143,
+                "__start_line__": 141,
+                "bucket": [
+                  "example-bucket"
+                ],
+                "__address__": "aws_s3_bucket.example",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "resource_type",
+            "block_public_acls",
+            "block_public_policy"
+          ]
+        },
+        "code_block": [
+          [
+            141,
+            "resource \"aws_s3_bucket\" \"example\" {\n"
+          ],
+          [
+            142,
+            "  bucket = \"example-bucket\"\n"
+          ],
+          [
+            143,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          141,
+          143
+        ],
+        "resource": "aws_s3_bucket.example",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": {
+          "code_block": [
+            [
+              145,
+              "resource \"aws_s3_bucket_public_access_block\" \"example\" {\n"
+            ],
+            [
+              146,
+              "  bucket = aws_s3_bucket.example.id\n"
+            ],
+            [
+              147,
+              "\n"
+            ],
+            [
+              148,
+              "  block_public_acls       = true\n"
+            ],
+            [
+              149,
+              "  block_public_policy     = true\n"
+            ],
+            [
+              150,
+              "  ignore_public_acls      = true\n"
+            ],
+            [
+              151,
+              "  restrict_public_buckets = true\n"
+            ],
+            [
+              152,
+              "}\n"
+            ]
+          ],
+          "file_path": "/main.tf",
+          "file_line_range": [
+            145,
+            152
+          ],
+          "resource": "aws_s3_bucket_public_access_block.example",
+          "entity_tags": {},
+          "evaluations": null,
+          "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+          "resource_address": null
+        },
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/s3-bucket-should-have-public-access-blocks-defaults-to-false-if-the-public-access-block-is-not-attached",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_56",
+        "bc_check_id": "BC_AWS_IAM_75",
+        "check_name": "Ensure AWS Managed IAMFullAccess IAM policy is not used.",
+        "check_result": {
+          "result": "PASSED",
+          "entity": {
+            "aws_iam_role": {
+              "ec2_role": {
+                "__end_line__": 44,
+                "__start_line__": 29,
+                "assume_role_policy": [
+                  {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Action": "sts:AssumeRole",
+                        "Effect": "Allow",
+                        "Principal": {
+                          "Service": "ec2.amazonaws.com"
+                        }
+                      }
+                    ]
+                  }
+                ],
+                "name": [
+                  "ec2_role"
+                ],
+                "__address__": "aws_iam_role.ec2_role",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "managed_policy_arns/*",
+            "arn",
+            "managed_policy_arn",
+            "name",
+            "policy_arn"
+          ]
+        },
+        "code_block": [
+          [
+            29,
+            "resource \"aws_iam_role\" \"ec2_role\" {\n"
+          ],
+          [
+            30,
+            "  name = \"ec2_role\"\n"
+          ],
+          [
+            31,
+            "\n"
+          ],
+          [
+            32,
+            "  assume_role_policy = jsonencode({\n"
+          ],
+          [
+            33,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            34,
+            "    Statement = [\n"
+          ],
+          [
+            35,
+            "      {\n"
+          ],
+          [
+            36,
+            "        Action = \"sts:AssumeRole\"\n"
+          ],
+          [
+            37,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            38,
+            "        Principal = {\n"
+          ],
+          [
+            39,
+            "          Service = \"ec2.amazonaws.com\"\n"
+          ],
+          [
+            40,
+            "        }\n"
+          ],
+          [
+            41,
+            "      }\n"
+          ],
+          [
+            42,
+            "    ]\n"
+          ],
+          [
+            43,
+            "  })\n"
+          ],
+          [
+            44,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          29,
+          44
+        ],
+        "resource": "aws_iam_role.ec2_role",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-2-56",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_20",
+        "bc_check_id": "BC_AWS_S3_1",
+        "check_name": "S3 Bucket has an ACL defined which allows public READ access.",
+        "check_result": {
+          "result": "PASSED",
+          "entity": {
+            "aws_s3_bucket": {
+              "example": {
+                "__end_line__": 143,
+                "__start_line__": 141,
+                "bucket": [
+                  "example-bucket"
+                ],
+                "__address__": "aws_s3_bucket.example",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "acl",
+            "resource_type",
+            "access_control_policy/grant",
+            "access_control_policy",
+            "access_control_policy/grant/*/grantee/uri"
+          ]
+        },
+        "code_block": [
+          [
+            141,
+            "resource \"aws_s3_bucket\" \"example\" {\n"
+          ],
+          [
+            142,
+            "  bucket = \"example-bucket\"\n"
+          ],
+          [
+            143,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          141,
+          143
+        ],
+        "resource": "aws_s3_bucket.example",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/s3-1-acl-read-permissions-everyone",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_21",
+        "bc_check_id": "BC_AWS_S3_16",
+        "check_name": "Ensure all data stored in the S3 bucket have versioning enabled",
+        "check_result": {
+          "result": "PASSED",
+          "entity": {
+            "aws_s3_bucket": {
+              "example": {
+                "__end_line__": 143,
+                "__start_line__": 141,
+                "bucket": [
+                  "example-bucket"
+                ],
+                "__address__": "aws_s3_bucket.example",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "versioning_configuration/status",
+            "resource_type",
+            "versioning/enabled"
+          ]
+        },
+        "code_block": [
+          [
+            141,
+            "resource \"aws_s3_bucket\" \"example\" {\n"
+          ],
+          [
+            142,
+            "  bucket = \"example-bucket\"\n"
+          ],
+          [
+            143,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          141,
+          143
+        ],
+        "resource": "aws_s3_bucket.example",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": {
+          "code_block": [
+            [
+              154,
+              "resource \"aws_s3_bucket_versioning\" \"example\" {\n"
+            ],
+            [
+              155,
+              "  bucket = aws_s3_bucket.example.id\n"
+            ],
+            [
+              156,
+              "\n"
+            ],
+            [
+              157,
+              "  versioning_configuration {\n"
+            ],
+            [
+              158,
+              "    status = \"Enabled\"\n"
+            ],
+            [
+              159,
+              "  }\n"
+            ],
+            [
+              160,
+              "}\n"
+            ]
+          ],
+          "file_path": "/main.tf",
+          "file_line_range": [
+            154,
+            160
+          ],
+          "resource": "aws_s3_bucket_versioning.example",
+          "entity_tags": {},
+          "evaluations": null,
+          "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+          "resource_address": null
+        },
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/s3-16-enable-versioning",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_40",
+        "bc_check_id": "BC_AWS_IAM_73",
+        "check_name": "Ensure AWS IAM policy does not allow full IAM privileges",
+        "check_result": {
+          "result": "PASSED",
+          "entity": {
+            "aws_iam_policy": {
+              "ec2_policy": {
+                "__end_line__": 61,
+                "__start_line__": 46,
+                "name": [
+                  "ec2_policy"
+                ],
+                "policy": [
+                  {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "ec2:Describe*"
+                        ],
+                        "Resource": "*"
+                      }
+                    ]
+                  }
+                ],
+                "__address__": "aws_iam_policy.ec2_policy",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "policy/Statement[?(@/Effect == Allow)]/Action[*]",
+            "inline_policy/Statement[?(@/Effect == Allow)]/Action[*]",
+            "statement[?(@/effect == Allow)]/actions[*]"
+          ]
+        },
+        "code_block": [
+          [
+            46,
+            "resource \"aws_iam_policy\" \"ec2_policy\" {\n"
+          ],
+          [
+            47,
+            "  name = \"ec2_policy\"\n"
+          ],
+          [
+            48,
+            "\n"
+          ],
+          [
+            49,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            50,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            51,
+            "    Statement = [\n"
+          ],
+          [
+            52,
+            "      {\n"
+          ],
+          [
+            53,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            54,
+            "        Action = [\n"
+          ],
+          [
+            55,
+            "          \"ec2:Describe*\"\n"
+          ],
+          [
+            56,
+            "        ]\n"
+          ],
+          [
+            57,
+            "        Resource = \"*\"\n"
+          ],
+          [
+            58,
+            "      }\n"
+          ],
+          [
+            59,
+            "    ]\n"
+          ],
+          [
+            60,
+            "  })\n"
+          ],
+          [
+            61,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          46,
+          61
+        ],
+        "resource": "aws_iam_policy.ec2_policy",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-2-40",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_40",
+        "bc_check_id": "BC_AWS_IAM_73",
+        "check_name": "Ensure AWS IAM policy does not allow full IAM privileges",
+        "check_result": {
+          "result": "PASSED",
+          "entity": {
+            "aws_iam_policy": {
+              "kms_policy": {
+                "__end_line__": 226,
+                "__start_line__": 207,
+                "name": [
+                  "kms_policy"
+                ],
+                "policy": [
+                  {
+                    "Version": "2012-10-17",
+                    "Statement": [
+                      {
+                        "Effect": "Allow",
+                        "Action": [
+                          "kms:Encrypt",
+                          "kms:Decrypt",
+                          "kms:ReEncrypt*",
+                          "kms:GenerateDataKey*",
+                          "kms:DescribeKey"
+                        ],
+                        "Resource": "aws_kms_key.example.arn"
+                      }
+                    ]
+                  }
+                ],
+                "__address__": "aws_iam_policy.kms_policy",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "policy/Statement[?(@/Effect == Allow)]/Action[*]",
+            "inline_policy/Statement[?(@/Effect == Allow)]/Action[*]",
+            "statement[?(@/effect == Allow)]/actions[*]"
+          ]
+        },
+        "code_block": [
+          [
+            207,
+            "resource \"aws_iam_policy\" \"kms_policy\" {\n"
+          ],
+          [
+            208,
+            "  name = \"kms_policy\"\n"
+          ],
+          [
+            209,
+            "\n"
+          ],
+          [
+            210,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            211,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            212,
+            "    Statement = [\n"
+          ],
+          [
+            213,
+            "      {\n"
+          ],
+          [
+            214,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            215,
+            "        Action = [\n"
+          ],
+          [
+            216,
+            "          \"kms:Encrypt\",\n"
+          ],
+          [
+            217,
+            "          \"kms:Decrypt\",\n"
+          ],
+          [
+            218,
+            "          \"kms:ReEncrypt*\",\n"
+          ],
+          [
+            219,
+            "          \"kms:GenerateDataKey*\",\n"
+          ],
+          [
+            220,
+            "          \"kms:DescribeKey\"\n"
+          ],
+          [
+            221,
+            "        ]\n"
+          ],
+          [
+            222,
+            "        Resource = aws_kms_key.example.arn\n"
+          ],
+          [
+            223,
+            "      }\n"
+          ],
+          [
+            224,
+            "    ]\n"
+          ],
+          [
+            225,
+            "  })\n"
+          ],
+          [
+            226,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          207,
+          226
+        ],
+        "resource": "aws_iam_policy.kms_policy",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-2-40",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_19",
+        "bc_check_id": "BC_AWS_S3_14",
+        "check_name": "Ensure all data stored in the S3 bucket is securely encrypted at rest",
+        "check_result": {
+          "result": "PASSED",
+          "entity": {
+            "aws_s3_bucket": {
+              "example": {
+                "__end_line__": 143,
+                "__start_line__": 141,
+                "bucket": [
+                  "example-bucket"
+                ],
+                "__address__": "aws_s3_bucket.example",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "server_side_encryption_configuration/rule/apply_server_side_encryption_by_default/sse_algorithm",
+            "resource_type",
+            "rule/apply_server_side_encryption_by_default/sse_algorithm"
+          ]
+        },
+        "code_block": [
+          [
+            141,
+            "resource \"aws_s3_bucket\" \"example\" {\n"
+          ],
+          [
+            142,
+            "  bucket = \"example-bucket\"\n"
+          ],
+          [
+            143,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          141,
+          143
+        ],
+        "resource": "aws_s3_bucket.example",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": {
+          "code_block": [
+            [
+              162,
+              "resource \"aws_s3_bucket_server_side_encryption_configuration\" \"example\" {\n"
+            ],
+            [
+              163,
+              "  bucket = aws_s3_bucket.example.id\n"
+            ],
+            [
+              164,
+              "\n"
+            ],
+            [
+              165,
+              "  rule {\n"
+            ],
+            [
+              166,
+              "    apply_server_side_encryption_by_default {\n"
+            ],
+            [
+              167,
+              "      sse_algorithm = \"AES256\"\n"
+            ],
+            [
+              168,
+              "    }\n"
+            ],
+            [
+              169,
+              "  }\n"
+            ],
+            [
+              170,
+              "}\n"
+            ]
+          ],
+          "file_path": "/main.tf",
+          "file_line_range": [
+            162,
+            170
+          ],
+          "resource": "aws_s3_bucket_server_side_encryption_configuration.example",
+          "entity_tags": {},
+          "evaluations": null,
+          "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+          "resource_address": null
+        },
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/s3-14-data-encrypted-at-rest",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      }
+    ],
+    "failed_checks": [
+      {
+        "check_id": "CKV_AWS_355",
+        "bc_check_id": "BC_AWS_IAM_88",
+        "check_name": "Ensure no IAM policies documents allow \"*\" as a statement's resource for restrictable actions",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "policy/Statement/[0]/Action"
+          ]
+        },
+        "code_block": [
+          [
+            46,
+            "resource \"aws_iam_policy\" \"ec2_policy\" {\n"
+          ],
+          [
+            47,
+            "  name = \"ec2_policy\"\n"
+          ],
+          [
+            48,
+            "\n"
+          ],
+          [
+            49,
+            "  policy = jsonencode({\n"
+          ],
+          [
+            50,
+            "    Version = \"2012-10-17\"\n"
+          ],
+          [
+            51,
+            "    Statement = [\n"
+          ],
+          [
+            52,
+            "      {\n"
+          ],
+          [
+            53,
+            "        Effect = \"Allow\"\n"
+          ],
+          [
+            54,
+            "        Action = [\n"
+          ],
+          [
+            55,
+            "          \"ec2:Describe*\"\n"
+          ],
+          [
+            56,
+            "        ]\n"
+          ],
+          [
+            57,
+            "        Resource = \"*\"\n"
+          ],
+          [
+            58,
+            "      }\n"
+          ],
+          [
+            59,
+            "    ]\n"
+          ],
+          [
+            60,
+            "  })\n"
+          ],
+          [
+            61,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          46,
+          61
+        ],
+        "resource": "aws_iam_policy.ec2_policy",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IAMStarResourcePolicyDocument",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-355",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_135",
+        "bc_check_id": "BC_AWS_GENERAL_68",
+        "check_name": "Ensure that EC2 is EBS optimized",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "ebs_optimized"
+          ]
+        },
+        "code_block": [
+          [
+            68,
+            "resource \"aws_instance\" \"example\" {\n"
+          ],
+          [
+            69,
+            "  ami                  = aws_ami.latest_amazon_linux_2.id\n"
+          ],
+          [
+            70,
+            "  instance_type        = \"t2.micro\"\n"
+          ],
+          [
+            71,
+            "  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name\n"
+          ],
+          [
+            72,
+            "\n"
+          ],
+          [
+            73,
+            "  tags = {\n"
+          ],
+          [
+            74,
+            "    Name = \"example-instance\"\n"
+          ],
+          [
+            75,
+            "  }\n"
+          ],
+          [
+            76,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          68,
+          76
+        ],
+        "resource": "aws_instance.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.EC2EBSOptimized",
+        "fixed_definition": null,
+        "entity_tags": {
+          "Name": "example-instance"
+        },
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-ec2-is-ebs-optimized",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf",
+        "breadcrumbs": {
+          "iam_instance_profile": [
+            {
+              "type": "resource",
+              "name": "aws_iam_instance_profile.ec2_profile",
+              "path": "/tmp/tmpprgpkdv8/main.tf",
+              "module_connection": false
+            }
+          ]
+        }
+      },
+      {
+        "check_id": "CKV_AWS_79",
+        "bc_check_id": "BC_AWS_GENERAL_31",
+        "check_name": "Ensure Instance Metadata Service Version 1 is not enabled",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "metadata_options/[0]/http_tokens"
+          ]
+        },
+        "code_block": [
+          [
+            68,
+            "resource \"aws_instance\" \"example\" {\n"
+          ],
+          [
+            69,
+            "  ami                  = aws_ami.latest_amazon_linux_2.id\n"
+          ],
+          [
+            70,
+            "  instance_type        = \"t2.micro\"\n"
+          ],
+          [
+            71,
+            "  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name\n"
+          ],
+          [
+            72,
+            "\n"
+          ],
+          [
+            73,
+            "  tags = {\n"
+          ],
+          [
+            74,
+            "    Name = \"example-instance\"\n"
+          ],
+          [
+            75,
+            "  }\n"
+          ],
+          [
+            76,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          68,
+          76
+        ],
+        "resource": "aws_instance.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.IMDSv1Disabled",
+        "fixed_definition": null,
+        "entity_tags": {
+          "Name": "example-instance"
+        },
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-general-31",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf",
+        "breadcrumbs": {
+          "iam_instance_profile": [
+            {
+              "type": "resource",
+              "name": "aws_iam_instance_profile.ec2_profile",
+              "path": "/tmp/tmpprgpkdv8/main.tf",
+              "module_connection": false
+            }
+          ]
+        }
+      },
+      {
+        "check_id": "CKV_AWS_126",
+        "bc_check_id": "BC_AWS_LOGGING_26",
+        "check_name": "Ensure that detailed monitoring is enabled for EC2 instances",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "monitoring"
+          ]
+        },
+        "code_block": [
+          [
+            68,
+            "resource \"aws_instance\" \"example\" {\n"
+          ],
+          [
+            69,
+            "  ami                  = aws_ami.latest_amazon_linux_2.id\n"
+          ],
+          [
+            70,
+            "  instance_type        = \"t2.micro\"\n"
+          ],
+          [
+            71,
+            "  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name\n"
+          ],
+          [
+            72,
+            "\n"
+          ],
+          [
+            73,
+            "  tags = {\n"
+          ],
+          [
+            74,
+            "    Name = \"example-instance\"\n"
+          ],
+          [
+            75,
+            "  }\n"
+          ],
+          [
+            76,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          68,
+          76
+        ],
+        "resource": "aws_instance.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.EC2DetailedMonitoringEnabled",
+        "fixed_definition": null,
+        "entity_tags": {
+          "Name": "example-instance"
+        },
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/ensure-that-detailed-monitoring-is-enabled-for-ec2-instances",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf",
+        "breadcrumbs": {
+          "iam_instance_profile": [
+            {
+              "type": "resource",
+              "name": "aws_iam_instance_profile.ec2_profile",
+              "path": "/tmp/tmpprgpkdv8/main.tf",
+              "module_connection": false
+            }
+          ]
+        }
+      },
+      {
+        "check_id": "CKV_AWS_8",
+        "bc_check_id": "BC_AWS_GENERAL_13",
+        "check_name": "Ensure all data stored in the Launch configuration or instance Elastic Blocks Store is securely encrypted",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "root_block_device"
+          ]
+        },
+        "code_block": [
+          [
+            68,
+            "resource \"aws_instance\" \"example\" {\n"
+          ],
+          [
+            69,
+            "  ami                  = aws_ami.latest_amazon_linux_2.id\n"
+          ],
+          [
+            70,
+            "  instance_type        = \"t2.micro\"\n"
+          ],
+          [
+            71,
+            "  iam_instance_profile = aws_iam_instance_profile.ec2_profile.name\n"
+          ],
+          [
+            72,
+            "\n"
+          ],
+          [
+            73,
+            "  tags = {\n"
+          ],
+          [
+            74,
+            "    Name = \"example-instance\"\n"
+          ],
+          [
+            75,
+            "  }\n"
+          ],
+          [
+            76,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          68,
+          76
+        ],
+        "resource": "aws_instance.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.LaunchConfigurationEBSEncryption",
+        "fixed_definition": null,
+        "entity_tags": {
+          "Name": "example-instance"
+        },
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/general-13",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf",
+        "breadcrumbs": {
+          "iam_instance_profile": [
+            {
+              "type": "resource",
+              "name": "aws_iam_instance_profile.ec2_profile",
+              "path": "/tmp/tmpprgpkdv8/main.tf",
+              "module_connection": false
+            }
+          ]
+        }
+      },
+      {
+        "check_id": "CKV_AWS_24",
+        "bc_check_id": "BC_AWS_NETWORKING_1",
+        "check_name": "Ensure no security groups allow ingress from 0.0.0.0:0 to port 22",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "ingress/[0]/from_port",
+            "ingress/[0]/to_port",
+            "ingress/[0]/cidr_blocks",
+            "ingress/[0]/ipv6_cidr_blocks"
+          ]
+        },
+        "code_block": [
+          [
+            83,
+            "resource \"aws_security_group\" \"example\" {\n"
+          ],
+          [
+            84,
+            "  name        = \"example-sg\"\n"
+          ],
+          [
+            85,
+            "  description = \"Example security group\"\n"
+          ],
+          [
+            86,
+            "\n"
+          ],
+          [
+            87,
+            "  ingress {\n"
+          ],
+          [
+            88,
+            "    from_port   = 22\n"
+          ],
+          [
+            89,
+            "    to_port     = 22\n"
+          ],
+          [
+            90,
+            "    protocol    = \"tcp\"\n"
+          ],
+          [
+            91,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            92,
+            "  }\n"
+          ],
+          [
+            93,
+            "\n"
+          ],
+          [
+            94,
+            "  egress {\n"
+          ],
+          [
+            95,
+            "    from_port   = 0\n"
+          ],
+          [
+            96,
+            "    to_port     = 0\n"
+          ],
+          [
+            97,
+            "    protocol    = \"-1\"\n"
+          ],
+          [
+            98,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            99,
+            "  }\n"
+          ],
+          [
+            100,
+            "\n"
+          ],
+          [
+            101,
+            "  tags = {\n"
+          ],
+          [
+            102,
+            "    Name = \"example-sg\"\n"
+          ],
+          [
+            103,
+            "  }\n"
+          ],
+          [
+            104,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          83,
+          104
+        ],
+        "resource": "aws_security_group.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.SecurityGroupUnrestrictedIngress22",
+        "fixed_definition": null,
+        "entity_tags": {
+          "Name": "example-sg"
+        },
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-1-port-security",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_382",
+        "bc_check_id": "BC_AWS_IAM_93",
+        "check_name": "Ensure no security groups allow egress from 0.0.0.0:0 to port -1",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "egress/[0]/from_port",
+            "egress/[0]/to_port",
+            "egress/[0]/cidr_blocks",
+            "egress/[0]/ipv6_cidr_blocks"
+          ]
+        },
+        "code_block": [
+          [
+            83,
+            "resource \"aws_security_group\" \"example\" {\n"
+          ],
+          [
+            84,
+            "  name        = \"example-sg\"\n"
+          ],
+          [
+            85,
+            "  description = \"Example security group\"\n"
+          ],
+          [
+            86,
+            "\n"
+          ],
+          [
+            87,
+            "  ingress {\n"
+          ],
+          [
+            88,
+            "    from_port   = 22\n"
+          ],
+          [
+            89,
+            "    to_port     = 22\n"
+          ],
+          [
+            90,
+            "    protocol    = \"tcp\"\n"
+          ],
+          [
+            91,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            92,
+            "  }\n"
+          ],
+          [
+            93,
+            "\n"
+          ],
+          [
+            94,
+            "  egress {\n"
+          ],
+          [
+            95,
+            "    from_port   = 0\n"
+          ],
+          [
+            96,
+            "    to_port     = 0\n"
+          ],
+          [
+            97,
+            "    protocol    = \"-1\"\n"
+          ],
+          [
+            98,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            99,
+            "  }\n"
+          ],
+          [
+            100,
+            "\n"
+          ],
+          [
+            101,
+            "  tags = {\n"
+          ],
+          [
+            102,
+            "    Name = \"example-sg\"\n"
+          ],
+          [
+            103,
+            "  }\n"
+          ],
+          [
+            104,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          83,
+          104
+        ],
+        "resource": "aws_security_group.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.SecurityGroupUnrestrictedEgressAny",
+        "fixed_definition": null,
+        "entity_tags": {
+          "Name": "example-sg"
+        },
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/bc-aws-382",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_23",
+        "bc_check_id": "BC_AWS_NETWORKING_31",
+        "check_name": "Ensure every security group and rule has a description",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "description",
+            "egress/[0]",
+            "ingress/[0]"
+          ]
+        },
+        "code_block": [
+          [
+            83,
+            "resource \"aws_security_group\" \"example\" {\n"
+          ],
+          [
+            84,
+            "  name        = \"example-sg\"\n"
+          ],
+          [
+            85,
+            "  description = \"Example security group\"\n"
+          ],
+          [
+            86,
+            "\n"
+          ],
+          [
+            87,
+            "  ingress {\n"
+          ],
+          [
+            88,
+            "    from_port   = 22\n"
+          ],
+          [
+            89,
+            "    to_port     = 22\n"
+          ],
+          [
+            90,
+            "    protocol    = \"tcp\"\n"
+          ],
+          [
+            91,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            92,
+            "  }\n"
+          ],
+          [
+            93,
+            "\n"
+          ],
+          [
+            94,
+            "  egress {\n"
+          ],
+          [
+            95,
+            "    from_port   = 0\n"
+          ],
+          [
+            96,
+            "    to_port     = 0\n"
+          ],
+          [
+            97,
+            "    protocol    = \"-1\"\n"
+          ],
+          [
+            98,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            99,
+            "  }\n"
+          ],
+          [
+            100,
+            "\n"
+          ],
+          [
+            101,
+            "  tags = {\n"
+          ],
+          [
+            102,
+            "    Name = \"example-sg\"\n"
+          ],
+          [
+            103,
+            "  }\n"
+          ],
+          [
+            104,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          83,
+          104
+        ],
+        "resource": "aws_security_group.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.SecurityGroupRuleDescription",
+        "fixed_definition": null,
+        "entity_tags": {
+          "Name": "example-sg"
+        },
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-31",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_158",
+        "bc_check_id": "BC_AWS_GENERAL_85",
+        "check_name": "Ensure that CloudWatch Log Group is encrypted by KMS",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "kms_key_id"
+          ]
+        },
+        "code_block": [
+          [
+            131,
+            "resource \"aws_cloudwatch_log_group\" \"example\" {\n"
+          ],
+          [
+            132,
+            "  name = \"/aws/vpc/example\"\n"
+          ],
+          [
+            133,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          131,
+          133
+        ],
+        "resource": "aws_cloudwatch_log_group.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.CloudWatchLogGroupKMSKey",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-cloudwatch-log-group-is-encrypted-by-kms",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_338",
+        "bc_check_id": "BC_AWS_LOGGING_46",
+        "check_name": "Ensure CloudWatch log groups retains logs for at least 1 year",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "retention_in_days"
+          ]
+        },
+        "code_block": [
+          [
+            131,
+            "resource \"aws_cloudwatch_log_group\" \"example\" {\n"
+          ],
+          [
+            132,
+            "  name = \"/aws/vpc/example\"\n"
+          ],
+          [
+            133,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          131,
+          133
+        ],
+        "resource": "aws_cloudwatch_log_group.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.CloudWatchLogGroupRetentionYear",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-338",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_66",
+        "bc_check_id": "BC_AWS_LOGGING_13",
+        "check_name": "Ensure that CloudWatch Log Group specifies retention days",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "retention_in_days"
+          ]
+        },
+        "code_block": [
+          [
+            131,
+            "resource \"aws_cloudwatch_log_group\" \"example\" {\n"
+          ],
+          [
+            132,
+            "  name = \"/aws/vpc/example\"\n"
+          ],
+          [
+            133,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          131,
+          133
+        ],
+        "resource": "aws_cloudwatch_log_group.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.CloudWatchLogGroupRetention",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-13",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_35",
+        "bc_check_id": "BC_AWS_LOGGING_7",
+        "check_name": "Ensure CloudTrail logs are encrypted at rest using KMS CMKs",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "kms_key_id"
+          ]
+        },
+        "code_block": [
+          [
+            135,
+            "resource \"aws_cloudtrail\" \"example\" {\n"
+          ],
+          [
+            136,
+            "  name                          = \"example-trail\"\n"
+          ],
+          [
+            137,
+            "  s3_bucket_name                = aws_s3_bucket.example.id\n"
+          ],
+          [
+            138,
+            "  include_global_service_events = true\n"
+          ],
+          [
+            139,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          135,
+          139
+        ],
+        "resource": "aws_cloudtrail.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.CloudtrailEncryptionWithCMK",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-7",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_36",
+        "bc_check_id": "BC_AWS_LOGGING_2",
+        "check_name": "Ensure CloudTrail log file validation is enabled",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "enable_log_file_validation"
+          ]
+        },
+        "code_block": [
+          [
+            135,
+            "resource \"aws_cloudtrail\" \"example\" {\n"
+          ],
+          [
+            136,
+            "  name                          = \"example-trail\"\n"
+          ],
+          [
+            137,
+            "  s3_bucket_name                = aws_s3_bucket.example.id\n"
+          ],
+          [
+            138,
+            "  include_global_service_events = true\n"
+          ],
+          [
+            139,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          135,
+          139
+        ],
+        "resource": "aws_cloudtrail.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.CloudtrailLogValidation",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-2",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_67",
+        "bc_check_id": "BC_AWS_LOGGING_1",
+        "check_name": "Ensure CloudTrail is enabled in all Regions",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "is_multi_region_trail"
+          ]
+        },
+        "code_block": [
+          [
+            135,
+            "resource \"aws_cloudtrail\" \"example\" {\n"
+          ],
+          [
+            136,
+            "  name                          = \"example-trail\"\n"
+          ],
+          [
+            137,
+            "  s3_bucket_name                = aws_s3_bucket.example.id\n"
+          ],
+          [
+            138,
+            "  include_global_service_events = true\n"
+          ],
+          [
+            139,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          135,
+          139
+        ],
+        "resource": "aws_cloudtrail.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.CloudtrailMultiRegion",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/logging-1",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_252",
+        "bc_check_id": "BC_AWS_GENERAL_175",
+        "check_name": "Ensure CloudTrail defines an SNS Topic",
+        "check_result": {
+          "result": "FAILED",
+          "evaluated_keys": [
+            "sns_topic_name"
+          ]
+        },
+        "code_block": [
+          [
+            135,
+            "resource \"aws_cloudtrail\" \"example\" {\n"
+          ],
+          [
+            136,
+            "  name                          = \"example-trail\"\n"
+          ],
+          [
+            137,
+            "  s3_bucket_name                = aws_s3_bucket.example.id\n"
+          ],
+          [
+            138,
+            "  include_global_service_events = true\n"
+          ],
+          [
+            139,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          135,
+          139
+        ],
+        "resource": "aws_cloudtrail.example",
+        "evaluations": null,
+        "check_class": "checkov.terraform.checks.resource.aws.CloudtrailDefinesSNSTopic",
+        "fixed_definition": null,
+        "entity_tags": null,
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-cloudtrail-defines-an-sns-topic",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_12",
+        "bc_check_id": "BC_AWS_NETWORKING_4",
+        "check_name": "Ensure the default security group of every VPC restricts all traffic",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_vpc": {
+              "example": {
+                "__end_line__": 112,
+                "__start_line__": 106,
+                "cidr_block": [
+                  "10.0.0.0/16"
+                ],
+                "tags": [
+                  {
+                    "Name": "example-vpc"
+                  }
+                ],
+                "__address__": "aws_vpc.example",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "egress/from_port",
+            "ingress/self",
+            "egress/to_port",
+            "ingress/to_port",
+            "resource_type",
+            "ingress/from_port",
+            "egress/protocol",
+            "ingress/protocol",
+            "egress/cidr_blocks"
+          ]
+        },
+        "code_block": [
+          [
+            106,
+            "resource \"aws_vpc\" \"example\" {\n"
+          ],
+          [
+            107,
+            "  cidr_block = \"10.0.0.0/16\"\n"
+          ],
+          [
+            108,
+            "\n"
+          ],
+          [
+            109,
+            "  tags = {\n"
+          ],
+          [
+            110,
+            "    Name = \"example-vpc\"\n"
+          ],
+          [
+            111,
+            "  }\n"
+          ],
+          [
+            112,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          106,
+          112
+        ],
+        "resource": "aws_vpc.example",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {
+          "Name": "example-vpc"
+        },
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/networking-4",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_5",
+        "bc_check_id": "BC_AWS_NETWORKING_51",
+        "check_name": "Ensure that Security Groups are attached to another resource",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_security_group": {
+              "example": {
+                "__end_line__": 104,
+                "__start_line__": 83,
+                "description": [
+                  "Example security group"
+                ],
+                "egress": [
+                  {
+                    "cidr_blocks": [
+                      [
+                        "0.0.0.0/0"
+                      ]
+                    ],
+                    "from_port": [
+                      0
+                    ],
+                    "protocol": [
+                      "-1"
+                    ],
+                    "to_port": [
+                      0
+                    ]
+                  }
+                ],
+                "ingress": [
+                  {
+                    "cidr_blocks": [
+                      [
+                        "0.0.0.0/0"
+                      ]
+                    ],
+                    "from_port": [
+                      22
+                    ],
+                    "protocol": [
+                      "tcp"
+                    ],
+                    "to_port": [
+                      22
+                    ]
+                  }
+                ],
+                "name": [
+                  "example-sg"
+                ],
+                "tags": [
+                  {
+                    "Name": "example-sg"
+                  }
+                ],
+                "__address__": "aws_security_group.example",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "networking",
+            "resource_type"
+          ]
+        },
+        "code_block": [
+          [
+            83,
+            "resource \"aws_security_group\" \"example\" {\n"
+          ],
+          [
+            84,
+            "  name        = \"example-sg\"\n"
+          ],
+          [
+            85,
+            "  description = \"Example security group\"\n"
+          ],
+          [
+            86,
+            "\n"
+          ],
+          [
+            87,
+            "  ingress {\n"
+          ],
+          [
+            88,
+            "    from_port   = 22\n"
+          ],
+          [
+            89,
+            "    to_port     = 22\n"
+          ],
+          [
+            90,
+            "    protocol    = \"tcp\"\n"
+          ],
+          [
+            91,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            92,
+            "  }\n"
+          ],
+          [
+            93,
+            "\n"
+          ],
+          [
+            94,
+            "  egress {\n"
+          ],
+          [
+            95,
+            "    from_port   = 0\n"
+          ],
+          [
+            96,
+            "    to_port     = 0\n"
+          ],
+          [
+            97,
+            "    protocol    = \"-1\"\n"
+          ],
+          [
+            98,
+            "    cidr_blocks = [\"0.0.0.0/0\"]\n"
+          ],
+          [
+            99,
+            "  }\n"
+          ],
+          [
+            100,
+            "\n"
+          ],
+          [
+            101,
+            "  tags = {\n"
+          ],
+          [
+            102,
+            "    Name = \"example-sg\"\n"
+          ],
+          [
+            103,
+            "  }\n"
+          ],
+          [
+            104,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          83,
+          104
+        ],
+        "resource": "aws_security_group.example",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {
+          "Name": "example-sg"
+        },
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-networking-policies/ensure-that-security-groups-are-attached-to-ec2-instances-or-elastic-network-interfaces-enis",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_10",
+        "bc_check_id": "BC_AWS_LOGGING_27",
+        "check_name": "Ensure CloudTrail trails are integrated with CloudWatch Logs",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_cloudtrail": {
+              "example": {
+                "__end_line__": 139,
+                "__start_line__": 135,
+                "include_global_service_events": [
+                  true
+                ],
+                "name": [
+                  "example-trail"
+                ],
+                "s3_bucket_name": [
+                  "aws_s3_bucket.example.id"
+                ],
+                "__address__": "aws_cloudtrail.example",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "resource_type",
+            "cloud_watch_logs_group_arn"
+          ]
+        },
+        "code_block": [
+          [
+            135,
+            "resource \"aws_cloudtrail\" \"example\" {\n"
+          ],
+          [
+            136,
+            "  name                          = \"example-trail\"\n"
+          ],
+          [
+            137,
+            "  s3_bucket_name                = aws_s3_bucket.example.id\n"
+          ],
+          [
+            138,
+            "  include_global_service_events = true\n"
+          ],
+          [
+            139,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          135,
+          139
+        ],
+        "resource": "aws_cloudtrail.example",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/ensure-cloudtrail-trails-are-integrated-with-cloudwatch-logs",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_144",
+        "bc_check_id": "BC_AWS_GENERAL_72",
+        "check_name": "Ensure that S3 bucket has cross-region replication enabled",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_s3_bucket": {
+              "example": {
+                "__end_line__": 143,
+                "__start_line__": 141,
+                "bucket": [
+                  "example-bucket"
+                ],
+                "__address__": "aws_s3_bucket.example",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "rule/*/status",
+            "resource_type",
+            "replication_configuration/rules/*/status"
+          ]
+        },
+        "code_block": [
+          [
+            141,
+            "resource \"aws_s3_bucket\" \"example\" {\n"
+          ],
+          [
+            142,
+            "  bucket = \"example-bucket\"\n"
+          ],
+          [
+            143,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          141,
+          143
+        ],
+        "resource": "aws_s3_bucket.example",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-s3-bucket-has-cross-region-replication-enabled",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_62",
+        "bc_check_id": "BC_AWS_LOGGING_36",
+        "check_name": "Ensure S3 buckets should have event notifications enabled",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_s3_bucket": {
+              "example": {
+                "__end_line__": 143,
+                "__start_line__": 141,
+                "bucket": [
+                  "example-bucket"
+                ],
+                "__address__": "aws_s3_bucket.example",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "resource_type"
+          ]
+        },
+        "code_block": [
+          [
+            141,
+            "resource \"aws_s3_bucket\" \"example\" {\n"
+          ],
+          [
+            142,
+            "  bucket = \"example-bucket\"\n"
+          ],
+          [
+            143,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          141,
+          143
+        ],
+        "resource": "aws_s3_bucket.example",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-2-62",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_145",
+        "bc_check_id": "BC_AWS_GENERAL_56",
+        "check_name": "Ensure that S3 buckets are encrypted with KMS by default",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_s3_bucket": {
+              "example": {
+                "__end_line__": 143,
+                "__start_line__": 141,
+                "bucket": [
+                  "example-bucket"
+                ],
+                "__address__": "aws_s3_bucket.example",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "server_side_encryption_configuration/rule/apply_server_side_encryption_by_default/sse_algorithm",
+            "resource_type",
+            "rule/apply_server_side_encryption_by_default/sse_algorithm"
+          ]
+        },
+        "code_block": [
+          [
+            141,
+            "resource \"aws_s3_bucket\" \"example\" {\n"
+          ],
+          [
+            142,
+            "  bucket = \"example-bucket\"\n"
+          ],
+          [
+            143,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          141,
+          143
+        ],
+        "resource": "aws_s3_bucket.example",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": {
+          "code_block": [
+            [
+              162,
+              "resource \"aws_s3_bucket_server_side_encryption_configuration\" \"example\" {\n"
+            ],
+            [
+              163,
+              "  bucket = aws_s3_bucket.example.id\n"
+            ],
+            [
+              164,
+              "\n"
+            ],
+            [
+              165,
+              "  rule {\n"
+            ],
+            [
+              166,
+              "    apply_server_side_encryption_by_default {\n"
+            ],
+            [
+              167,
+              "      sse_algorithm = \"AES256\"\n"
+            ],
+            [
+              168,
+              "    }\n"
+            ],
+            [
+              169,
+              "  }\n"
+            ],
+            [
+              170,
+              "}\n"
+            ]
+          ],
+          "file_path": "/main.tf",
+          "file_line_range": [
+            162,
+            170
+          ],
+          "resource": "aws_s3_bucket_server_side_encryption_configuration.example",
+          "entity_tags": {},
+          "evaluations": null,
+          "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+          "resource_address": null
+        },
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-that-s3-buckets-are-encrypted-with-kms-by-default",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV_AWS_18",
+        "bc_check_id": "BC_AWS_S3_13",
+        "check_name": "Ensure the S3 bucket has access logging enabled",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_s3_bucket": {
+              "example": {
+                "__end_line__": 143,
+                "__start_line__": 141,
+                "bucket": [
+                  "example-bucket"
+                ],
+                "__address__": "aws_s3_bucket.example",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "resource_type",
+            "logging"
+          ]
+        },
+        "code_block": [
+          [
+            141,
+            "resource \"aws_s3_bucket\" \"example\" {\n"
+          ],
+          [
+            142,
+            "  bucket = \"example-bucket\"\n"
+          ],
+          [
+            143,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          141,
+          143
+        ],
+        "resource": "aws_s3_bucket.example",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/s3-policies/s3-13-enable-logging",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_61",
+        "bc_check_id": "BC_AWS_LOGGING_35",
+        "check_name": "Ensure that an S3 bucket has a lifecycle configuration",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_s3_bucket": {
+              "example": {
+                "__end_line__": 143,
+                "__start_line__": 141,
+                "bucket": [
+                  "example-bucket"
+                ],
+                "__address__": "aws_s3_bucket.example",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "resource_type",
+            "lifecycle_rule"
+          ]
+        },
+        "code_block": [
+          [
+            141,
+            "resource \"aws_s3_bucket\" \"example\" {\n"
+          ],
+          [
+            142,
+            "  bucket = \"example-bucket\"\n"
+          ],
+          [
+            143,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          141,
+          143
+        ],
+        "resource": "aws_s3_bucket.example",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-logging-policies/bc-aws-2-61",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      },
+      {
+        "check_id": "CKV2_AWS_64",
+        "bc_check_id": "BC_AWS_IAM_76",
+        "check_name": "Ensure KMS key Policy is defined",
+        "check_result": {
+          "result": "FAILED",
+          "entity": {
+            "aws_kms_key": {
+              "example": {
+                "__end_line__": 200,
+                "__start_line__": 196,
+                "deletion_window_in_days": [
+                  30
+                ],
+                "description": [
+                  "KMS key for example"
+                ],
+                "enable_key_rotation": [
+                  true
+                ],
+                "__address__": "aws_kms_key.example",
+                "__provider_address__": "aws.default"
+              }
+            }
+          },
+          "evaluated_keys": [
+            "policy",
+            "resource_type"
+          ]
+        },
+        "code_block": [
+          [
+            196,
+            "resource \"aws_kms_key\" \"example\" {\n"
+          ],
+          [
+            197,
+            "  description             = \"KMS key for example\"\n"
+          ],
+          [
+            198,
+            "  deletion_window_in_days = 30\n"
+          ],
+          [
+            199,
+            "  enable_key_rotation     = true\n"
+          ],
+          [
+            200,
+            "}\n"
+          ]
+        ],
+        "file_path": "/main.tf",
+        "file_abs_path": "/tmp/tmpprgpkdv8/main.tf",
+        "repo_file_path": "/main.tf",
+        "file_line_range": [
+          196,
+          200
+        ],
+        "resource": "aws_kms_key.example",
+        "evaluations": null,
+        "check_class": "checkov.common.graph.checks_infra.base_check",
+        "fixed_definition": null,
+        "entity_tags": {},
+        "caller_file_path": null,
+        "caller_file_line_range": null,
+        "resource_address": null,
+        "severity": null,
+        "bc_category": null,
+        "benchmarks": null,
+        "description": null,
+        "short_description": null,
+        "vulnerability_details": null,
+        "connected_node": null,
+        "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-iam-policies/bc-aws-2-64",
+        "details": [],
+        "check_len": null,
+        "definition_context_file_path": "/tmp/tmpprgpkdv8/main.tf"
+      }
+    ],
+    "skipped_checks": [],
+    "parsing_errors": []
+  },
+  "summary": {
+    "passed": 49,
+    "failed": 24,
+    "skipped": 0,
+    "parsing_errors": 0,
+    "resource_count": 21,
+    "checkov_version": "3.2.403"
+  },
+  "url": "Add an api key '--bc-api-key <api-key>' to see more detailed insights via https://bridgecrew.cloud"
+}
