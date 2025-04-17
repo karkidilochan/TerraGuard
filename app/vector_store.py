@@ -9,8 +9,8 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from app.scrape_aws_tf import chunk_aws_resources
 
 
-# CHROMA_DB_NAME = "./chroma/rag_db"
-CHROMA_DB_NAME = "./chroma_rag_db"
+CHROMA_DB_NAME = "./chroma/rag_db"
+# CHROMA_DB_NAME = "./chroma_rag_db"
 CHROMA_COLLECTION_NAME = "tf_aws_resources"
 
 
@@ -73,11 +73,26 @@ if __name__ == "__main__":
 
     # TODO: move this to automatically populate db after done experimenting with vector store
     if vector_store.is_store_empty:
-        vector_store.store_documents(chunk_aws_resources())
+        vector_store.store_documents(chunk_aws_resources("aws_resources.json"))
+        vector_store.store_documents(chunk_aws_resources("aws_data_sources.json"))
+        vector_store.store_documents(chunk_aws_resources("aws_ephemeral.json"))
+    # retrieved_docs = vector_store.get_db_instance().similarity_search(
+    #     # "How do I setup AWS Access Analyzer?"
+    #     # "How do I set up an AWS S3 bucket with versioning and encryption that complies with CIS benchmarks?"
+    #     "set up an AWS S3 bucket with versioning and encryption that complies with CIS benchmarks"
+    #     # "how do i setup aws kendra experience"
+    # )
+
     retrieved_docs = vector_store.get_db_instance().similarity_search(
-        # "How do I setup AWS Access Analyzer?"
-        # "How do I set up an AWS S3 bucket with versioning and encryption that complies with CIS benchmarks?"
-        # "set up an AWS S3 bucket with versioning and encryption that complies with CIS benchmarks"
-        "how do i setup aws kendra experience"
+        query="set up an AWS S3 bucket with versioning and encryption that complies with CIS benchmarks",
+        k=5,
+        filter={
+            "$and": [
+                {"subcategory": {"$in": ["S3 (Simple Storage)"]}},
+                {"section": {"$in": ["Example Usage"]}},
+            ],
+            # # "subcategory": {"$in": state["search"]["subcategories"]},
+            # "subcategory": {"$in": ["S3 (Simple Storage)"]},
+        },
     )
     print(retrieved_docs)

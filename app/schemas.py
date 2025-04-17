@@ -4,11 +4,11 @@ from langchain_core.documents import Document
 
 # search
 class Search(TypedDict):
-    query: Annotated[str, ..., "Search query to run"]
-    resource_names: Annotated[
+    query: Annotated[str, ..., "User's natural language query"]
+    subcategories: Annotated[
         List[str],
         ...,
-        "List of AWS resource names in Terraform to filter by (e.g., ['aws_s3_bucket', 'aws_iam_role']",
+        "AWS subcategories like: ['IAM Access Analyzer', 'Account Management', ...]",
     ]
 
 
@@ -27,5 +27,3 @@ class State(TypedDict):
     search: Search
     answer: str
     referenced_cis_controls: Optional[List[str]]
-    # validation_results: Optional[Dict[str, Union[bool, str, List[str], Dict]]]
-    # validation_summary: Optional[ValidationSummary]

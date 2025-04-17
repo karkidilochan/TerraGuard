@@ -8,7 +8,11 @@ from typing import List
 from tqdm import tqdm
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-TF_GIT_URL = "https://api.github.com/repos/hashicorp/terraform-provider-aws/contents/website/docs/r"
+TF_R_GIT_URL = "https://api.github.com/repos/hashicorp/terraform-provider-aws/contents/website/docs/r"
+
+TF_D_GIT_URL = "https://api.github.com/repos/hashicorp/terraform-provider-aws/contents/website/docs/d"
+
+TF_E_GIT_URL = "https://api.github.com/repos/hashicorp/terraform-provider-aws/contents/website/docs/ephemeral-resources"
 
 
 def get_resource(file):
@@ -53,8 +57,8 @@ def extract_metadata(resource):
     return structured_content
 
 
-def get_resources():
-    response = requests.get(TF_GIT_URL)
+def get_resources(url):
+    response = requests.get(url)
     doc_files = response.json()
     resources = []
     for file in tqdm(doc_files, desc="Processing markdown files"):
@@ -62,27 +66,35 @@ def get_resources():
             raw_resource = get_resource(file)
             structured_resource = extract_metadata(raw_resource)
             resources.append(structured_resource)
-    with open("resources.json", "w") as json_file:
+    with open("aws_ephemeral.json", "w") as json_file:
         json.dump(resources, json_file, indent=4)
     return resources
 
 
 def chunk_aws_resources(
+    file_name,
     chunk_size=1000,
-    chunk_overlap=50,
+    chunk_overlap=100,
 ) -> List[Document]:
     chunks = []
 
-    with open("aws_resources.json", "r") as json_file:
+    with open(file_name, "r") as json_file:
         resources = json.load(json_file)
         for resource in tqdm(resources, desc="Processing resources:"):
             metadata_base = {
                 "resource_name": resource["resource_name"],
                 "subcategory": resource["metadata"].get("subcategory"),
-                "example_usage": resource["sections"].get("Example Usage"),
             }
 
+            sections_to_include = {
+                "Example Usage",
+                "Argument Reference",
+                "Attribute Reference",
+            }
             for section_name, content in resource["sections"].items():
+                if section_name not in sections_to_include:
+                    continue
+
                 full_metadata = {
                     **metadata_base,
                     "section": section_name,
@@ -111,4 +123,4 @@ def chunk_aws_resources(
 
 
 if __name__ == "__main__":
-    get_resources()
+    get_resources(TF_E_GIT_URL)

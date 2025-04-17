@@ -4,13 +4,14 @@ import time
 from langchain.chat_models import init_chat_model
 from langgraph.graph import START, END, StateGraph
 from app.validate_tf import validate_terraform_code
-from app.prompt_template import get_system_prompt
+from app.rag_prompts import get_system_prompt, get_search_prompt
 from app.vector_store import CHROMA_COLLECTION_NAME, CHROMA_DB_NAME, VectorStore
 from app.schemas import Search, State
 from app.checkov_validator import generate_compliance_report
 from dotenv import load_dotenv
 import logging
 from app.models import LLMClient
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 
 logging.basicConfig(
@@ -30,10 +31,9 @@ class RAGPipeline:
         self.vector_store = vector_store
 
         # LLM setup
-        self.llm = llm_client.client
-        # self.llm = init_chat_model(llm_model, model_provider=llm_provider)
-        self.structured_llm = self.llm.with_structured_output(Search)
-
+        self.llm_client = llm_client
+        chat_model = init_chat_model("mistral-large-latest", model_provider="mistralai")
+        self.structured_llm = chat_model.with_structured_output(Search)
         # Output directory for Checkov results
         if checkov_output_dir is None:
             # Use a directory in the project root
@@ -74,8 +74,14 @@ class RAGPipeline:
 
         for attempt in range(max_retries):
             try:
-                query = self.structured_llm.invoke(state["question"])
-                return {"search": query}
+                parsed_query = self.structured_llm.invoke(
+                    get_search_prompt() + f"\n\nUser query: {state['question']}"
+                )
+                if "query" not in parsed_query:
+                    parsed_query["query"] = state["question"]
+
+                logger.info(f"Parsed query: {parsed_query}")
+                return {"search": parsed_query}
             except Exception as e:
                 if "rate limit" in str(e).lower() and attempt < max_retries - 1:
                     logger.warning(
@@ -96,11 +102,16 @@ class RAGPipeline:
         logger.info(f"Search query: {state['search']}")
 
         # Retrieve documents from the vector store
+        chroma_filter = [{"section": {"$in": ["Example Usage"]}}]
+        if state["search"]["subcategories"]:
+            chroma_filter.append(
+                {"subcategory": {"$in": state["search"]["subcategories"]}}
+            )
         retrieved_docs = self.vector_store.get_db_instance().similarity_search(
             query=state["search"]["query"],
+            k=5,
             filter={
-                # "resource_name": {"$in": state["search"]["resource_names"]},
-                "type": "code",
+                "$and": chroma_filter,
             },
         )
 
@@ -121,44 +132,8 @@ class RAGPipeline:
         prompt = system_prompt.format(
             question=state.get("question", ""), context=docs_content
         )
-
-        # Add retry logic for API rate limits
-        max_retries = 3
-        backoff_time = 2
-
-        for attempt in range(max_retries):
-            try:
-                # Generate answer using LLM
-                answer = self.llm.invoke(prompt)
-
-                # Return answer and extracted CIS controls from context
-                # Find CIS control references in the context
-                cis_control_pattern = r"CIS\s+(\d+\.\d+(?:\.\d+)?)"
-                import re
-
-                cis_references = set()
-                for doc in state["context"]:
-                    matches = re.findall(cis_control_pattern, doc.page_content)
-                    cis_references.update(matches)
-
-                return {
-                    "answer": answer.content,
-                    "referenced_cis_controls": list(cis_references),
-                }
-            except Exception as e:
-                if "rate limit" in str(e).lower() and attempt < max_retries - 1:
-                    logger.warning(
-                        f"Rate limit hit, retrying in {backoff_time} seconds (attempt {attempt + 1}/{max_retries})"
-                    )
-                    time.sleep(backoff_time)
-                    backoff_time *= 2  # Exponential backoff
-                else:
-                    logger.error(f"Error generating code: {str(e)}")
-                    # Return an empty answer if we hit an error after all retries
-                    return {
-                        "answer": "Error generating code due to API limitations. Please try again later.",
-                        "referenced_cis_controls": [],
-                    }
+        answer = self.llm_client.run(prompt, system_prompt)
+        return {"answer": answer}
 
     def validate(self, state: State) -> State:
         """Validate the generated Terraform code against CIS controls."""
@@ -298,8 +273,8 @@ if __name__ == "__main__":
     load_dotenv()
 
     llm_client = LLMClient(
-        provider="mistralai",
-        model="mistral-large-latest",
+        provider="gemini",
+        model="gemini-2.5-pro-preview-03-25",
         temperature=0.7,
         # top_p=0.8,
     )
