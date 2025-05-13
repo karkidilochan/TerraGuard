@@ -1,5 +1,6 @@
 import os
 from typing import List
+import json
 from tqdm import tqdm
 from langchain_chroma import Chroma
 from langchain.text_splitter import RecursiveCharacterTextSplitter
@@ -66,6 +67,116 @@ class VectorStore:
                 )
         self.is_store_empty = is_empty
 
+    def load_cis_benchmark_data(self, cis_benchmark_file: str = "scripts/cis_benchmark_enhanced.json") -> bool:
+        """
+        Load CIS benchmark data from enhanced JSON file and add it to the vector store.
+        
+        Args:
+            cis_benchmark_file: Path to the enhanced CIS benchmark JSON file
+            
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        try:
+            # Check if absolute path was provided, if not prepend current working directory
+            if not os.path.isabs(cis_benchmark_file):
+                # Try both the current directory and one level up
+                potential_paths = [
+                    os.path.join(os.getcwd(), cis_benchmark_file),
+                    os.path.join(os.getcwd(), '..', cis_benchmark_file),
+                    os.path.join(os.path.dirname(os.getcwd()), cis_benchmark_file)
+                ]
+                
+                for path in potential_paths:
+                    if os.path.exists(path):
+                        cis_benchmark_file = path
+                        break
+            
+            if not os.path.exists(cis_benchmark_file):
+                print(f"Error: CIS benchmark file not found at {cis_benchmark_file}")
+                print("Checked locations:")
+                for path in potential_paths:
+                    print(f"- {path}")
+                return False
+            
+            print(f"Loading CIS benchmark data from {cis_benchmark_file}...")
+                
+            with open(cis_benchmark_file, 'r') as f:
+                cis_controls = json.load(f)
+                
+            print(f"Loaded {len(cis_controls)} CIS controls.")
+            
+            # Convert CIS controls to Documents
+            documents = []
+            for control in cis_controls:
+                control_id = control.get('control_id', 'unknown')
+                
+                # Create a rich text representation of the control
+                content = f"""
+                # CIS Control {control_id}: {control['title']}
+                
+                ## Description
+                {control.get('description', '')}
+                
+                ## Rationale
+                {control.get('rationale', '')}
+                
+                ## Implementation Requirements
+                {control.get('remediation', '')}
+                
+                ## Audit Procedure
+                {control.get('audit_procedure', '')}
+                
+                ## AWS Resources
+                {', '.join(control.get('resource_type', []))}
+                
+                ## Related Checkov Policies
+                {', '.join(control.get('checkov_policies', []))}
+                """
+                
+                # Create metadata for filtering
+                metadata = {
+                    "type": "cis_control",
+                    "control_id": control_id,
+                    "title": control['title'],
+                    "automation_status": control.get('automation_status', ''),
+                    "profile": control.get('profile', ''),
+                    "resource_types": ", ".join(control.get('resource_type', [])),
+                    "checkov_policies": ", ".join(control.get('checkov_policies', [])),
+                    "section": "CIS Controls"
+                }
+                
+                # Create the document
+                doc = Document(
+                    page_content=content.strip(),
+                    metadata=metadata
+                )
+                
+                documents.append(doc)
+                
+            # Keep chunks larger to preserve context - don't split up controls
+            text_splitter = RecursiveCharacterTextSplitter(
+                chunk_size=2000,  # Larger chunks to keep controls together
+                chunk_overlap=100,
+                separators=["\n\n", "\n", " ", ""],
+                keep_separator=False,
+            )
+            
+            chunked_docs = text_splitter.split_documents(documents)
+            print(f"Split into {len(chunked_docs)} chunks.")
+            
+            # Store the documents
+            self.store_documents(chunked_docs)
+            print("CIS benchmark data successfully added to vector store.")
+            
+            return True
+            
+        except Exception as e:
+            print(f"Error loading CIS benchmark data: {str(e)}")
+            import traceback
+            traceback.print_exc()
+            return False
+
 
 if __name__ == "__main__":
 
@@ -76,23 +187,22 @@ if __name__ == "__main__":
         vector_store.store_documents(chunk_aws_resources("aws_resources.json"))
         vector_store.store_documents(chunk_aws_resources("aws_data_sources.json"))
         vector_store.store_documents(chunk_aws_resources("aws_ephemeral.json"))
-    # retrieved_docs = vector_store.get_db_instance().similarity_search(
-    #     # "How do I setup AWS Access Analyzer?"
-    #     # "How do I set up an AWS S3 bucket with versioning and encryption that complies with CIS benchmarks?"
-    #     "set up an AWS S3 bucket with versioning and encryption that complies with CIS benchmarks"
-    #     # "how do i setup aws kendra experience"
-    # )
-
+        # Add CIS benchmark data to the vector store
+        vector_store.load_cis_benchmark_data()
+    
+    # Test query using CIS benchmark terms
     retrieved_docs = vector_store.get_db_instance().similarity_search(
-        query="set up an AWS S3 bucket with versioning and encryption that complies with CIS benchmarks",
+        query="How do I configure an S3 bucket that complies with CIS benchmarks for encryption and public access?",
         k=5,
-        filter={
-            "$and": [
-                {"subcategory": {"$in": ["S3 (Simple Storage)"]}},
-                {"section": {"$in": ["Example Usage"]}},
-            ],
-            # # "subcategory": {"$in": state["search"]["subcategories"]},
-            # "subcategory": {"$in": ["S3 (Simple Storage)"]},
-        },
+        filter=None  # Remove the filter to allow CIS controls to be retrieved
     )
-    print(retrieved_docs)
+    
+    print("\nTest query results:")
+    for i, doc in enumerate(retrieved_docs):
+        print(f"\nResult {i+1}:")
+        print(f"Type: {doc.metadata.get('type', 'Unknown')}")
+        if doc.metadata.get('type') == 'cis_control':
+            print(f"Control: {doc.metadata.get('control_id')} - {doc.metadata.get('title')}")
+        else:
+            print(f"Resource: {doc.metadata.get('resource_name', 'Unknown')}")
+        print(f"First 200 chars: {doc.page_content[:200]}...")

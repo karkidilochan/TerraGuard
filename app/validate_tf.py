@@ -95,7 +95,11 @@ def check_checkov_installed():
 
 
 def validate_terraform_code(
-    code: str, output_dir: str = None, result_file_prefix: str = None
+    code: str, 
+    output_dir: str = None, 
+    result_file_prefix: str = None,
+    run_id: int = None,
+    compliance_threshold: float = 90.0
 ) -> Dict[str, Any]:
     """
     Validate Terraform code for syntax and CIS compliance.
@@ -104,6 +108,8 @@ def validate_terraform_code(
         code: The Terraform code to validate
         output_dir: The directory to store Checkov results (default: checkov_output folder in project root)
         result_file_prefix: Prefix for the Checkov result filename (default: "checkov_results")
+        run_id: Optional run ID to include in the result file name
+        compliance_threshold: Compliance threshold percentage (default: 90.0)
 
     Returns:
         Dictionary with validation results
@@ -119,7 +125,7 @@ def validate_terraform_code(
 
     # Strip markdown block if present
     if "```terraform" in code:
-        code = code.split("```terraform")[1].split("```")[0].strip()
+    code = code.split("```terraform")[1].split("```")[0].strip()
     elif "```hcl" in code:
         code = code.split("```hcl")[1].split("```")[0].strip()
 
@@ -180,7 +186,10 @@ def validate_terraform_code(
     # Set default result file prefix if not provided
     if result_file_prefix is None:
         timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        result_file_prefix = f"checkov_results_{timestamp}"
+        if run_id is not None:
+            result_file_prefix = f"validation_{timestamp}_{run_id}"
+        else:
+            result_file_prefix = f"validation_{timestamp}"
 
     with tempfile.TemporaryDirectory() as tmpdir:
         tf_file = os.path.join(tmpdir, "main.tf")
@@ -274,91 +283,78 @@ def validate_terraform_code(
             try:
                 # Generate a filename for the output based on the prefix
                 timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-                output_file = os.path.join(
-                    output_dir, f"{result_file_prefix}_{timestamp}.json"
-                )
-
-                # Run Checkov directly with output to stdout, then save results ourselves
-                # This avoids issues with Checkov creating directories
-                checkov_cmd_str = (
-                    f"checkov -f {tf_file} --framework terraform --output json"
-                )
-                logger.info(f"Running Checkov command: {checkov_cmd_str}")
-
-                checkov_result = subprocess.run(
-                    checkov_cmd_str,
-                    check=False,
-                    capture_output=True,
-                    text=True,
-                    shell=True,
-                    cwd=tmpdir,
-                )
-
-                # Process stdout regardless of exit code
-                if checkov_result.stdout:
-                    try:
-                        checkov_data = json.loads(checkov_result.stdout)
-
-                        # Save the results ourselves
-                        with open(output_file, "w") as f:
-                            json.dump(checkov_data, f, indent=2)
-
-                        # Process the results using our CIS mapper
-                        is_compliant, checkov_results, referenced_controls = (
-                            run_checkov_validation(code)
-                        )
-
-                        result["cis_compliant"] = is_compliant
-                        result["checkov_results"] = checkov_results
-                        result["checkov_output"] = (
-                            checkov_data  # Store the full JSON output
-                        )
-                        result["referenced_cis_controls"] = referenced_controls
-
-                        # Generate compliance report
-                        report = generate_compliance_report(
-                            checkov_results, referenced_controls
-                        )
-                        result["compliance_report"] = report
-
-                        # Save a link to the output file in the results
-                        result["checkov_output_file"] = output_file
-
-                        logger.info(
-                            f"Checkov validation complete. Results saved to {output_file}"
-                        )
-                    except json.JSONDecodeError as e:
-                        logger.error(f"Error parsing Checkov results: {str(e)}")
-                        logger.error(
-                            f"Raw stdout (first 500 chars): {checkov_result.stdout[:500]}"
-                        )
-                        result["errors"].append(
-                            f"Error parsing Checkov results: {str(e)}"
-                        )
+                
+                # Use the provided result_file_prefix if available
+                if result_file_prefix:
+                    output_file = os.path.join(output_dir, f"{result_file_prefix}_{timestamp}.json")
                 else:
-                    error_msg = f"Checkov error: {checkov_result.stderr}"
-                    logger.error(error_msg)
-                    result["errors"].append(error_msg)
-
-                # If we had issues, try the direct approach as a fallback
-                if not result.get("checkov_output"):
-                    # Try running the internal function without subprocess
-                    try:
-                        is_compliant, checkov_results, referenced_controls = (
-                            run_checkov_validation(code)
-                        )
-                        result["cis_compliant"] = is_compliant
-                        result["checkov_results"] = checkov_results
-                        result["referenced_cis_controls"] = referenced_controls
-
-                        # Generate compliance report
-                        report = generate_compliance_report(
-                            checkov_results, referenced_controls
-                        )
-                        result["compliance_report"] = report
-                        logger.info("Used fallback internal Checkov validation method")
-                    except Exception as e:
-                        logger.error(f"Error in fallback Checkov validation: {str(e)}")
+                    output_file = os.path.join(output_dir, f"checkov_validation_{timestamp}.json")
+                
+                # Run Checkov validation using our unified function
+                logger.info("Running Checkov validation via run_checkov_validation()")
+                
+                # Use the provided compliance threshold or default to 90%
+                
+                # This calls Checkov internally and processes the results
+                is_compliant, checkov_results, referenced_controls = run_checkov_validation(
+                    code, pass_rate_threshold=compliance_threshold
+                )
+                
+                # Store results in a consistent format
+                result["cis_compliant"] = is_compliant
+                result["checkov_results"] = checkov_results
+                result["referenced_cis_controls"] = referenced_controls
+                
+                # Log compliance status with visual indicators
+                if is_compliant:
+                    logger.info(f"[PASS] CIS COMPLIANT: Achieved {checkov_results.get('validation_summary', {}).get('pass_rate', 0):.1f}% compliance (threshold: {compliance_threshold:.1f}%)")
+                else:
+                    logger.info(f"[FAIL] NOT CIS COMPLIANT: Only achieved {checkov_results.get('validation_summary', {}).get('pass_rate', 0):.1f}% compliance (threshold: {compliance_threshold:.1f}%)")
+                
+                # Generate compliance report
+                report = generate_compliance_report(
+                    checkov_results, referenced_controls
+                )
+                result["compliance_report"] = report
+                
+                # Optionally, still run the subprocess call to save the JSON output
+                # But don't use it for compliance determination
+                try:
+                    checkov_cmd_str = (
+                        f"checkov -f {tf_file} --framework terraform --output json"
+                    )
+                    logger.info(f"Running Checkov command to save output: {checkov_cmd_str}")
+                    
+                    checkov_result = subprocess.run(
+                        checkov_cmd_str,
+                        check=False,
+                        capture_output=True,
+                        text=True,
+                        shell=True,
+                        cwd=tmpdir,
+                    )
+                    
+                    if checkov_result.stdout:
+                        try:
+                            checkov_data = json.loads(checkov_result.stdout)
+                            
+                            # Save the raw output to file for reference
+                            with open(output_file, "w") as f:
+                                json.dump(checkov_data, f, indent=2)
+                                
+                            # Store the raw output but don't override our processed results
+                            result["checkov_output"] = checkov_data
+                            result["checkov_output_file"] = output_file
+                            
+                            logger.info(f"Checkov validation complete. Raw results saved to {output_file}")
+                        except json.JSONDecodeError as e:
+                            logger.error(f"Error parsing Checkov JSON output: {str(e)}")
+                            logger.error(f"Raw stdout (first 500 chars): {checkov_result.stdout[:500]}")
+                    else:
+                        logger.warning("No stdout from Checkov subprocess, skipping file output")
+                
+                except Exception as e:
+                    logger.error(f"Error saving Checkov JSON output: {str(e)}")
 
             except Exception as e:
                 logger.error(f"CIS compliance check error: {str(e)}")
