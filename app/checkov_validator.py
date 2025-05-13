@@ -95,12 +95,13 @@ def extract_cis_controls_from_code(code: str) -> List[str]:
     
     return list(cis_references)
 
-def run_checkov_validation(terraform_code: str) -> Tuple[bool, Dict[str, Any], List[str]]:
+def run_checkov_validation(terraform_code: str, pass_rate_threshold: float = 100.0) -> Tuple[bool, Dict[str, Any], List[str]]:
     """
     Run Checkov validation on the generated Terraform code.
     
     Args:
         terraform_code: The Terraform code to validate
+        pass_rate_threshold: Minimum pass rate percentage required for compliance (default: 100.0%)
         
     Returns:
         A tuple containing:
@@ -187,7 +188,7 @@ def run_checkov_validation(terraform_code: str) -> Tuple[bool, Dict[str, Any], L
                     logger.debug(f"Checkov output first 200 chars: {result.stdout[:200]}")
                     
                     checkov_results = json.loads(result.stdout)
-                    return process_checkov_results(checkov_results, cis_controls)
+                    return process_checkov_results(checkov_results, cis_controls, pass_rate_threshold)
                 except json.JSONDecodeError as e:
                     logger.error(f"Failed to parse Checkov JSON output: {e}")
                     # Try to extract any useful info from the output
@@ -210,13 +211,14 @@ def run_checkov_validation(terraform_code: str) -> Tuple[bool, Dict[str, Any], L
             logger.error(f"Unexpected error running Checkov: {e}")
             return False, default_summary, cis_controls
 
-def process_checkov_results(results: Dict[str, Any], extracted_controls: List[str]) -> Tuple[bool, Dict[str, Any], List[str]]:
+def process_checkov_results(results: Dict[str, Any], extracted_controls: List[str], pass_rate_threshold: float = 100.0) -> Tuple[bool, Dict[str, Any], List[str]]:
     """
     Process the Checkov results and map them back to CIS controls.
     
     Args:
         results: The JSON results from Checkov
         extracted_controls: CIS controls extracted directly from the code
+        pass_rate_threshold: Minimum pass rate percentage required for compliance (default: 100.0%)
         
     Returns:
         A tuple containing:
@@ -325,8 +327,10 @@ def process_checkov_results(results: Dict[str, Any], extracted_controls: List[st
             "skipped": len(skipped_checks)
         }
         
-        # Overall compliance is True if there are no failed checks
-        is_compliant = len(failed_checks) == 0 and total_checks > 0
+        # Overall compliance is determined by comparing pass_rate to threshold
+        # If no checks ran, we can't claim compliance
+        is_compliant = total_checks > 0 and pass_rate >= pass_rate_threshold
+        logger.info(f"CIS compliance: pass rate {pass_rate:.1f}% vs threshold {pass_rate_threshold:.1f}%")
     except Exception as e:
         logger.error(f"Error processing Checkov results: {str(e)}")
         is_compliant = False

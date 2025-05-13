@@ -1,16 +1,62 @@
-# virutal environments
+# Virtual environments
 .venv/
+venv/
+env/
 
-
+# Python cache files
 **/__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Distribution / packaging
+.pytest_cache/
+dist/
+build/
+*.egg-info/
+
+# Database and storage
 chroma_rag_db/
-
-.cursor/
-
-
 chroma/
+
+# Editor specific
+.cursor/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Logs and outputs
 benchmarking_results/
 checkov_output/
+*.log
+benchmark.log
+feedback_loop_test.log
+feedback_logs/
+predefined_logs/
+real_failures/
+feedback_reports/
 
-# env
+# Environment variables
 .env
+.env.*
+!.env.example
+
+# Documentation artifacts
+mem.md
+CIS_Benchmark_v4.pdf/
+
+# Large data files
+*.json
+!package.json
+!tsconfig.json
+*.jsonl
+aws_*.json
+aws_*.txt
+mistral-large-latest_*.json
+
+# Exceptions - Keep these files tracked
+!pyproject.toml
+!poetry.lock
+!aws_data_sources.json
