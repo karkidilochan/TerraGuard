@@ -1,28 +1,47 @@
-# Use an official Python runtime as the base image
-FROM python:3.11-slim
+#builder stage
+FROM python:3.9-slim AS builder
 
-# Set working directory in the container
+RUN apt-get update && apt-get install -y \
+    curl \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN curl -sSL https://install.python-poetry.org | python3 - \
+    && poetry config virtualenvs.create false
+
 WORKDIR /app
 
-# Install Poetry
-RUN pip install poetry
+COPY pyproject.toml poetry.lock* ./
 
-# Copy only the dependency files to leverage Docker caching
-COPY pyproject.toml poetry.lock* /app/
+RUN poetry install --no-dev --no-interaction --no-ansi
 
-# Install dependencies (excluding dev dependencies for production)
-RUN poetry config virtualenvs.create false \
-    && poetry install --no-interaction --no-ansi
+# runtime stage
+FROM python:3.9-slim AS runtime
 
-# Copy the rest of the project files
-COPY app/ ./app
+RUN apt-get update && apt-get install -y \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
 
-# Expose port (e.g., for FastAPI with Uvicorn)
+COPY --from=builder /usr/local/lib/python3.9/site-packages /usr/local/lib/python3.9/site-packages
+COPY --from=builder /usr/local/bin /usr/local/bin
+
+WORKDIR /app
+
+COPY . .
+
+RUN useradd --create-home --shell /bin/bash appuser \
+    && chown -R appuser:appuser /app
+USER appuser
+
 EXPOSE 8000
 
-# Command to run the application
-# CMD ["python", "-m", "app.rag_pipeline"]
-# Start an interactive shell
-CMD ["/bin/bash"]
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
 
-# docker run -it -v $(pwd):/app terraguard   
+VOLUME ["/app/chroma_rag_db"]
+
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
+ENTRYPOINT ["./entrypoint.sh"]
+
+CMD ["python", "main.py"]
