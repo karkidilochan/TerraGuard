@@ -1,12 +1,16 @@
 import os
 from pathlib import Path
+from typing import List, Optional
+
+import uvicorn
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import List, Dict, Any, Optional
-from app.vector_store import VectorStore, CHROMA_DB_NAME, CHROMA_COLLECTION_NAME
+from settings import settings
+
 from app.rag_pipeline import RAGPipeline
-from dotenv import load_dotenv
-import uvicorn
+from app.vectordb.chromadb import (CHROMA_COLLECTION_NAME, CHROMA_DB_NAME,
+                                   VectorStore)
 
 app = FastAPI(
     title="TerraGuard API",
@@ -52,7 +56,7 @@ def startup_event():
     load_dotenv()
 
     # Check if MISTRAL_API_KEY is set
-    if not os.getenv("MISTRAL_API_KEY"):
+    if not settings.MISTRAL_API_KEY:
         raise EnvironmentError("MISTRAL_API_KEY not found in environment variables")
 
     # Initialize VectorStore with correct parameters

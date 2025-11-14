@@ -1,11 +1,12 @@
-import os
 import logging
-from app.prompt_loader import PromptLoader, PromptingStrategy
-from langchain.chat_models import init_chat_model
+import time
+
 from google import genai
 from google.genai import types
-from app.api_keys import GEMINI_API_KEY, MISTRAL_API_KEY, OPENAI_API_KEY
-import time
+from langchain.chat_models import init_chat_model
+from settings import settings
+
+from app.prompting.prompt_loader import PromptLoader
 
 # from openai import OpenAI
 
@@ -37,10 +38,7 @@ class LLMClient:
                 # top_p=self.top_p,
             )
         elif self.provider == "gemini":
-            self.client = genai.Client(api_key=GEMINI_API_KEY)
-
-        # elif self.provider == "openai":
-        #     self.client = OpenAI(api_key=OPENAI_API_KEY)
+            self.client = genai.Client(api_key=settings.GEMINI_API_KEY)
 
         else:
             raise ValueError(f"Unsupported provider: {self.provider}")
@@ -83,22 +81,6 @@ class LLMClient:
                     contents=prompt,
                 )
                 return response.text
-
-            # elif self.provider == "openai":
-            #     messages = [
-            #         {"role": "system", "content": system_prompt},
-            #         {"role": "user", "content": prompt},
-            #     ]
-
-            #     response = self.client.ChatCompletion.create(
-            #         model=self.model,  # Supports any OpenAI chat model
-            #         messages=messages,
-            #         temperature=self.temperature,
-            #         max_tokens=self.max_tokens,
-            #     )
-
-            #     return response.choices[0]["message"]["content"]
-
             else:
                 raise ValueError(f"Unsupported provider: {self.provider}")
 
@@ -115,7 +97,7 @@ if __name__ == "__main__":
         temperature=0.7,
         # top_p=0.8,
     )
-    from app.prompt_loader import PromptLoader
+    from app.prompting.prompt_loader import PromptLoader
 
     prompt_loader = PromptLoader()
     system_prompt = prompt_loader.system_prompt

@@ -1,12 +1,13 @@
-import requests
-import frontmatter
-import re
 import json
+import re
 import uuid
-from langchain_core.documents import Document
 from typing import List
-from tqdm import tqdm
+
+import frontmatter
+import requests
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_core.documents import Document
+from tqdm import tqdm
 
 TF_R_GIT_URL = "https://api.github.com/repos/hashicorp/terraform-provider-aws/contents/website/docs/r"
 

@@ -52,8 +52,8 @@ CIS_Benchmark_v4.pdf/
 !package.json
 !tsconfig.json
 *.jsonl
-aws_*.json
-aws_*.txt
+# aws_*.json
+# aws_*.txt
 mistral-large-latest_*.json
 
 # Exceptions - Keep these files tracked

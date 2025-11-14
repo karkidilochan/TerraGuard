@@ -1,6 +1,5 @@
-import os
-import logging
 import enum
+import logging
 
 logging.basicConfig(
     level=logging.INFO,

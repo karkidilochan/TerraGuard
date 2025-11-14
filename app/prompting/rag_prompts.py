@@ -1,9 +1,5 @@
 def get_search_prompt() -> str:
-    available_sections = [
-        "Example Usage",
-        "Argument Reference",
-        "Attribute Reference",
-    ]
+
     with open("aws_subcategories.txt", "r") as file:
         available_subcategories = [line.strip() for line in file.readlines()]
     schema_prompt = f"""
@@ -112,31 +108,33 @@ You are an expert in AWS infrastructure and security, specializing in generating
 **Question**: {question}
 """
 
-def format_system_prompt(context: str, question: str, referenced_cis_controls=None) -> str:
+
+def format_system_prompt(
+    context: str, question: str, referenced_cis_controls=None
+) -> str:
     """Format the system prompt with the given context and question."""
     system_prompt = get_system_prompt()
-    
+
     # If CIS controls are referenced, add specific guidance
     cis_controls_section = ""
     if referenced_cis_controls and len(referenced_cis_controls) > 0:
         # Deduplicate and sort the controls for consistent formatting
         unique_controls = sorted(set(referenced_cis_controls))
-        
+
         cis_controls_section = "Your generated code must specifically implement the following CIS controls that are relevant to this request:\n"
         for control_id in unique_controls:
             cis_controls_section += f"- CIS Control {control_id}\n"
         cis_controls_section += "\nEnsure you comment each section of code that implements a specific CIS control with: # Implements CIS {control_id}"
     else:
         cis_controls_section = "Ensure your code follows all relevant CIS AWS Foundations Benchmark controls."
-    
+
     # Format the prompt with the context and question
     formatted_prompt = system_prompt.format(
-        context=context,
-        question=question,
-        cis_controls_section=cis_controls_section
+        context=context, question=question, cis_controls_section=cis_controls_section
     )
-    
+
     return formatted_prompt
+
 
 def get_feedback_prompt() -> str:
     """Get the feedback prompt template for code correction based on validation errors."""
@@ -192,46 +190,51 @@ You are an expert in AWS infrastructure and security, specializing in correcting
 - Add or preserve comments marking CIS control implementations
 """
 
+
 def format_feedback_prompt(
-    context: str, 
-    question: str, 
-    previous_code: str, 
+    context: str,
+    question: str,
+    previous_code: str,
     validation_feedback: str,
-    referenced_cis_controls=None
+    referenced_cis_controls=None,
 ) -> str:
     """Format the feedback prompt with error context and previous code."""
     feedback_prompt = get_feedback_prompt()
-    
+
     # Format CIS controls section
     cis_controls_section = ""
     if referenced_cis_controls and len(referenced_cis_controls) > 0:
         # Deduplicate and sort the controls for consistent formatting
         unique_controls = sorted(set(referenced_cis_controls))
-        
+
         cis_controls_section = "Your corrected code must specifically implement the following CIS controls:\n"
         for control_id in unique_controls:
             cis_controls_section += f"- CIS Control {control_id}\n"
         cis_controls_section += "\nEnsure you comment each section of code that implements a specific CIS control with: # Implements CIS {control_id}"
     else:
-        cis_controls_section = "Implement all relevant CIS AWS Foundations Benchmark controls."
-    
+        cis_controls_section = (
+            "Implement all relevant CIS AWS Foundations Benchmark controls."
+        )
+
     # Clean up code if it has markdown backticks
     if "```" in previous_code:
         # Extract code between backticks
         if "```hcl" in previous_code:
             previous_code = previous_code.split("```hcl")[1].split("```")[0].strip()
         elif "```terraform" in previous_code:
-            previous_code = previous_code.split("```terraform")[1].split("```")[0].strip()
+            previous_code = (
+                previous_code.split("```terraform")[1].split("```")[0].strip()
+            )
         else:
             previous_code = previous_code.split("```")[1].split("```")[0].strip()
-    
+
     # Format the prompt with all components
     formatted_prompt = feedback_prompt.format(
         context=context,
         question=question,
         previous_code=previous_code,
         validation_feedback=validation_feedback,
-        cis_controls_section=cis_controls_section
+        cis_controls_section=cis_controls_section,
     )
-    
+
     return formatted_prompt

@@ -1,8 +1,8 @@
-from typing_extensions import TypedDict, List, Annotated, Literal, Dict, Union, Optional
 from langchain_core.documents import Document
+from typing_extensions import Annotated, Dict, List, Optional, TypedDict
 
 
-# search
+# search interface for langchain graph
 class Search(TypedDict):
     query: Annotated[str, ..., "User's natural language query"]
     subcategories: Annotated[
@@ -26,7 +26,7 @@ class ValidationSummary(TypedDict):
     checkov_output_file: Optional[str]  # Path to the Checkov output file
 
 
-# state
+# state for langchain graph
 class State(TypedDict):
     question: str
     context: List[Document]
